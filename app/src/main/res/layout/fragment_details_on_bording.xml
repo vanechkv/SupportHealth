@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="@dimen/margin_padding_16dp"
+    tools:context=".welcome.detailsOnbording.ui.DetailsOnBordingFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_padding_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_padding_16dp" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/TitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_your_details"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_next"
+        style="@style/AddButtonStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_32dp"
+        android:backgroundTint="@color/iced_pink_rose"
+        android:text="@string/go_to_application"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"/>
+
+    <TextView
+        android:id="@+id/title_surname"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/surname"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/surname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_surname">
+
+        <EditText
+            android:id="@+id/surname_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/surname"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_name"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/name"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/surname" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_name">
+
+        <EditText
+            android:id="@+id/name_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/name"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_patronymic"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/patronymic"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/name" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/patronymic"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_patronymic">
+
+        <EditText
+            android:id="@+id/patronymic_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/patronymic"
+            android:inputType="text"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_gender"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/gender"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/patronymic" />
+
+    <RadioGroup
+        android:id="@+id/gender_radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_gender">
+
+        <RadioButton
+            android:id="@+id/radio_male"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_8dp"
+            android:text="@string/male"
+            android:textColor="?attr/colorOnPrimaryFixed" />
+
+        <RadioButton
+            android:id="@+id/radio_female"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/female"
+            android:textColor="?attr/colorOnPrimaryFixed" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/title_height"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/height"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/gender_radio_group" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/height"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_padding_8dp"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/title_weight"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_height">
+
+        <EditText
+            android:id="@+id/height_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/select_value"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_weight"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/weight"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/gender_radio_group"
+        app:layout_constraintTop_toBottomOf="@id/gender_radio_group" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/weight"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toStartOf="@id/title_weight"
+        app:layout_constraintTop_toBottomOf="@id/title_height">
+
+        <EditText
+            android:id="@+id/weight_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/select_value"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_birthday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/birthday"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/height" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/birthday"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_birthday">
+
+        <EditText
+            android:id="@+id/birthday_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/select_date"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_insert_invitation"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_mobility"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/mobility"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/birthday" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mobility"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_mobility">
+
+        <TextView
+            android:id="@+id/mobility_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            android:hint="@string/select_mobility"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:background="@drawable/bg_edit_text"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableEndCompat="@drawable/ic_expand_more"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_target"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/target"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/mobility" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/target"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_target">
+
+        <TextView
+            android:id="@+id/target_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            android:hint="@string/select_target"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:background="@drawable/bg_edit_text"
+            android:gravity="center_vertical"
+            android:clickable="true"
+            android:focusable="true"
+            app:drawableEndCompat="@drawable/ic_expand_more"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

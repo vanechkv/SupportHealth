@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/breakfast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_eating"
+        android:paddingHorizontal="@dimen/margin_padding_16dp"
+        android:paddingVertical="@dimen/margin_padding_8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center_breakfast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+        <TextView
+            android:id="@+id/title_breakfast"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/breakfast"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_breakfast"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/separator_breakfast"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="92" />
+
+        <TextView
+            android:id="@+id/separator_breakfast"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:text="@string/separator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/calories_arg_breakfast"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_arg_breakfast"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="942 ккал" />
+
+        <TextView
+            android:id="@+id/recommended_breakfast"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recommended"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_breakfast" />
+
+        <TextView
+            android:id="@+id/recommended_calories_breakfast"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_8dp"
+            app:layout_constraintStart_toEndOf="@id/recommended_breakfast"
+            app:layout_constraintTop_toBottomOf="@id/title_breakfast"
+            tools:text="765 - 1045 ккал" />
+
+        <Button
+            android:id="@+id/button_add_breakfast"
+            style="@style/AddButtonStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:clickable="false"
+            android:text="@string/breakfast"
+            app:icon="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_center_breakfast"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommended_breakfast" />
+
+        <ImageView
+            android:id="@+id/image_food_breakfast"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_nutrition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lunch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:background="@drawable/bg_eating"
+        android:paddingHorizontal="@dimen/margin_padding_16dp"
+        android:paddingVertical="@dimen/margin_padding_8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/breakfast">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center_lunch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+        <TextView
+            android:id="@+id/title_lunch"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lunch"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_lunch"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/separator_lunch"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="92" />
+
+        <TextView
+            android:id="@+id/separator_lunch"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:text="@string/separator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/calories_arg_lunch"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_arg_lunch"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="942 ккал" />
+
+        <TextView
+            android:id="@+id/recommended_lunch"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recommended"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_lunch" />
+
+        <TextView
+            android:id="@+id/recommended_calories_lunch"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_8dp"
+            app:layout_constraintStart_toEndOf="@id/recommended_lunch"
+            app:layout_constraintTop_toBottomOf="@id/title_lunch"
+            tools:text="765 - 1045 ккал" />
+
+        <Button
+            android:id="@+id/button_add_lunch"
+            style="@style/AddButtonStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:clickable="false"
+            android:text="@string/lunch"
+            app:icon="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_center_lunch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommended_lunch" />
+
+        <ImageView
+            android:id="@+id/image_food_lunch"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_nutrition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/afternoon_tea"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:background="@drawable/bg_eating"
+        android:paddingHorizontal="@dimen/margin_padding_16dp"
+        android:paddingVertical="@dimen/margin_padding_8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lunch">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center_afternoon_tea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+        <TextView
+            android:id="@+id/title_afternoon_tea"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/afternoon_tea"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_afternoon_tea"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/separator_afternoon_tea"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="92" />
+
+        <TextView
+            android:id="@+id/separator_afternoon_tea"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:text="@string/separator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/calories_arg_afternoon_tea"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_arg_afternoon_tea"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="942 ккал" />
+
+        <TextView
+            android:id="@+id/recommended_afternoon_tea"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recommended"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_afternoon_tea" />
+
+        <TextView
+            android:id="@+id/recommended_calories_afternoon_tea"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_8dp"
+            app:layout_constraintStart_toEndOf="@id/recommended_afternoon_tea"
+            app:layout_constraintTop_toBottomOf="@id/title_afternoon_tea"
+            tools:text="765 - 1045 ккал" />
+
+        <Button
+            android:id="@+id/button_add_afternoon_tea"
+            style="@style/AddButtonStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:clickable="false"
+            android:text="@string/afternoon_tea"
+            app:icon="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_center_afternoon_tea"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommended_afternoon_tea" />
+
+        <ImageView
+            android:id="@+id/image_food_afternoon_tea"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_nutrition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:background="@drawable/bg_eating"
+        android:paddingHorizontal="@dimen/margin_padding_16dp"
+        android:paddingVertical="@dimen/margin_padding_8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/afternoon_tea">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_center_dinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+
+        <TextView
+            android:id="@+id/title_dinner"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dinner"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_dinner"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/separator_dinner"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="92" />
+
+        <TextView
+            android:id="@+id/separator_dinner"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_padding_6dp"
+            android:text="@string/separator"
+            android:visibility="gone"
+            app:layout_constraintEnd_toStartOf="@id/calories_arg_dinner"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/calories_arg_dinner"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="942 ккал" />
+
+        <TextView
+            android:id="@+id/recommended_dinner"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/recommended"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title_dinner" />
+
+        <TextView
+            android:id="@+id/recommended_calories_dinner"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_8dp"
+            app:layout_constraintStart_toEndOf="@id/recommended_dinner"
+            app:layout_constraintTop_toBottomOf="@id/title_dinner"
+            tools:text="765 - 1045 ккал" />
+
+        <Button
+            android:id="@+id/button_add_dinner"
+            style="@style/AddButtonStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:clickable="false"
+            android:text="@string/dinner"
+            app:icon="@drawable/ic_add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideline_center_dinner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recommended_dinner" />
+
+        <ImageView
+            android:id="@+id/image_food_dinner"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_nutrition"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

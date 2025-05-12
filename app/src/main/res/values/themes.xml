@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.SupportHealth" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/see_foam_greene</item>
+        <item name="colorPrimaryVariant">@color/mint_tulips</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/come</item>
+        <item name="colorSecondaryVariant">@color/come_light</item>
+        <item name="colorOnSecondary">@color/iced_pink_rose</item>
+        <item name="colorOnSecondaryFixed">@color/gray_night_70</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
+        <item name="android:navigationBarColor">?attr/colorOnPrimary</item>
+        <!-- Customize your theme here. -->
+        <item name="colorOnPrimaryFixed">@color/gray_night</item>
+    </style>
+</resources>

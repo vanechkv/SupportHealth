@@ -1,0 +1,101 @@
+<resources>
+    <string name="app_name">SupportHealth</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="home">Главная</string>
+    <string name="activity">Активность</string>
+    <string name="nutrition">Питание</string>
+    <string name="profile">Профиль</string>
+    <string name="stress">Стресс</string>
+    <string name="calories">Калории</string>
+    <string name="protein">Белки</string>
+    <string name="fat">Жиры</string>
+    <string name="carbohydrates">Углеводы</string>
+    <string name="eating">Прием пищи</string>
+    <string name="recommended">Рекомендовано:</string>
+    <string name="water_balance">Водный баланс</string>
+    <string name="water">Вода</string>
+    <string name="target">Цель</string>
+    <string name="product_search">Поиск продукта</string>
+    <string name="recent">Недавние</string>
+    <string name="favorites">Избранные</string>
+    <string name="default_grams">100</string>
+    <string name="grams">г</string>
+    <string name="nutritional_value">Пищевая ценность</string>
+    <string name="add">Добавить</string>
+    <string name="search">Поиск</string>
+    <string name="product">Продукт</string>
+    <string name="breakfast">Завтрак</string>
+    <string name="dinner">Ужин</string>
+    <string name="lunch">Обед</string>
+    <string name="afternoon_tea">Полдник</string>
+    <string name="personal">Личное</string>
+    <string name="communications">Коммуникации</string>
+    <string name="settings">Настройки</string>
+    <string name="my_details">Мои данные</string>
+    <string name="devices">Устройства</string>
+    <string name="support">Поддержка</string>
+    <string name="about_the_application">О приложении</string>
+    <string name="safety">Безопасность</string>
+    <string name="notifications">Уведомления</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="logout">Выйти из профиля</string>
+    <string name="surname">Фамилия</string>
+    <string name="name">Имя</string>
+    <string name="patronymic">Отчество</string>
+    <string name="gender">Ваш пол</string>
+    <string name="male">Мужской</string>
+    <string name="female">Женский</string>
+    <string name="birthday">День рождения</string>
+    <string name="height">Рост</string>
+    <string name="weight">Вес</string>
+    <string name="select_value">Выберите значение</string>
+    <string name="select_date">Выберите дату</string>
+    <string name="devices_not_found">Устройства не найдены</string>
+    <string name="connect_your_device">Подключите устройство, чтобы начать\nиспользовать его функции</string>
+    <string name="add_devices">Добавить устройство</string>
+    <string name="version">Версия 1.10, сборка 132456</string>
+    <string name="license_agreement">Лицензионное соглашение</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
+    <string name="company">Проект компании ЗОЖ\n© 2025 ЗОЖ</string>
+    <string name="entrance">Вход</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="support_email">drobitkoivan@yandex.ru</string>
+    <string name="support_subject">Сообщение разработчикам и разработчицам приложения SupportHealth</string>
+    <string name="support_text">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="eaten">Съедено</string>
+    <string name="add_one_more_food">Добавить еще еды</string>
+    <string name="mobility">Подвижность</string>
+    <string-array name="mobility_array">
+        <item>Легкая активность</item>
+        <item>Средняя активность</item>
+        <item>Высокая активность</item>
+    </string-array>
+    <string name="light_activity">Легкая активность</string>
+    <string name="average_activity">Средняя активность</string>
+    <string name="high_activity">Высокая активность</string>
+    <string-array name="target_array">
+        <item>Сбросить вес</item>
+        <item>Удержать вес</item>
+        <item>Нарастить мышцы</item>
+    </string-array>
+    <string name="lose_weight">Сбросить вес</string>
+    <string name="maintain_weight">Удержать вес</string>
+    <string name="build_muscle">Нарастить мышцы</string>
+    <string name="select_mobility">Выберите подвижность</string>
+    <string name="select_target">Выберите цель</string>
+    <string name="hello">Добро пожаловать\nв SupportHealth</string>
+    <string name="info_hello">Комплексная забота о здоровье\nв одном приложении</string>
+    <string name="enter_your_details">Введите свои данные</string>
+    <string name="go_on">Продолжить</string>
+    <string name="go_to_application">Перейти к приложению</string>
+    <string name="search_not_found">Ничего не нашлось</string>
+    <string name="internet_error">Проблемы со связью</string>
+    <string name="update">Обновить</string>
+    <string name="internet_error_explanation">Загрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="a_hundred_grams">— 100 г</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="separator">/</string>
+</resources>

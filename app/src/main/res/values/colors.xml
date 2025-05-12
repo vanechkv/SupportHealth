@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="iced_pink_rose">#F399A2</color>
+    <color name="come">#FEE1DE</color>
+    <color name="come_light">#FEF6F5</color>
+    <color name="mint_tulips">#B7EDCF</color>
+    <color name="see_foam_greene">#7CD3A2</color>
+    <color name="gray_night">#323232</color>
+    <color name="gray_night_70">#B3323232</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="yellow">#F3D799</color>
+    <color name="blue">#999BF3</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="gray_light">#414141</color>
+</resources>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/welcome_navigation"
+    app:startDestination="@id/onbordingFragment">
+
+    <fragment
+        android:id="@+id/onbordingFragment"
+        android:name="com.example.supporthealth.welcome.onbording.ui.OnbordingFragment"
+        android:label="fragment_onbording"
+        tools:layout="@layout/fragment_onbording" >
+        <action
+            android:id="@+id/action_onbordingFragment_to_detailsOnBordingFragment"
+            app:destination="@id/detailsOnBordingFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsOnBordingFragment"
+        android:name="com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingFragment"
+        android:label="fragment_details_on_bording"
+        tools:layout="@layout/fragment_details_on_bording" >
+        <action
+            android:id="@+id/action_detailsOnBordingFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+    </fragment>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.example.supporthealth.main.ui.MainActivity"
+        android:exported="true" />
+</navigation>

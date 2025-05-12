@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.supporthealth.home.ui.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_dashboard"
+        android:name="com.example.supporthealth.ui.dashboard.DashboardFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.supporthealth.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/navigation_activity"
+        android:name="com.example.supporthealth.activity.ui.ActivityFragment"
+        android:label="@string/activity"
+        tools:layout="@layout/fragment_activity" />
+    <fragment
+        android:id="@+id/navigation_stress"
+        android:name="com.example.supporthealth.stress.ui.StressFragment"
+        android:label="@string/stress"
+        tools:layout="@layout/fragment_stress" />
+    <fragment
+        android:id="@+id/navigation_nutrition"
+        android:name="com.example.supporthealth.nutrition.main.ui.NutritionFragment"
+        android:label="@string/nutrition"
+        tools:layout="@layout/fragment_nutrition">
+        <action
+            android:id="@+id/action_nutritionFragment_to_searchFragment"
+            app:destination="@id/navigation_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_nutrition_to_eatingFragment"
+            app:destination="@id/eatingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.supporthealth.profile.main.ui.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_navigation_profile_to_aboutApplicationFragment"
+            app:destination="@id/aboutApplicationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_profile_to_safetyFragment"
+            app:destination="@id/safetyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_profile_to_devicesFragment"
+            app:destination="@id/devicesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_profile_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.supporthealth.nutrition.search.ui.SearchFragment"
+        android:label="@string/search"
+        tools:layout="@layout/fragment_search">
+        <argument
+            android:name="mealType"
+            app:argType="com.example.supporthealth.main.domain.models.MealType" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_navigation_search_to_navigation_product"
+            app:destination="@id/navigation_product"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_product"
+        android:name="com.example.supporthealth.nutrition.product.ui.ProductFragment"
+        android:label="@string/product"
+        tools:layout="@layout/fragment_product">
+
+        <argument
+            android:name="mealType"
+            app:argType="string" />
+        <argument
+            android:name="productId"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/safetyFragment"
+        android:name="com.example.supporthealth.profile.safety.ui.SafetyFragment"
+        android:label="fragment_safety"
+        tools:layout="@layout/fragment_safety" />
+    <fragment
+        android:id="@+id/devicesFragment"
+        android:name="com.example.supporthealth.profile.devices.ui.DevicesFragment"
+        android:label="fragment_devices"
+        tools:layout="@layout/fragment_devices" />
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="com.example.supporthealth.profile.details.ui.DetailsFragment"
+        android:label="fragment_details"
+        tools:layout="@layout/fragment_details" />
+    <fragment
+        android:id="@+id/aboutApplicationFragment"
+        android:name="com.example.supporthealth.profile.about.ui.AboutApplicationFragment"
+        android:label="fragment_about_application"
+        tools:layout="@layout/fragment_about_application" />
+    <fragment
+        android:id="@+id/eatingFragment"
+        android:name="com.example.supporthealth.nutrition.eating.ui.EatingFragment"
+        android:label="fragment_eating"
+        tools:layout="@layout/fragment_eating" >
+        <argument
+            android:name="mealType"
+            app:argType="string" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_eatingFragment_to_navigation_search"
+            app:destination="@id/navigation_search"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+</navigation>

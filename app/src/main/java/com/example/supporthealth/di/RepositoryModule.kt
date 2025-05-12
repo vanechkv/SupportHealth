@@ -1,0 +1,43 @@
+package com.example.supporthealth.di
+
+import com.example.supporthealth.profile.details.data.repository.UserDetailsRepositoryImpl
+import com.example.supporthealth.profile.details.domain.api.repository.UserDetailsRepository
+import com.example.supporthealth.nutrition.main.data.repository.NutritionRepositoryImpl
+import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
+import com.example.supporthealth.nutrition.search.data.repository.ProductRepositoryImpl
+import com.example.supporthealth.nutrition.search.domain.api.repository.ProductRepository
+import com.example.supporthealth.profile.main.data.repository.SettingsRepositoryImpl
+import com.example.supporthealth.profile.main.domain.api.SettingsRepository
+import com.example.supporthealth.profile.sharing.domain.api.repository.ExternalNavigator
+import com.example.supporthealth.profile.sharing.domain.impl.ExternalNavigatorImpl
+import com.example.supporthealth.welcome.detailsOnbording.data.repository.DetailsOnBordingRepositoryImpl
+import com.example.supporthealth.welcome.detailsOnbording.domain.api.repository.DetailsOnBordingRepository
+import org.koin.android.ext.koin.androidContext
+import org.koin.dsl.module
+
+val repositoryModule = module {
+
+    single<UserDetailsRepository> {
+        UserDetailsRepositoryImpl(get())
+    }
+
+    single<NutritionRepository> {
+        NutritionRepositoryImpl(get())
+    }
+
+    single<SettingsRepository> {
+        SettingsRepositoryImpl(get())
+    }
+
+    single<ExternalNavigator> {
+        ExternalNavigatorImpl(androidContext())
+    }
+
+    single<DetailsOnBordingRepository> {
+        DetailsOnBordingRepositoryImpl(get())
+    }
+
+    single<ProductRepository> {
+        ProductRepositoryImpl(get())
+    }
+}

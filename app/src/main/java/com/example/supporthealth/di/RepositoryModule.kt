@@ -22,7 +22,7 @@ val repositoryModule = module {
     }
 
     single<NutritionRepository> {
-        NutritionRepositoryImpl(get())
+        NutritionRepositoryImpl(get(), get(), get(), get(), get(), get())
     }
 
     single<SettingsRepository> {
@@ -38,6 +38,6 @@ val repositoryModule = module {
     }
 
     single<ProductRepository> {
-        ProductRepositoryImpl(get())
+        ProductRepositoryImpl(get(), get())
     }
 }

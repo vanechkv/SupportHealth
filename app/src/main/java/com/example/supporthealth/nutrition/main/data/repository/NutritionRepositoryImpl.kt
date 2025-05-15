@@ -1,16 +1,22 @@
 package com.example.supporthealth.nutrition.main.data.repository
 
+import com.example.supporthealth.main.domain.api.MealDao
+import com.example.supporthealth.main.domain.api.MealProductDao
 import com.example.supporthealth.main.domain.api.NutritionDao
-import com.example.supporthealth.main.domain.models.DailyNutritionEntity
-import com.example.supporthealth.main.domain.models.DailyNutritionWithMeals
-import com.example.supporthealth.main.domain.models.DailyWaterEntity
+import com.example.supporthealth.main.domain.api.ProductDao
+import com.example.supporthealth.main.domain.api.WaterDao
+import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
-import com.example.supporthealth.main.domain.models.MealWithProducts
+import com.example.supporthealth.main.domain.models.NutritionEntity
+import com.example.supporthealth.main.domain.models.NutritionFull
+import com.example.supporthealth.main.domain.models.ProductEntity
+import com.example.supporthealth.main.domain.models.WaterEntity
+import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
 import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
-import com.example.supporthealth.nutrition.main.domain.models.DailyNorm
-import com.example.supporthealth.nutrition.main.domain.models.MealState
-import com.example.supporthealth.nutrition.main.domain.models.MealNutritionSummary
-import com.example.supporthealth.nutrition.main.domain.models.Quadruple
+import com.example.supporthealth.nutrition.main.domain.models.Nutrition
+import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.Water
+import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.profile.details.domain.models.ActivityLevel
 import com.example.supporthealth.profile.details.domain.models.Gender
 import com.example.supporthealth.profile.details.domain.models.GoalType
@@ -21,33 +27,37 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 
-
 class NutritionRepositoryImpl(
-    private val nutritionDao: NutritionDao
+    private val nutritionDao: NutritionDao,
+    private val mealDao: MealDao,
+    private val waterDao: WaterDao,
+    private val productDao: ProductDao,
+    private val mealProductDao: MealProductDao,
+    private val nutritionStorage: NutritionStorage
 ) : NutritionRepository {
 
-    override fun calculateDailyNorm(details: UserDetails): DailyNorm {
-        val age = details.birthday.toAge()
+    override fun calculate(userDetails: UserDetails) {
+        val age = userDetails.birthday.toAge()
 
-        val bmr = when (details.gender) {
-            Gender.MALE -> 10 * details.weight + 6.25 * details.height - 5 * age + 5
-            Gender.FEMALE -> 10 * details.weight + 6.25 * details.height - 5 * age - 161
+        val bmr = when (userDetails.gender) {
+            Gender.MALE -> 10 * userDetails.weight + 6.25 * userDetails.height - 5 * age + 5
+            Gender.FEMALE -> 10 * userDetails.weight + 6.25 * userDetails.height - 5 * age - 161
         }
 
-        val activityFactor = when (details.mobility) {
+        val activityFactor = when (userDetails.mobility) {
             ActivityLevel.LOW -> 1.2
             ActivityLevel.MEDIUM -> 1.375
             ActivityLevel.HIGH -> 1.55
         }
 
         var calories = bmr * activityFactor
-        calories = when (details.target) {
+        calories = when (userDetails.target) {
             GoalType.LOSE -> calories * 0.85
             GoalType.GAIN -> calories * 1.15
             GoalType.MAINTAIN -> calories
         }
 
-        val weight = details.weight
+        val weight = userDetails.weight
         val proteins = weight * 2f
         val fats = weight * 1f
         val proteinCals = proteins * 4
@@ -55,155 +65,205 @@ class NutritionRepositoryImpl(
         val carbCals = calories - (proteinCals + fatCals)
         val carbs = carbCals / 4
 
-        return DailyNorm(
+        val nutrition = Nutrition(
             calories = calories.toInt(),
-            proteins = "%.1f".format(Locale.US, proteins).toFloat().toInt(),
-            fats = "%.1f".format(Locale.US, fats).toFloat().toInt(),
-            carbs = "%.1f".format(Locale.US, carbs).toFloat().toInt()
+            proteins = "%.1f".format(Locale.US, proteins).toFloat(),
+            fats = "%.1f".format(Locale.US, fats).toFloat(),
+            carbs = "%.1f".format(Locale.US, carbs).toFloat(),
         )
+
+        val meals = MealType.values().map { meal ->
+            Meal(
+                mealType = meal,
+                calories = (nutrition.calories * meal.ratio).toInt(),
+                proteins = nutrition.proteins * meal.ratio,
+                fats = nutrition.fats * meal.ratio,
+                carbs = nutrition.carbs * meal.ratio
+            )
+        }
+
+        val water = Water(
+            waterMl = userDetails.weight * 30
+        )
+
+        nutritionStorage.saveNutrition(nutrition)
+        nutritionStorage.saveMeals(meals)
+        nutritionStorage.saveWater(water)
     }
 
-    override fun calculateMealStates(
-        dailyNorm: DailyNorm,
-        meals: List<MealWithProducts>
-    ): List<MealState> {
-        val mealTypeToMeal = meals.associateBy { it.meal.mealType }
+    override fun getNutrition(): Nutrition {
+        return nutritionStorage.getNutrition()
+    }
 
-        return MealType.values().map { type ->
-            val ratio = type.ratio  // 0.3, 0.4 и т.д.
+    override fun getMeals(): List<Meal> {
+        return nutritionStorage.getMeals()
+    }
 
-            val recommendedCalories = (dailyNorm.calories * ratio).toInt()
-            val recommendedProteins = (dailyNorm.proteins * ratio).toInt()
-            val recommendedFats = (dailyNorm.fats * ratio).toInt()
-            val recommendedCarbs = (dailyNorm.carbs * ratio).toInt()
+    override fun getWater(): Water {
+        return nutritionStorage.getWater()
+    }
 
-            val consumed = mealTypeToMeal[type]?.products?.fold(
-                Quadruple(0f, 0f, 0f, 0f)
-            ) { acc, p ->
-                Quadruple(
-                    acc.first + p.calories * (p.weightGrams / 100f),
-                    acc.second + p.proteins * (p.weightGrams / 100f),
-                    acc.third + p.fats * (p.weightGrams / 100f),
-                    acc.fourth + p.carbs * (p.weightGrams / 100f)
-                )
+    override suspend fun insertNutritionData(date: String) {
+        val nutrition = getNutrition()
+        val nutritionData = NutritionEntity(
+            date = date,
+            recommendedCalories = nutrition.calories,
+            recommendedProteins = nutrition.proteins,
+            recommendedFats = nutrition.fats,
+            recommendedCarbs = nutrition.carbs
+        )
+        nutritionDao.insertNutrition(nutritionData)
+        insertMeal(date)
+        insertWaterData(date)
+    }
+
+    override suspend fun getNutritionData(date: String): NutritionEntity? {
+        return nutritionDao.getNutritionByDate(date)
+    }
+
+    override suspend fun getNutritionFull(nutritionId: Long): NutritionFull {
+        return nutritionDao.getNutritionFull(nutritionId)
+    }
+
+    override suspend fun insertWaterData(date: String) {
+        var nutrition = getNutritionData(date)
+        val water = getWater()
+        val waterData: WaterEntity
+        if (nutrition != null) {
+            waterData = WaterEntity(
+                recommendedWaterMl = water.waterMl,
+                nutritionId = nutrition.id
+            )
+        } else {
+            insertNutritionData(date)
+            nutrition = getNutritionData(date)
+            waterData = WaterEntity(
+                recommendedWaterMl = water.waterMl,
+                nutritionId = nutrition!!.id
+            )
+        }
+        waterDao.insertWater(waterData)
+    }
+
+    override suspend fun updateWaterData(date: String, water: Int) {
+        var nutrition = getNutritionData(date)
+        val waterRecommend = getWater()
+        val nutritionId: Long
+
+        if (nutrition == null) {
+            insertNutritionData(date)
+            insertWaterData(date)
+            nutrition = getNutritionData(date)
+        }
+
+        nutritionId = nutrition!!.id
+        val existingWater = waterDao.getWaterByNutritionId(nutritionId)
+
+        val newWaterValue = if (existingWater != null) {
+            val updatedValue = (existingWater.waterMl + water).coerceAtLeast(0)
+            existingWater.copy(
+                waterMl = updatedValue,
+                recommendedWaterMl = waterRecommend.waterMl
+            )
+        } else {
+            WaterEntity(
+                waterMl = water.coerceAtLeast(0),
+                recommendedWaterMl = waterRecommend.waterMl,
+                nutritionId = nutritionId
+            )
+        }
+
+        if (existingWater != null) {
+            waterDao.updateWater(newWaterValue)
+        } else {
+            waterDao.insertWater(newWaterValue)
+        }
+    }
+
+    override suspend fun insertMeal(date: String) {
+        var nutrition = getNutritionData(date)
+        val meals = getMeals()
+
+        if (nutrition == null) {
+            insertNutritionData(date)
+            nutrition = getNutritionData(date)
+        }
+
+        val nutritionId = nutrition!!.id
+
+        meals.forEach { meal ->
+            val mealData = MealEntity(
+                mealType = meal.mealType,
+                recommendedCalories = meal.calories,
+                recommendedProteins = meal.proteins,
+                recommendedFats = meal.fats,
+                recommendedCarbs = meal.carbs,
+                nutritionId = nutritionId
+            )
+            mealDao.insertMeal(mealData)
+        }
+    }
+
+    override suspend fun updateMeal(date: String, mealType: MealType) {
+        var nutrition = getNutritionData(date)
+        if (nutrition == null) {
+            insertNutritionData(date)
+            nutrition = getNutritionData(date)
+        }
+
+        val nutritionId = nutrition!!.id
+        val meal = mealDao.getMealsByNutritionId(nutritionId, mealType)
+        val mealId = meal.id
+
+        val crossRefs = mealProductDao.getCrossRefsByMealId(mealId)
+        val products = productDao.getProductsByMealId(mealId)
+
+        var totalCalories = 0
+        var totalProteins = 0f
+        var totalFats = 0f
+        var totalCarbs = 0f
+
+        crossRefs.forEach { ref ->
+            val product = products.find { it.id == ref.productId }
+            if (product != null) {
+                val factor = ref.grams / 100f
+                totalCalories += (product.calories * factor).toInt()
+                totalProteins += product.proteins * factor
+                totalFats     += product.fats * factor
+                totalCarbs    += product.carbs * factor
             }
-
-            MealState(
-                mealType = type,
-                recommendedCalories = recommendedCalories,
-                recommendedProteins = recommendedProteins,
-                recommendedFats = recommendedFats,
-                recommendedCarbs = recommendedCarbs,
-                consumedCalories = consumed?.first?.toInt() ?: 0,
-                consumedProteins = consumed?.second?.toInt() ?: 0,
-                consumedFats = consumed?.third?.toInt() ?: 0,
-                consumedCarbs = consumed?.fourth?.toInt() ?: 0
-            )
         }
-    }
 
-    override fun calculateRecommendedWater(userDetails: UserDetails): Int {
-        return (userDetails.weight * 35)
-    }
-
-    override suspend fun upsertDailyNorm(date: String, userDetails: UserDetails) {
-        val norm = calculateDailyNorm(userDetails)
-        val existing = nutritionDao.getDailyNutritionByDate(date)
-
-
-        val entity = DailyNutritionEntity(
-            id = existing?.id ?: 0L,
-            date = date,
-            recommendedCalories = norm.calories,
-            recommendedProteins = norm.proteins,
-            recommendedFats = norm.fats,
-            recommendedCarbs = norm.carbs,
-            consumedCalories = existing?.consumedCalories ?: 0,
-            consumedProteins = existing?.consumedProteins ?: 0,
-            consumedFats = existing?.consumedFats ?: 0,
-            consumedCarbs = existing?.consumedCarbs ?: 0
+        val updatedMeal = meal.copy(
+            calories = totalCalories,
+            proteins = totalProteins,
+            fats = totalFats,
+            carbs = totalCarbs
         )
 
-        if (existing != null) {
-            nutritionDao.updateDailyNutrition(entity)
-        } else {
-            nutritionDao.insertDailyNutrition(entity)
-        }
+        mealDao.updateMeal(updatedMeal)
     }
 
-    override suspend fun getFullDay(date: String, userDetails: UserDetails): DailyNutritionWithMeals? {
-        val stored = nutritionDao.getDayWithMeals(date)
-
-        return if (stored != null) {
-            stored
-        } else {
-            val norm = calculateDailyNorm(userDetails)
-            val virtualEntity = DailyNutritionEntity(
-                id = 0L,
-                date = date,
-                recommendedCalories = norm.calories,
-                recommendedProteins = norm.proteins,
-                recommendedFats = norm.fats,
-                recommendedCarbs = norm.carbs,
-                consumedCalories = 0,
-                consumedProteins = 0,
-                consumedFats = 0,
-                consumedCarbs = 0
-            )
-
-            DailyNutritionWithMeals(
-                dailyNutrition = virtualEntity,
-                meals = emptyList()
-            )
-        }
+    override suspend fun getMealId(nutritionId: Long, mealType: MealType): Long {
+        return mealDao.getMealIdByNutritionIdAndMealType(nutritionId, mealType)
     }
 
-    override suspend fun getWater(date: String): DailyWaterEntity? {
-        return nutritionDao.getWaterByDate(date)
-    }
-
-    override suspend fun upsertWater(date: String, userDetails: UserDetails) {
-        val existing = nutritionDao.getWaterByDate(date)
-
-        val today = LocalDate.now()
-        val parsedDate = LocalDate.parse(date)
-
-        if (parsedDate.isBefore(today) && existing != null) {
-            return
-        }
-
-        val recommended = calculateRecommendedWater(userDetails)
-
-        val entity = DailyWaterEntity(
-            id = existing?.id ?: 0L,
-            date = date,
-            recommendedWaterMl = recommended,
-            consumedWaterMl = existing?.consumedWaterMl ?: 0
+    override suspend fun insertProduct(product: Product): Long {
+        val productData = ProductEntity(
+            productId = product.productId,
+            name = product.name,
+            calories = product.calories,
+            proteins = product.protein,
+            fats = product.fat,
+            carbs = product.carbs
         )
-
-        if (existing != null) {
-            nutritionDao.updateWater(entity)
-        } else {
-            nutritionDao.insertWater(entity)
-        }
+        return productDao.insertProduct(productData)
     }
 
-    override suspend fun addWater(date: String, addedMl: Int) {
-        val existing = nutritionDao.getWaterByDate(date)
-        if (existing != null) {
-            val newConsumed = (existing.consumedWaterMl + addedMl).coerceAtLeast(0)
-            val updated = existing.copy(consumedWaterMl = newConsumed)
-            nutritionDao.updateWater(updated)
-        } else {
-            val recommended = 2000
-            val newEntity = DailyWaterEntity(
-                date = date,
-                recommendedWaterMl = recommended,
-                consumedWaterMl = addedMl
-            )
-            nutritionDao.insertWater(newEntity)
-        }
+    override suspend fun addProductToMeal(mealId: Long, productId: Long, grams: Float) {
+        mealProductDao.insertOrUpdateMealProduct(mealId, productId, grams)
     }
+
 
     private fun String.toAge(): Int {
         return try {

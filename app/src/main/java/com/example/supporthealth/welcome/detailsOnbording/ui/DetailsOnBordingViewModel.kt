@@ -17,12 +17,12 @@ class DetailsOnBordingViewModel(
 
     fun recalculateNorm(date: String, user: UserDetails) {
         viewModelScope.launch {
-            nutritionInteractor.upsertDailyNorm(date, user)
+            nutritionInteractor.calculate(user)
         }
     }
 
     fun saveData(userDetails: UserDetails) {
-        userDetailsInteractor.saveUserData(userDetails)
+        userDetailsInteractor.saveUserDetails(userDetails)
     }
 
     fun saveIsFirstLaunch(isLaunch: Boolean) {

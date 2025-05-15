@@ -3,12 +3,14 @@ package com.example.supporthealth.nutrition.search.data.repository
 import com.example.supporthealth.nutrition.search.data.NetworkClient
 import com.example.supporthealth.nutrition.search.data.dto.ProductSearchRequest
 import com.example.supporthealth.nutrition.search.data.dto.ProductSearchResponse
+import com.example.supporthealth.nutrition.search.data.storage.ProductHistoryStorage
 import com.example.supporthealth.nutrition.search.domain.api.repository.ProductRepository
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.nutrition.search.domain.models.Resource
 
 class ProductRepositoryImpl(
-    private val networkClient: NetworkClient
+    private val networkClient: NetworkClient,
+    private val productsHistoryStorage: ProductHistoryStorage
 ) : ProductRepository {
 
 
@@ -24,10 +26,10 @@ class ProductRepositoryImpl(
                     Product(
                         it.productId,
                         it.name,
-                        it.calories.toInt(),
-                        it.protein.toInt(),
-                        it.fat.toInt(),
-                        it.carbs.toInt()
+                        it.calories,
+                        it.protein,
+                        it.fat,
+                        it.carbs
                     )
                 })
             }
@@ -36,5 +38,25 @@ class ProductRepositoryImpl(
                 Resource.Error("")
             }
         }
+    }
+
+    override fun saveProductToHistory(product: Product, historyProductList: ArrayList<Product>) {
+        productsHistoryStorage.saveProduct(product, historyProductList)
+    }
+
+    override fun saveHistory(products: List<Product>) {
+        productsHistoryStorage.saveProducts(products)
+    }
+
+    override fun getProduct(): Product {
+        return productsHistoryStorage.getProduct()
+    }
+
+    override fun getHistory(): List<Product> {
+        return productsHistoryStorage.getProducts()
+    }
+
+    override fun clearHistory() {
+        productsHistoryStorage.clear()
     }
 }

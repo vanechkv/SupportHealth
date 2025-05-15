@@ -6,6 +6,16 @@ interface ProductInteractor {
 
     fun searchProduct(expression: String, consumer: ProductConsumer)
 
+    fun saveProductToHistory(product: Product, historyProductList: ArrayList<Product>)
+
+    fun saveHistory(products: List<Product>)
+
+    fun getProduct(): Product
+
+    fun getHistory(): List<Product>
+
+    fun clearHistory()
+
     interface ProductConsumer {
         fun consume(foundProduct: List<Product>?, error: String?)
     }

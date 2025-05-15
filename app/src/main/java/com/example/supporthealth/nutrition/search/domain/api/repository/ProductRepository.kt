@@ -7,4 +7,14 @@ import com.example.supporthealth.nutrition.search.domain.models.Resource
 interface ProductRepository {
 
     fun searchProduct(expression: String): Resource<List<Product>>
+
+    fun saveProductToHistory(product: Product, historyProductList: ArrayList<Product>)
+
+    fun saveHistory(products: List<Product>)
+
+    fun getProduct(): Product
+
+    fun getHistory(): List<Product>
+
+    fun clearHistory()
 }

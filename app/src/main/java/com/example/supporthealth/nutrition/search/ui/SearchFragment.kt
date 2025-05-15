@@ -17,8 +17,11 @@ import com.example.supporthealth.R
 import com.example.supporthealth.databinding.ErrorViewBinding
 import com.example.supporthealth.databinding.FragmentNutritionBinding
 import com.example.supporthealth.databinding.FragmentSearchBinding
+import com.example.supporthealth.databinding.HistoryViewBinding
 import com.example.supporthealth.main.domain.models.MealType
 import com.example.supporthealth.nutrition.main.ui.NutritionFragment
+import com.example.supporthealth.nutrition.main.ui.NutritionFragmentDirections
+import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.nutrition.search.domain.models.ProductState
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,7 +38,12 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModel()
 
     private val adapter = ProductAdapter(arrayListOf()) {
-        openProductDetails()
+        openProductDetails(it)
+    }
+
+    private val adapterHistory = ProductAdapter(arrayListOf()) {
+        viewModel.onProductClick(it)
+        openProductDetails(it)
     }
 
     private val args: SearchFragmentArgs by navArgs()
@@ -59,6 +67,14 @@ class SearchFragment : Fragment() {
             render(state)
         }
 
+        viewModel.observeHistory().observe(viewLifecycleOwner) { history ->
+            adapterHistory.updateProduct(history)
+        }
+
+        val historyViewBinding =
+            HistoryViewBinding.inflate(layoutInflater, binding.searchContainer, false)
+        val historyView = historyViewBinding.root
+
         binding.buttonClear.setOnClickListener {
             binding.searchEditText.text = null
 
@@ -79,7 +95,14 @@ class SearchFragment : Fragment() {
                 viewModel.searchDebounce(s?.toString().orEmpty())
                 binding.buttonClear.visibility = clearButtonVisibility(s)
 
-                if (binding.searchEditText.hasFocus() && s.isNullOrEmpty()) {
+                adapter.notifyDataSetChanged()
+
+                val history = viewModel.observeHistory().value.orEmpty()
+
+                if (binding.searchEditText.hasFocus() && s.isNullOrEmpty() && history.isNotEmpty()) {
+                    adapterHistory.notifyDataSetChanged()
+                    binding.searchContainer.addView(historyView)
+                }else {
                     binding.searchContainer.removeAllViews()
                 }
             }
@@ -93,7 +116,24 @@ class SearchFragment : Fragment() {
 
         binding.searchRecycler.adapter = adapter
 
-        when (args.mealType) {
+        historyViewBinding.historyRecycler.adapter = adapterHistory
+
+        historyViewBinding.clear.setOnClickListener {
+            viewModel.clearHistory()
+            binding.searchContainer.removeAllViews()
+        }
+
+        binding.searchEditText.setOnFocusChangeListener { _, hasFocus ->
+            val history = viewModel.observeHistory().value.orEmpty()
+            if (hasFocus && binding.searchEditText.text.isNullOrEmpty() && history.isNotEmpty()) {
+                adapterHistory.notifyDataSetChanged()
+                binding.searchContainer.addView(historyView)
+            } else {
+                binding.searchContainer.removeAllViews()
+            }
+        }
+
+        when (args.meal) {
             MealType.BREAKFAST -> binding.title.setText(R.string.breakfast)
             MealType.LUNCH -> binding.title.setText(R.string.lunch)
             MealType.AFTERNOON_TEA -> binding.title.setText(R.string.afternoon_tea)
@@ -102,6 +142,11 @@ class SearchFragment : Fragment() {
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.saveHistory()
     }
 
 
@@ -179,10 +224,20 @@ class SearchFragment : Fragment() {
                     true
                 )
             }
+
+            is ProductState.SearchHistory -> {
+                adapterHistory.updateProduct(state.history)
+            }
         }
     }
 
-    private fun openProductDetails() {
-        findNavController().navigate(R.id.action_navigation_search_to_navigation_product)
+    private fun openProductDetails(product: Product) {
+        val action = SearchFragmentDirections
+            .actionNavigationSearchToNavigationProduct(
+                meal = args.meal,
+                date = args.date,
+                productId = product.productId
+            )
+        findNavController().navigate(action)
     }
 }

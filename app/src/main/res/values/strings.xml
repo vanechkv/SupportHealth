@@ -96,6 +96,11 @@
     <string name="internet_error_explanation">Загрузка не удалась. Проверьте подключение к интернету</string>
     <string name="a_hundred_grams">— 100 г</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="your_history_is_empty">Ваша история пуста</string>
+    <string name="not_enough">Недостаточно</string>
+    <string name="fine">Хорошо</string>
+    <string name="great">Отлично</string>
+    <string name="excess">Избыток</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="separator">/</string>

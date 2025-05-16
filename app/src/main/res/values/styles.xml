@@ -53,4 +53,11 @@
         <item name="android:textSize">@dimen/text_size_14sp</item>
         <item name="android:fontFamily">@font/hind_medium</item>
     </style>
+
+    <style name="TabLayoutStyle">
+        <item name="tabIndicatorColor">?attr/colorOnSecondary</item>
+        <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextColor">?attr/colorOnPrimaryFixed</item>
+    </style>
 </resources>

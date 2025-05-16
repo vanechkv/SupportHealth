@@ -1,6 +1,5 @@
 package com.example.supporthealth.nutrition.search.ui
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,17 +9,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity.INPUT_METHOD_SERVICE
-import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.ErrorViewBinding
-import com.example.supporthealth.databinding.FragmentNutritionBinding
 import com.example.supporthealth.databinding.FragmentSearchBinding
 import com.example.supporthealth.databinding.HistoryViewBinding
 import com.example.supporthealth.main.domain.models.MealType
-import com.example.supporthealth.nutrition.main.ui.NutritionFragment
-import com.example.supporthealth.nutrition.main.ui.NutritionFragmentDirections
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.nutrition.search.domain.models.ProductState
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -102,7 +97,7 @@ class SearchFragment : Fragment() {
                 if (binding.searchEditText.hasFocus() && s.isNullOrEmpty() && history.isNotEmpty()) {
                     adapterHistory.notifyDataSetChanged()
                     binding.searchContainer.addView(historyView)
-                }else {
+                } else {
                     binding.searchContainer.removeAllViews()
                 }
             }

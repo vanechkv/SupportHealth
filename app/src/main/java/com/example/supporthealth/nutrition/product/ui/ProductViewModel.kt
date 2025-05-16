@@ -42,8 +42,13 @@ class ProductViewModel(
                 nutritionInteractor.insertNutritionData(date)
                 nutrition = nutritionInteractor.getNutritionData(date)
             }
-            val product = nutritionInteractor.insertProduct(product)
-            nutritionInteractor.addProductToMeal(nutrition!!.id, product, weight)
+            var productData = nutritionInteractor.getProductByProductId(product.productId)
+            if (productData == null) {
+                nutritionInteractor.insertProduct(product)
+                productData = nutritionInteractor.getProductByProductId(product.productId)
+            }
+            val mealId = nutritionInteractor.getMealId(nutrition!!.id, mealType)
+            nutritionInteractor.addProductToMeal(mealId, productData!!.id, weight)
             nutritionInteractor.updateMeal(date, mealType)
         }
     }

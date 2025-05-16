@@ -1,11 +1,13 @@
 package com.example.supporthealth.nutrition.main.domain.api.repository
 
+import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
-import com.example.supporthealth.main.domain.models.WaterEntity
+import com.example.supporthealth.main.domain.models.ProductEntity
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
 import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.profile.details.domain.models.UserDetails
@@ -13,6 +15,8 @@ import com.example.supporthealth.profile.details.domain.models.UserDetails
 interface NutritionRepository {
 
     fun calculate(userDetails: UserDetails)
+
+    suspend fun calculateResult(mealId: Long): Result
 
     fun getNutrition(): Nutrition
 
@@ -36,7 +40,11 @@ interface NutritionRepository {
 
     suspend fun getMealId(nutritionId: Long, mealType: MealType): Long
 
+    suspend fun getMealByMealId(mealId: Long): MealEntity?
+
     suspend fun insertProduct(product: Product): Long
+
+    suspend fun getProductByProductId(productId: String): ProductEntity?
 
     suspend fun addProductToMeal(mealId: Long, productId: Long, grams: Float)
 }

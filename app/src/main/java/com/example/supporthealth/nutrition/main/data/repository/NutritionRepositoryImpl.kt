@@ -15,6 +15,7 @@ import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
 import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
 import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.profile.details.domain.models.ActivityLevel
@@ -89,6 +90,34 @@ class NutritionRepositoryImpl(
         nutritionStorage.saveNutrition(nutrition)
         nutritionStorage.saveMeals(meals)
         nutritionStorage.saveWater(water)
+    }
+
+    override suspend fun calculateResult(mealId: Long): Result {
+        val meal = getMealByMealId(mealId)
+
+        val statuses = listOf(
+            getStatus(meal!!.calories.toFloat(), meal.recommendedCalories.toFloat()),
+            getStatus(meal.proteins, meal.recommendedProteins),
+            getStatus(meal.fats, meal.recommendedFats),
+            getStatus(meal.carbs, meal.recommendedCarbs)
+        )
+
+        return when {
+            statuses.contains(Result.NOT_ENOUGH) -> Result.NOT_ENOUGH
+            statuses.contains(Result.EXCESS) -> Result.EXCESS
+            statuses.all { it == Result.GREAT } -> Result.GREAT
+            else -> Result.FINE
+        }
+    }
+
+    private fun getStatus(actual: Float, recommended: Float): Result {
+        val percent = (actual / recommended) * 100
+        return when {
+            percent < 60f -> Result.NOT_ENOUGH
+            percent < 90f -> Result.FINE
+            percent <= 110f -> Result.GREAT
+            else -> Result.EXCESS
+        }
     }
 
     override fun getNutrition(): Nutrition {
@@ -248,6 +277,10 @@ class NutritionRepositoryImpl(
         return mealDao.getMealIdByNutritionIdAndMealType(nutritionId, mealType)
     }
 
+    override suspend fun getMealByMealId(mealId: Long): MealEntity? {
+        return mealDao.getMealById(mealId)
+    }
+
     override suspend fun insertProduct(product: Product): Long {
         val productData = ProductEntity(
             productId = product.productId,
@@ -258,6 +291,10 @@ class NutritionRepositoryImpl(
             carbs = product.carbs
         )
         return productDao.insertProduct(productData)
+    }
+
+    override suspend fun getProductByProductId(productId: String): ProductEntity? {
+        return productDao.getProductById(productId)
     }
 
     override suspend fun addProductToMeal(mealId: Long, productId: Long, grams: Float) {

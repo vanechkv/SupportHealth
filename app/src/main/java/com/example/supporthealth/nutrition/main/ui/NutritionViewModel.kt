@@ -4,11 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.supporthealth.main.domain.models.MealType
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.WaterEntity
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
 import com.example.supporthealth.nutrition.main.domain.models.Meal
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
+import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
 import kotlinx.coroutines.launch
 
@@ -28,6 +30,11 @@ class NutritionViewModel(
     private val waterLiveData = MutableLiveData<Water>()
     fun observeWater(): LiveData<Water> = waterLiveData
 
+    private val mealResultLiveData = MutableLiveData<Map<MealType, Result>>()
+    fun observeMealResult(): LiveData<Map<MealType, Result>> = mealResultLiveData
+
+    private val mealResults = mutableMapOf<MealType, Result>()
+
     fun loadDay(date: String) {
         viewModelScope.launch {
             val nutritionEntity = nutritionInteractor.getNutritionData(date)
@@ -38,7 +45,6 @@ class NutritionViewModel(
                 val nutrition = nutritionInteractor.getNutrition()
                 val meals = nutritionInteractor.getMeals()
                 val water = nutritionInteractor.getWater()
-
                 nutritionDataLiveData.postValue(null)
                 nutritionLiveData.postValue(nutrition)
                 mealsLiveData.postValue(meals)
@@ -51,6 +57,14 @@ class NutritionViewModel(
         viewModelScope.launch {
             nutritionInteractor.updateWaterData(date, water)
             loadDay(date)
+        }
+    }
+
+    fun calculateMealResult(mealId: Long, mealType: MealType) {
+        viewModelScope.launch {
+            val result = nutritionInteractor.calculateResult(mealId)
+            mealResults[mealType] = result
+            mealResultLiveData.postValue(mealResults.toMap())
         }
     }
 }

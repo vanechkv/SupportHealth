@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "625146866103",
+    "project_id": "supporthealth-8765f",
+    "storage_bucket": "supporthealth-8765f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:625146866103:android:25957873c757115cda2032",
+        "android_client_info": {
+          "package_name": "com.example.supporthealth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUuKnFaGYHeasUDliSmQTWb_iCk9wM5Ws"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

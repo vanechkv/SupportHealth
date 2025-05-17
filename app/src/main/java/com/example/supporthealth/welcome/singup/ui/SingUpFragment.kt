@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentSingUpBinding
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SingUpFragment : Fragment() {
@@ -42,7 +43,26 @@ class SingUpFragment : Fragment() {
         }
 
         binding.buttonCheckIn.setOnClickListener {
-            findNavController().navigate(R.id.action_singUpFragment_to_detailsOnBordingFragment)
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                binding.emailEditText.error = "Введите корректный email"
+                return@setOnClickListener
+            }
+            if (password.length < 6) {
+                binding.passwordEditText.error = "Минимум 6 символов"
+                return@setOnClickListener
+            }
+
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        findNavController().navigate(R.id.action_singUpFragment_to_detailsOnBordingFragment)
+                    } else {
+
+                    }
+                }
         }
     }
 }

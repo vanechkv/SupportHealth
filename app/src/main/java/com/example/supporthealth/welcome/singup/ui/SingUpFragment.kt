@@ -1,6 +1,5 @@
-package com.example.supporthealth.welcome.onbording.ui
+package com.example.supporthealth.welcome.singup.ui
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
-import com.example.supporthealth.databinding.FragmentOnbordingBinding
+import com.example.supporthealth.databinding.FragmentSingUpBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OnbordingFragment : Fragment() {
+class SingUpFragment : Fragment() {
 
     companion object {
-        fun newInstance() = OnbordingFragment()
+        fun newInstance() = SingUpFragment()
     }
 
-    private val viewModel: OnbordingViewModel by viewModels()
-    private lateinit var binding: FragmentOnbordingBinding
+    private val viewModel: SingUpViewModel by viewModel()
+
+    private lateinit var binding: FragmentSingUpBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,15 +30,19 @@ class OnbordingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOnbordingBinding.inflate(inflater, container, false)
+        binding = FragmentSingUpBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_onbordingFragment_to_loginFragment)
+        binding.login.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.buttonCheckIn.setOnClickListener {
+            findNavController().navigate(R.id.action_singUpFragment_to_detailsOnBordingFragment)
         }
     }
 }

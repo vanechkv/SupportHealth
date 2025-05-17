@@ -26,30 +26,7 @@ class SearchViewModel(private val productInteractor: ProductInteractor) : ViewMo
     private val historyProductList = ArrayList<Product>()
 
     init {
-        historyProductList.add(Product(
-            productId = "default_001",
-            name = "Продукт 1",
-            calories = 100,
-            protein = 10f,
-            fat = 5f,
-            carbs = 5f
-        ))
-        historyProductList.add(Product(
-            productId = "default_002",
-            name = "Продукт 2",
-            calories = 200,
-            protein = 20f,
-            fat = 10f,
-            carbs = 10f
-        ))
-        historyProductList.add(Product(
-            productId = "default_003",
-            name = "Продукт 3",
-            calories = 300,
-            protein = 30f,
-            fat = 15f,
-            carbs = 15f
-        ))
+        historyProductList.addAll(productInteractor.getHistory())
         historyLiveData.postValue(historyProductList)
     }
 

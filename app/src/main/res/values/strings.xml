@@ -101,6 +101,19 @@
     <string name="fine">Хорошо</string>
     <string name="great">Отлично</string>
     <string name="excess">Избыток</string>
+    <string name="you_were_looking_for">Вы искали</string>
+    <string name="login">Вход</string>
+    <string name="sing_up">Регистрация</string>
+    <string name="login_info">Пожалуйста, авторизуйтесь\nчтобы пользоваться приложением</string>
+    <string name="sing_up_info">Пожалуйста, заполните поля\nи создайте аккаунт</string>
+    <string name="email">Email</string>
+    <string name="email_hint">ivanivanovich@yandex.ru</string>
+    <string name="password">Пароль</string>
+    <string name="password_hint">q34fk31gk4!</string>
+    <string name="enter">Войти</string>
+    <string name="check_in">Зарегистрироваться</string>
+    <string name="dont_have_an_account">Еще нет аккаунта?</string>
+    <string name="have_an_account">Уже есть аккаунт?</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="separator">/</string>

@@ -33,6 +33,7 @@ class SearchFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModel()
 
     private val adapter = ProductAdapter(arrayListOf()) {
+        viewModel.onProductClick(it)
         openProductDetails(it)
     }
 

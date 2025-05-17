@@ -26,27 +26,10 @@ val dataModule = module {
 
     single<SupportHealthApi> {
         Retrofit.Builder()
-            .baseUrl("https://davasha.loca.lt/docs/")
+            .baseUrl("https://edf9-94-131-125-44.ngrok-free.app/docs/")
             .addConverterFactory(GsonConverterFactory.create())
-            .client(get())
             .build()
             .create(SupportHealthApi::class.java)
-    }
-
-    single {
-        OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
-            .readTimeout(30, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor { chain ->
-                val token = "91.214.221.99"
-                val request = chain.request()
-                    .newBuilder()
-                    .addHeader("Authorization", "Bearer $token")
-                    .build()
-                chain.proceed(request)
-            }
-            .build()
     }
 
     factory {

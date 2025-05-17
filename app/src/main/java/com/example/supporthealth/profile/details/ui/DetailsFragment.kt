@@ -55,21 +55,26 @@ class DetailsFragment : Fragment() {
         viewModel.loadData()
 
         viewModel.observeUser().observe(viewLifecycleOwner) { userData ->
-            binding.surnameEditText.setText(userData.surname)
-            binding.nameEditText.setText(userData.name)
-            binding.patronymicEditText.setText(userData.patronymic)
-            binding.heightEditText.setText(userData.height.toString())
-            binding.weightEditText.setText(userData.weight.toString())
-            binding.birthdayEditText.setText(userData.birthday)
-            binding.mobilitySelector.text = userData.mobility.toUiString()
-            binding.targetSelector.text = userData.target.toUiString()
+            binding.surnameEditText.setText(userData?.surname)
+            binding.nameEditText.setText(userData?.name)
+            binding.patronymicEditText.setText(userData?.patronymic)
+            binding.heightEditText.setText(userData?.height.toString())
+            binding.weightEditText.setText(userData?.weight.toString())
+            binding.birthdayEditText.setText(userData?.birthday)
+            binding.mobilitySelector.text = userData?.mobility?.toUiString()
+            binding.targetSelector.text = userData?.target?.toUiString()
 
-            selectedHeight = userData.height
-            selectedWeight = userData.weight
+            if (userData?.weight != null) {
+                selectedWeight = userData.weight
+            }
+            if (userData?.height != null) {
+                selectedHeight = userData.height
+            }
 
-            when(userData.gender) {
+            when(userData?.gender) {
                 Gender.MALE -> binding.radioMale.isChecked = true
                 Gender.FEMALE -> binding.radioFemale.isChecked = true
+                else -> binding.radioMale.isChecked
             }
         }
 
@@ -168,7 +173,7 @@ class DetailsFragment : Fragment() {
             target = binding.targetSelector.text.toString().toGoalType()
         )
 
-        viewModel.recalculateNorm(LocalDate.now().toString(), userData)
+        viewModel.recalculate(userData)
         viewModel.saveData(userData)
     }
 

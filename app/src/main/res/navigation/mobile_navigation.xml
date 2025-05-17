@@ -92,7 +92,7 @@
         android:label="@string/search"
         tools:layout="@layout/fragment_search">
         <argument
-            android:name="mealType"
+            android:name="meal"
             app:argType="com.example.supporthealth.main.domain.models.MealType" />
         <argument
             android:name="date"
@@ -113,11 +113,14 @@
         tools:layout="@layout/fragment_product">
 
         <argument
-            android:name="mealType"
+            android:name="meal"
+            app:argType="com.example.supporthealth.main.domain.models.MealType" />
+        <argument
+            android:name="date"
             app:argType="string" />
         <argument
             android:name="productId"
-            app:argType="integer" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/safetyFragment"
@@ -145,11 +148,8 @@
         android:label="fragment_eating"
         tools:layout="@layout/fragment_eating" >
         <argument
-            android:name="mealType"
-            app:argType="string" />
-        <argument
-            android:name="date"
-            app:argType="string" />
+            android:name="mealId"
+            app:argType="long" />
         <action
             android:id="@+id/action_eatingFragment_to_navigation_search"
             app:destination="@id/navigation_search"

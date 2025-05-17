@@ -2,6 +2,7 @@ package com.example.supporthealth.nutrition.search.domain.impl
 
 import com.example.supporthealth.nutrition.search.domain.api.interactor.ProductInteractor
 import com.example.supporthealth.nutrition.search.domain.api.repository.ProductRepository
+import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.nutrition.search.domain.models.Resource
 import java.util.concurrent.Executors
 
@@ -21,5 +22,25 @@ class ProductInteractorImpl(private val repository: ProductRepository) : Product
                 }
             }
         }
+    }
+
+    override fun saveProductToHistory(product: Product, historyProductList: ArrayList<Product>) {
+        repository.saveProductToHistory(product, historyProductList)
+    }
+
+    override fun saveHistory(products: List<Product>) {
+        repository.saveHistory(products)
+    }
+
+    override fun getProduct(): Product {
+        return repository.getProduct()
+    }
+
+    override fun getHistory(): List<Product> {
+        return repository.getHistory()
+    }
+
+    override fun clearHistory() {
+        repository.clearHistory()
     }
 }

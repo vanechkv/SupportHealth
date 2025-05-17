@@ -3,9 +3,12 @@ package com.example.supporthealth.di
 import android.content.Context
 import androidx.room.Room
 import com.example.supporthealth.main.data.AppDatabase
+import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
 import com.example.supporthealth.nutrition.search.data.NetworkClient
 import com.example.supporthealth.nutrition.search.data.network.RetrofitNetworkClient
 import com.example.supporthealth.nutrition.search.data.network.SupportHealthApi
+import com.example.supporthealth.nutrition.search.data.storage.ProductHistoryStorage
+import com.example.supporthealth.profile.details.data.storage.UserStorage
 import com.example.supporthealth.profile.main.data.storage.SettingHistoryStorage
 import com.example.supporthealth.welcome.detailsOnbording.data.storage.DetailsOnBordingStorage
 import com.google.gson.Gson
@@ -23,7 +26,7 @@ val dataModule = module {
 
     single<SupportHealthApi> {
         Retrofit.Builder()
-            .baseUrl("https://danilvanyamisha.loca.lt/docs/")
+            .baseUrl("https://davasha.loca.lt/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(get())
             .build()
@@ -55,7 +58,7 @@ val dataModule = module {
     }
 
     single {
-        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "nutrition-db")
+        Room.databaseBuilder(androidContext(), AppDatabase::class.java, "support_health_db")
             .build()
     }
 
@@ -64,7 +67,35 @@ val dataModule = module {
     }
 
     single {
+        get<AppDatabase>().mealDao()
+    }
+
+    single {
+        get<AppDatabase>().productDao()
+    }
+
+    single {
+        get<AppDatabase>().waterDao()
+    }
+
+    single {
+        get<AppDatabase>().mealProductDao()
+    }
+
+    single {
         DetailsOnBordingStorage(get())
+    }
+
+    single {
+        ProductHistoryStorage(get(), get())
+    }
+
+    single {
+        NutritionStorage(get(), get())
+    }
+
+    single {
+        UserStorage(get(), get())
     }
 
     single {

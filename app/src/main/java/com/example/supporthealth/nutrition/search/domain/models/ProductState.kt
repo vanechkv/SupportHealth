@@ -15,4 +15,8 @@ interface ProductState {
     data class Empty(
         val message: Int
     ) : ProductState
+
+    data class SearchHistory(
+        val history: List<Product>
+    ) : ProductState
 }

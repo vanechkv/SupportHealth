@@ -9,5 +9,5 @@ import retrofit2.http.Query
 interface SupportHealthApi {
 
     @GET("/products/search")
-    fun search(@Query("query") query: String): Call<List<ProductDto>>
+    fun search(@Query("query") query: String): Call<ProductSearchResponse>
 }

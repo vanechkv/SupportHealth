@@ -1,6 +1,5 @@
 package com.example.supporthealth.profile.details.ui
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -16,21 +15,21 @@ class DetailsViewModel(
     private val nutritionInteractor: NutritionInteractor
 ) : ViewModel() {
 
-    private val userLiveData = MutableLiveData<UserDetails>()
-    fun observeUser(): LiveData<UserDetails> = userLiveData
+    private val userLiveData = MutableLiveData<UserDetails?>()
+    fun observeUser(): LiveData<UserDetails?> = userLiveData
 
     fun loadData() {
-        userLiveData.postValue(userDetailsInteractor.loadUserDate())
+        userLiveData.postValue(userDetailsInteractor.getUserDetails())
     }
 
     fun saveData(userData: UserDetails) {
-        userDetailsInteractor.saveUserData(userData)
+        userDetailsInteractor.saveUserDetails(userData)
         userLiveData.postValue(userData)
     }
 
-    fun recalculateNorm(date: String, user: UserDetails) {
+    fun recalculate(user: UserDetails) {
         viewModelScope.launch(Dispatchers.IO) {
-            nutritionInteractor.upsertDailyNorm(date, user)
+            nutritionInteractor.calculate(user)
         }
     }
 }

@@ -22,7 +22,7 @@ class RetrofitNetworkClient(private val context: Context, private val supportHea
             val resp = supportHealthApi.search(dto.expression).execute()
             val body = resp.body()
             return if (body != null) {
-                ProductSearchResponse(body).apply { resultCode = resp.code() }
+                body.apply { resultCode = resp.code() }
             }else {
                 Response().apply { resultCode = resp.code() }
             }

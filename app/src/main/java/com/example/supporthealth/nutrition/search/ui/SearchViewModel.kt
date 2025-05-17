@@ -20,6 +20,54 @@ class SearchViewModel(private val productInteractor: ProductInteractor) : ViewMo
     private val stateLiveData = MutableLiveData<ProductState>()
     fun observeState(): LiveData<ProductState> = stateLiveData
 
+    private val historyLiveData = MutableLiveData<List<Product>>()
+    fun observeHistory(): LiveData<List<Product>> = historyLiveData
+
+    private val historyProductList = ArrayList<Product>()
+
+    init {
+        historyProductList.add(Product(
+            productId = "default_001",
+            name = "Продукт 1",
+            calories = 100,
+            protein = 10f,
+            fat = 5f,
+            carbs = 5f
+        ))
+        historyProductList.add(Product(
+            productId = "default_002",
+            name = "Продукт 2",
+            calories = 200,
+            protein = 20f,
+            fat = 10f,
+            carbs = 10f
+        ))
+        historyProductList.add(Product(
+            productId = "default_003",
+            name = "Продукт 3",
+            calories = 300,
+            protein = 30f,
+            fat = 15f,
+            carbs = 15f
+        ))
+        historyLiveData.postValue(historyProductList)
+    }
+
+    fun onProductClick(product: Product) {
+        productInteractor.saveProductToHistory(product, historyProductList)
+        historyLiveData.postValue(historyProductList)
+    }
+
+    fun clearHistory() {
+        historyProductList.clear()
+        productInteractor.clearHistory()
+        historyLiveData.postValue(historyProductList)
+    }
+
+    fun saveHistory() {
+        productInteractor.saveHistory(historyProductList)
+    }
+
     private fun search(newSearchText: String) {
         if (newSearchText.isNotEmpty()) {
             renderState(ProductState.Loading)
@@ -74,6 +122,10 @@ class SearchViewModel(private val productInteractor: ProductInteractor) : ViewMo
 
         searchRunnable?.let { handler.removeCallbacks(it) }
 
+        if (changedText.isBlank()) {
+            renderState(ProductState.SearchHistory(historyProductList))
+            return
+        }
 
         searchRunnable = Runnable { search(changedText) }
 

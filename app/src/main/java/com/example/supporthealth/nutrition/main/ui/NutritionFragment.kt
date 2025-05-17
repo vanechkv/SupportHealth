@@ -8,9 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
+import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentNutritionBinding
+import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
-import com.example.supporthealth.nutrition.main.domain.models.MealState
+import com.example.supporthealth.main.domain.models.NutritionFull
+import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.Nutrition
+import com.example.supporthealth.nutrition.main.domain.models.Result
+import com.example.supporthealth.nutrition.main.domain.models.Water
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -42,63 +48,48 @@ class NutritionFragment<TextView> : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.observeDailyNorm().observe(viewLifecycleOwner) { daily ->
-            val norm = daily?.dailyNutrition
-
-            binding.statisticView.apply {
-                calories.text = "${norm?.consumedCalories} ккал"
-                remainingCalories.text = "${norm?.recommendedCalories} ккал осталось"
-                protein.text = "${norm?.consumedProteins} г"
-                remainingProtein.text = "${norm?.recommendedProteins} г осталось"
-                fat.text = "${norm?.consumedFats} г"
-                remainingFat.text = "${norm?.recommendedFats} г осталось"
-                carbohydrates.text = "${norm?.consumedCarbs} г"
-                remainingCarbohydrates.text = "${norm?.recommendedCarbs} г осталось"
-            }
-        }
-
-        viewModel.observeMealStates().observe(viewLifecycleOwner) { mealStates ->
-            mealStates.forEach { state ->
-                when (state.mealType) {
-                    MealType.BREAKFAST -> setBreakfastState(state)
-                    MealType.LUNCH -> setLunchState(state)
-                    MealType.AFTERNOON_TEA -> setAfterNoonState(state)
-                    MealType.DINNER -> setDinnerState(state)
+        viewModel.observeNutritionData().observe(viewLifecycleOwner) { nutrition ->
+            if (nutrition != null) {
+                setNutritionFull(nutrition)
+            } else {
+                viewModel.observeNutrition().observe(viewLifecycleOwner) { nutrition ->
+                    setNutritionNorm(nutrition)
+                }
+                viewModel.observeWater().observe(viewLifecycleOwner) { water ->
+                    setWaterNorm(water)
+                }
+                viewModel.observeMeals().observe(viewLifecycleOwner) { meals ->
+                    meals.forEach { meal ->
+                        when (meal.mealType) {
+                            MealType.BREAKFAST -> setBreakfast(meal)
+                            MealType.LUNCH -> setLunch(meal)
+                            MealType.AFTERNOON_TEA -> setAfterNoon(meal)
+                            MealType.DINNER -> setDinner(meal)
+                        }
+                    }
                 }
             }
         }
 
-        viewModel.observeWater().observe(viewLifecycleOwner) { water ->
-            if(water != null) {
-                binding.waterView.recommendedWater.text = formatWaterMlToLiters(water.recommendedWaterMl)
-                binding.waterView.title.text = formatWaterMlToLiters(water.consumedWaterMl)
+        viewModel.observeMealResult().observe(viewLifecycleOwner) { resultMap ->
+            resultMap.forEach { (mealType, result) ->
+                when (mealType) {
+                    MealType.BREAKFAST -> resultBreakfast(result)
+                    MealType.LUNCH -> resultLunch(result)
+                    MealType.AFTERNOON_TEA -> resultAfternoonTea(result)
+                    MealType.DINNER -> resultDinner(result)
+                }
             }
         }
 
         binding.waterView.buttonAdd.setOnClickListener {
             val formattedDate = currentDate.format(dateFormat)
-            viewModel.addWater(formattedDate, 250)
+            viewModel.updateWater(formattedDate, 250)
         }
 
         binding.waterView.buttonDelete.setOnClickListener {
             val formattedDate = currentDate.format(dateFormat)
-            viewModel.addWater(formattedDate, -250)
-        }
-
-        binding.eatingView.breakfast.setOnClickListener {
-            openSearchScreen(MealType.BREAKFAST)
-        }
-
-        binding.eatingView.lunch.setOnClickListener {
-            openSearchScreen(MealType.LUNCH)
-        }
-
-        binding.eatingView.afternoonTea.setOnClickListener {
-            openSearchScreen(MealType.AFTERNOON_TEA)
-        }
-
-        binding.eatingView.dinner.setOnClickListener {
-            openSearchScreen(MealType.DINNER)
+            viewModel.updateWater(formattedDate, -250)
         }
 
         binding.buttonBackDay.setOnClickListener {
@@ -118,71 +109,307 @@ class NutritionFragment<TextView> : Fragment() {
         return "%.2f л".format((ml ?: 0) / 1000f)
     }
 
-    private fun setBreakfastState(mealNorm: MealState) {
-        if (mealNorm.consumedCalories > 0) {
-            binding.eatingView.recommendedCaloriesBreakfast.isVisible = false
-            binding.eatingView.caloriesBreakfast.isVisible = true
-            binding.eatingView.caloriesBreakfast.text = mealNorm.consumedCalories.toString()
-            binding.eatingView.separatorBreakfast.isVisible = true
-            binding.eatingView.caloriesArgBreakfast.isVisible = true
-            binding.eatingView.caloriesArgBreakfast.text = "${mealNorm.recommendedCalories} ккал"
-        }else {
-            binding.eatingView.recommendedCaloriesBreakfast.isVisible = true
-            binding.eatingView.caloriesBreakfast.isVisible = false
-            binding.eatingView.caloriesArgBreakfast.isVisible = false
-            binding.eatingView.separatorBreakfast.isVisible = false
-            binding.eatingView.recommendedCaloriesBreakfast.text = "${mealNorm.recommendedCalories} ккал"
+    private fun setBreakfast(meal: Meal) {
+        binding.eatingView.apply {
+            caloriesBreakfast.isVisible = false
+            separatorBreakfast.isVisible = false
+            caloriesArgBreakfast.isVisible = false
+            resultBreakfast.isVisible = false
+            imgResultBreakfast.isVisible = false
+            recommendedBreakfast.isVisible = true
+            recommendedCaloriesBreakfast.isVisible = true
+            recommendedCaloriesBreakfast.text =
+                "${meal.calories} ккал"
+            buttonAddBreakfast.isVisible = true
+            breakfast.setOnClickListener {
+                openSearchScreen(meal.mealType)
+            }
         }
     }
 
-    private fun setLunchState(mealNorm: MealState) {
-        if (mealNorm.consumedCalories > 0) {
-            binding.eatingView.recommendedCaloriesLunch.isVisible = false
-            binding.eatingView.caloriesLunch.isVisible = true
-            binding.eatingView.caloriesLunch.text = mealNorm.consumedCalories.toString()
-            binding.eatingView.separatorLunch.isVisible = true
-            binding.eatingView.caloriesArgLunch.isVisible = true
-            binding.eatingView.caloriesArgLunch.text = "${mealNorm.recommendedCalories} ккал"
-        }else {
-            binding.eatingView.recommendedCaloriesLunch.isVisible = true
-            binding.eatingView.caloriesLunch.isVisible = false
-            binding.eatingView.caloriesArgLunch.isVisible = false
-            binding.eatingView.separatorLunch.isVisible = false
-            binding.eatingView.recommendedCaloriesLunch.text = "${mealNorm.recommendedCalories} ккал"
+    private fun setLunch(meal: Meal) {
+        binding.eatingView.apply {
+            caloriesLunch.isVisible = false
+            separatorLunch.isVisible = false
+            caloriesArgLunch.isVisible = false
+            resultLunch.isVisible = false
+            imgResultLunch.isVisible = false
+            recommendedLunch.isVisible = true
+            recommendedCaloriesLunch.isVisible = true
+            recommendedCaloriesLunch.text =
+                "${meal.calories} ккал"
+            buttonAddLunch.isVisible = true
+            lunch.setOnClickListener {
+                openSearchScreen(meal.mealType)
+            }
         }
     }
 
-    private fun setAfterNoonState(mealNorm: MealState) {
-        if (mealNorm.consumedCalories > 0) {
-            binding.eatingView.recommendedCaloriesAfternoonTea.isVisible = false
-            binding.eatingView.caloriesAfternoonTea.isVisible = true
-            binding.eatingView.caloriesAfternoonTea.text = mealNorm.consumedCalories.toString()
-            binding.eatingView.separatorAfternoonTea.isVisible = true
-            binding.eatingView.caloriesArgAfternoonTea.isVisible = true
-            binding.eatingView.caloriesArgAfternoonTea.text = "${mealNorm.recommendedCalories} ккал"
-        }else {
-            binding.eatingView.recommendedCaloriesAfternoonTea.isVisible = true
-            binding.eatingView.caloriesAfternoonTea.isVisible = false
-            binding.eatingView.caloriesArgAfternoonTea.isVisible = false
-            binding.eatingView.separatorAfternoonTea.isVisible = false
-            binding.eatingView.recommendedCaloriesAfternoonTea.text = "${mealNorm.recommendedCalories} ккал"
+    private fun setAfterNoon(meal: Meal) {
+        binding.eatingView.apply {
+            caloriesAfternoonTea.isVisible = false
+            separatorAfternoonTea.isVisible = false
+            caloriesArgAfternoonTea.isVisible = false
+            resultAfternoonTea.isVisible = false
+            imgResultAfternoonTea.isVisible = false
+            recommendedAfternoonTea.isVisible = true
+            recommendedCaloriesAfternoonTea.isVisible = true
+            recommendedCaloriesAfternoonTea.text =
+                "${meal.calories} ккал"
+            buttonAddAfternoonTea.isVisible = true
+            afternoonTea.setOnClickListener {
+                openSearchScreen(meal.mealType)
+            }
         }
     }
 
-    private fun setDinnerState(mealNorm: MealState) {
-        if (mealNorm.consumedCalories > 0) {
-            binding.eatingView.recommendedCaloriesDinner.isVisible = false
-            binding.eatingView.caloriesDinner.isVisible = true
-            binding.eatingView.caloriesDinner.text = mealNorm.consumedCalories.toString()
-            binding.eatingView.separatorDinner.isVisible = true
-            binding.eatingView.caloriesArgDinner.isVisible = true
-            binding.eatingView.caloriesArgDinner.text = "${mealNorm.recommendedCalories} ккал"
-        }else {
-            binding.eatingView.recommendedCaloriesDinner.isVisible = true
-            binding.eatingView.caloriesDinner.isVisible = false
-            binding.eatingView.caloriesArgDinner.isVisible = false
-            binding.eatingView.separatorDinner.isVisible = false
-            binding.eatingView.recommendedCaloriesDinner.text = "${mealNorm.recommendedCalories} ккал"
+    private fun setDinner(meal: Meal) {
+        binding.eatingView.apply {
+            caloriesDinner.isVisible = false
+            separatorDinner.isVisible = false
+            caloriesArgDinner.isVisible = false
+            resultDinner.isVisible = false
+            imgResultDinner.isVisible = false
+            recommendedDinner.isVisible = true
+            recommendedCaloriesDinner.isVisible = true
+            recommendedCaloriesDinner.text =
+                "${meal.calories} ккал"
+            buttonAddDinner.isVisible = true
+            dinner.setOnClickListener {
+                openSearchScreen(meal.mealType)
+            }
+        }
+    }
+
+    private fun setBreakfastData(meal: MealEntity) {
+        if (meal.calories > 0) {
+            binding.eatingView.apply {
+                recommendedBreakfast.isVisible = false
+                recommendedCaloriesBreakfast.isVisible = false
+                caloriesBreakfast.isVisible = true
+                caloriesBreakfast.text = meal.calories.toString()
+                separatorBreakfast.isVisible = true
+                caloriesArgBreakfast.isVisible = true
+                caloriesArgBreakfast.text = "${meal.recommendedCalories} ккал"
+                buttonAddBreakfast.isVisible = false
+                viewModel.calculateMealResult(meal.id, meal.mealType)
+                breakfast.setOnClickListener {
+                    openEatingScreen(meal.id)
+                }
+            }
+        } else {
+            binding.eatingView.apply {
+                recommendedBreakfast.isVisible = true
+                recommendedCaloriesBreakfast.isVisible = true
+                recommendedCaloriesBreakfast.text = "${meal.recommendedCalories} ккал"
+                caloriesBreakfast.isVisible = false
+                separatorBreakfast.isVisible = false
+                caloriesArgBreakfast.isVisible = false
+                resultBreakfast.isVisible = false
+                imgResultBreakfast.isVisible = false
+                buttonAddBreakfast.isVisible = true
+                breakfast.setOnClickListener {
+                    openSearchScreen(meal.mealType)
+                }
+            }
+        }
+    }
+
+    private fun setLunchData(meal: MealEntity) {
+        if (meal.calories > 0) {
+            binding.eatingView.apply {
+                recommendedLunch.isVisible = false
+                recommendedCaloriesLunch.isVisible = false
+                caloriesLunch.isVisible = true
+                caloriesLunch.text = meal.calories.toString()
+                separatorLunch.isVisible = true
+                caloriesArgLunch.isVisible = true
+                caloriesArgLunch.text = "${meal.recommendedCalories} ккал"
+                buttonAddLunch.isVisible = false
+                viewModel.calculateMealResult(meal.id, meal.mealType)
+                lunch.setOnClickListener {
+                    openEatingScreen(meal.id)
+                }
+            }
+        } else {
+            binding.eatingView.apply {
+                recommendedLunch.isVisible = true
+                recommendedCaloriesLunch.isVisible = true
+                recommendedCaloriesLunch.text = "${meal.recommendedCalories} ккал"
+                caloriesLunch.isVisible = false
+                separatorLunch.isVisible = false
+                caloriesArgLunch.isVisible = false
+                resultLunch.isVisible = false
+                imgResultLunch.isVisible = false
+                buttonAddLunch.isVisible = true
+                lunch.setOnClickListener {
+                    openSearchScreen(meal.mealType)
+                }
+            }
+        }
+    }
+
+    private fun setAfterNoonData(meal: MealEntity) {
+        if (meal.calories > 0) {
+            binding.eatingView.apply {
+                recommendedAfternoonTea.isVisible = false
+                recommendedCaloriesAfternoonTea.isVisible = false
+                caloriesAfternoonTea.isVisible = true
+                caloriesAfternoonTea.text = meal.calories.toString()
+                separatorAfternoonTea.isVisible = true
+                caloriesArgAfternoonTea.isVisible = true
+                caloriesArgAfternoonTea.text = "${meal.recommendedCalories} ккал"
+                buttonAddAfternoonTea.isVisible = false
+                viewModel.calculateMealResult(meal.id, meal.mealType)
+                afternoonTea.setOnClickListener {
+                    openEatingScreen(meal.id)
+                }
+            }
+        } else {
+            binding.eatingView.apply {
+                recommendedAfternoonTea.isVisible = true
+                recommendedCaloriesAfternoonTea.isVisible = true
+                recommendedCaloriesAfternoonTea.text = "${meal.recommendedCalories} ккал"
+                caloriesAfternoonTea.isVisible = false
+                separatorAfternoonTea.isVisible = false
+                caloriesArgAfternoonTea.isVisible = false
+                resultAfternoonTea.isVisible = false
+                imgResultAfternoonTea.isVisible = false
+                buttonAddAfternoonTea.isVisible = true
+                afternoonTea.setOnClickListener {
+                    openSearchScreen(meal.mealType)
+                }
+            }
+        }
+    }
+
+    private fun setDinnerData(meal: MealEntity) {
+        if (meal.calories > 0) {
+            binding.eatingView.apply {
+                recommendedDinner.isVisible = false
+                recommendedCaloriesDinner.isVisible = false
+                caloriesDinner.isVisible = true
+                caloriesDinner.text = meal.calories.toString()
+                separatorDinner.isVisible = true
+                caloriesArgDinner.isVisible = true
+                caloriesArgDinner.text = "${meal.recommendedCalories} ккал"
+                buttonAddDinner.isVisible = false
+                viewModel.calculateMealResult(meal.id, meal.mealType)
+                dinner.setOnClickListener {
+                    openEatingScreen(meal.id)
+                }
+            }
+        } else {
+            binding.eatingView.apply {
+                recommendedDinner.isVisible = true
+                recommendedCaloriesDinner.isVisible = true
+                recommendedCaloriesDinner.text = "${meal.recommendedCalories} ккал"
+                caloriesDinner.isVisible = false
+                separatorDinner.isVisible = false
+                caloriesArgDinner.isVisible = false
+                resultDinner.isVisible = false
+                imgResultDinner.isVisible = false
+                buttonAddDinner.isVisible = true
+                dinner.setOnClickListener {
+                    openSearchScreen(meal.mealType)
+                }
+            }
+        }
+    }
+
+    private fun resultBreakfast(result: Result) {
+        when (result) {
+            Result.NOT_ENOUGH -> setResultBreakfast(
+                R.string.not_enough,
+                R.drawable.ic_sentiment_neutral
+            )
+
+            Result.FINE -> setResultBreakfast(R.string.fine, R.drawable.ic_sentiment_satisfied)
+            Result.GREAT -> setResultBreakfast(
+                R.string.great,
+                R.drawable.ic_sentiment_very_satisfied
+            )
+
+            Result.EXCESS -> setResultBreakfast(R.string.excess, R.drawable.ic_mood_bad)
+        }
+    }
+
+    private fun setResultBreakfast(resultText: Int, resultImg: Int) {
+        binding.eatingView.apply {
+            resultBreakfast.isVisible = true
+            imgResultBreakfast.isVisible = true
+            resultBreakfast.setText(resultText)
+            imgResultBreakfast.setImageResource(resultImg)
+        }
+    }
+
+    private fun resultLunch(result: Result) {
+        when (result) {
+            Result.NOT_ENOUGH -> setResultLunch(
+                R.string.not_enough,
+                R.drawable.ic_sentiment_neutral
+            )
+
+            Result.FINE -> setResultLunch(R.string.fine, R.drawable.ic_sentiment_satisfied)
+            Result.GREAT -> setResultLunch(R.string.great, R.drawable.ic_sentiment_very_satisfied)
+            Result.EXCESS -> setResultLunch(R.string.excess, R.drawable.ic_mood_bad)
+        }
+    }
+
+    private fun setResultLunch(resultText: Int, resultImg: Int) {
+        binding.eatingView.apply {
+            resultLunch.isVisible = true
+            imgResultLunch.isVisible = true
+            resultLunch.setText(resultText)
+            imgResultLunch.setImageResource(resultImg)
+        }
+    }
+
+    private fun resultAfternoonTea(result: Result) {
+        when (result) {
+            Result.NOT_ENOUGH -> setResultAfternoonTea(
+                R.string.not_enough,
+                R.drawable.ic_sentiment_neutral
+            )
+
+            Result.FINE -> setResultAfternoonTea(R.string.fine, R.drawable.ic_sentiment_satisfied)
+            Result.GREAT -> setResultAfternoonTea(
+                R.string.great,
+                R.drawable.ic_sentiment_very_satisfied
+            )
+
+            Result.EXCESS -> setResultAfternoonTea(R.string.excess, R.drawable.ic_mood_bad)
+        }
+    }
+
+    private fun setResultAfternoonTea(resultText: Int, resultImg: Int) {
+        binding.eatingView.apply {
+            resultAfternoonTea.isVisible = true
+            imgResultAfternoonTea.isVisible = true
+            resultAfternoonTea.setText(resultText)
+            imgResultAfternoonTea.setImageResource(resultImg)
+        }
+    }
+
+    private fun resultDinner(result: Result) {
+        when (result) {
+            Result.NOT_ENOUGH -> setResultDinner(
+                R.string.not_enough,
+                R.drawable.ic_sentiment_neutral
+            )
+
+            Result.FINE -> setResultDinner(R.string.fine, R.drawable.ic_sentiment_satisfied)
+            Result.GREAT -> setResultDinner(R.string.great, R.drawable.ic_sentiment_very_satisfied)
+            Result.EXCESS -> setResultDinner(R.string.excess, R.drawable.ic_mood_bad)
+        }
+    }
+
+    private fun setResultDinner(resultText: Int, resultImg: Int) {
+        binding.eatingView.apply {
+            resultDinner.isVisible = true
+            imgResultDinner.isVisible = true
+            resultDinner.setText(resultText)
+            imgResultDinner.setImageResource(resultImg)
         }
     }
 
@@ -190,8 +417,16 @@ class NutritionFragment<TextView> : Fragment() {
         val formattedDate = currentDate.format(dateFormat)
         val action = NutritionFragmentDirections
             .actionNutritionFragmentToSearchFragment(
-                mealType = mealType,
+                meal = mealType,
                 date = formattedDate
+            )
+        findNavController().navigate(action)
+    }
+
+    private fun openEatingScreen(mealId: Long) {
+        val action = NutritionFragmentDirections
+            .actionNavigationNutritionToEatingFragment(
+                mealId = mealId
             )
         findNavController().navigate(action)
     }
@@ -199,10 +434,8 @@ class NutritionFragment<TextView> : Fragment() {
     private fun updateDate() {
         val formatted = currentDate.format(dateFormat)
         binding.calendarDay.text = formatDate(currentDate)
-        viewModel.loadFullDay(formatted)
-        viewModel.loadWater(formatted)
+        viewModel.loadDay(formatted)
     }
-
 
 
     private fun formatDate(date: LocalDate): String {
@@ -226,6 +459,55 @@ class NutritionFragment<TextView> : Fragment() {
                 }
                 "$dayOfWeek, ${date.dayOfMonth}"
             }
+        }
+    }
+
+    private fun setNutritionFull(nutritionFull: NutritionFull) {
+        binding.statisticView.apply {
+            calories.text = "${nutritionFull.nutrition.calories} ккал"
+            remainingCalories.text = "${nutritionFull.nutrition.recommendedCalories - nutritionFull.nutrition.calories} ккал осталось"
+            protein.text = "${nutritionFull.nutrition.proteins} г"
+            remainingProtein.text =
+                "${nutritionFull.nutrition.recommendedProteins.toInt()} г осталось"
+            fat.text = "${nutritionFull.nutrition.fats} г"
+            remainingFat.text = "${nutritionFull.nutrition.recommendedFats} г осталось"
+            carbohydrates.text = "${nutritionFull.nutrition.carbs} г"
+            remainingCarbohydrates.text = "${nutritionFull.nutrition.recommendedCarbs} г осталось"
+        }
+
+        nutritionFull.meals.forEach { meal ->
+            when (meal.mealType) {
+                MealType.BREAKFAST -> setBreakfastData(meal)
+                MealType.LUNCH -> setLunchData(meal)
+                MealType.AFTERNOON_TEA -> setAfterNoonData(meal)
+                MealType.DINNER -> setDinnerData(meal)
+            }
+        }
+
+        binding.waterView.apply {
+            recommendedWater.text =
+                formatWaterMlToLiters(nutritionFull.water.recommendedWaterMl)
+            title.text = formatWaterMlToLiters(nutritionFull.water.waterMl)
+        }
+    }
+
+    private fun setNutritionNorm(nutrition: Nutrition) {
+        binding.statisticView.apply {
+            calories.text = "0 ккал"
+            remainingCalories.text = "${nutrition.calories} ккал осталось"
+            protein.text = "0 г"
+            remainingProtein.text = "${nutrition.proteins} г осталось"
+            fat.text = "0 г"
+            remainingFat.text = "${nutrition.fats} г осталось"
+            carbohydrates.text = "0 г"
+            remainingCarbohydrates.text = "${nutrition.carbs} г осталось"
+        }
+    }
+
+    private fun setWaterNorm(water: Water) {
+        binding.waterView.apply {
+            title.text = "0 л"
+            recommendedWater.text = formatWaterMlToLiters(water.waterMl)
         }
     }
 }

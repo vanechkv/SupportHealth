@@ -4,52 +4,67 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.supporthealth.main.domain.models.DailyNutritionWithMeals
-import com.example.supporthealth.main.domain.models.DailyWaterEntity
-import com.example.supporthealth.profile.details.domain.api.interactor.UserDetailsInteractor
+import com.example.supporthealth.main.domain.models.MealType
+import com.example.supporthealth.main.domain.models.NutritionFull
+import com.example.supporthealth.main.domain.models.WaterEntity
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
-import com.example.supporthealth.nutrition.main.domain.models.MealState
+import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.Nutrition
+import com.example.supporthealth.nutrition.main.domain.models.Result
+import com.example.supporthealth.nutrition.main.domain.models.Water
 import kotlinx.coroutines.launch
 
 class NutritionViewModel(
-    private val nutritionInteractor: NutritionInteractor,
-    private val userDetailsInteractor: UserDetailsInteractor
+    private val nutritionInteractor: NutritionInteractor
 ) : ViewModel() {
 
-    private val dailyNormLiveData = MutableLiveData<DailyNutritionWithMeals?>()
-    fun observeDailyNorm(): LiveData<DailyNutritionWithMeals?> = dailyNormLiveData
+    private val nutritionLiveData = MutableLiveData<Nutrition>()
+    fun observeNutrition(): LiveData<Nutrition> = nutritionLiveData
 
-    private val mealStatesLiveData = MutableLiveData<List<MealState>>()
-    fun observeMealStates(): LiveData<List<MealState>> = mealStatesLiveData
+    private val nutritionDataLiveData = MutableLiveData<NutritionFull?>()
+    fun observeNutritionData(): LiveData<NutritionFull?> = nutritionDataLiveData
 
-    private val waterLiveData = MutableLiveData<DailyWaterEntity?>()
-    fun observeWater(): LiveData<DailyWaterEntity?> = waterLiveData
+    private val mealsLiveData = MutableLiveData<List<Meal>>()
+    fun observeMeals(): LiveData<List<Meal>> = mealsLiveData
 
-    fun loadFullDay(date: String) {
+    private val waterLiveData = MutableLiveData<Water>()
+    fun observeWater(): LiveData<Water> = waterLiveData
+
+    private val mealResultLiveData = MutableLiveData<Map<MealType, Result>>()
+    fun observeMealResult(): LiveData<Map<MealType, Result>> = mealResultLiveData
+
+    private val mealResults = mutableMapOf<MealType, Result>()
+
+    fun loadDay(date: String) {
         viewModelScope.launch {
-            val userDetails = userDetailsInteractor.loadUserDate()
-            val fullDay = nutritionInteractor.getFullDay(date, userDetails)
-            dailyNormLiveData.postValue(fullDay)
-
-            val norm = nutritionInteractor.calculateDailyNorm(userDetails)
-            val states = nutritionInteractor.calculateMealStates(norm, fullDay?.meals ?: emptyList())
-            mealStatesLiveData.postValue(states)
+            val nutritionEntity = nutritionInteractor.getNutritionData(date)
+            if (nutritionEntity != null) {
+                val full = nutritionInteractor.getNutritionFull(nutritionEntity.id)
+                nutritionDataLiveData.postValue(full)
+            } else {
+                val nutrition = nutritionInteractor.getNutrition()
+                val meals = nutritionInteractor.getMeals()
+                val water = nutritionInteractor.getWater()
+                nutritionDataLiveData.postValue(null)
+                nutritionLiveData.postValue(nutrition)
+                mealsLiveData.postValue(meals)
+                waterLiveData.postValue(water)
+            }
         }
     }
 
-    fun loadWater(date: String) {
+    fun updateWater(date: String, water: Int) {
         viewModelScope.launch {
-            val user = userDetailsInteractor.loadUserDate()
-            nutritionInteractor.upsertWater(date, user)
-            val water = nutritionInteractor.getWater(date)
-            waterLiveData.postValue(water)
+            nutritionInteractor.updateWaterData(date, water)
+            loadDay(date)
         }
     }
 
-    fun addWater(date: String, amount: Int) {
+    fun calculateMealResult(mealId: Long, mealType: MealType) {
         viewModelScope.launch {
-            nutritionInteractor.addWater(date, amount)
-            loadWater(date)
+            val result = nutritionInteractor.calculateResult(mealId)
+            mealResults[mealType] = result
+            mealResultLiveData.postValue(mealResults.toMap())
         }
     }
 }

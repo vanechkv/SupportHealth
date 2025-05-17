@@ -181,11 +181,12 @@
             app:layout_constraintTop_toBottomOf="@id/title_eating">
 
             <EditText
+                android:id="@+id/grams_edit_text"
                 style="@style/RegularTextStyle"
                 android:layout_width="@dimen/margin_padding_0dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:inputType="text"
+                android:inputType="number"
                 android:text="@string/default_grams"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_14sp"

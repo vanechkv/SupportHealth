@@ -2,7 +2,6 @@ package com.example.supporthealth.nutrition.search.data.repository
 
 import com.example.supporthealth.nutrition.search.data.NetworkClient
 import com.example.supporthealth.nutrition.search.data.dto.ProductSearchRequest
-import com.example.supporthealth.nutrition.search.data.dto.ProductSearchResponse
 import com.example.supporthealth.nutrition.search.data.storage.ProductHistoryStorage
 import com.example.supporthealth.nutrition.search.domain.api.repository.ProductRepository
 import com.example.supporthealth.nutrition.search.domain.models.Product
@@ -22,11 +21,11 @@ class ProductRepositoryImpl(
             }
 
             200 -> {
-                Resource.Success((response as ProductSearchResponse).products.map {
+                Resource.Success(response.products.map {
                     Product(
                         it.productId,
                         it.name,
-                        it.calories,
+                        it.calories.toInt(),
                         it.protein,
                         it.fat,
                         it.carbs

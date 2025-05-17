@@ -1,6 +1,5 @@
-package com.example.supporthealth.welcome.onbording.ui
+package com.example.supporthealth.welcome.login.ui
 
-import androidx.fragment.app.viewModels
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
-import com.example.supporthealth.databinding.FragmentOnbordingBinding
+import com.example.supporthealth.databinding.FragmentLoginBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class OnbordingFragment : Fragment() {
+class LoginFragment : Fragment() {
 
     companion object {
-        fun newInstance() = OnbordingFragment()
+        fun newInstance() = LoginFragment()
     }
 
-    private val viewModel: OnbordingViewModel by viewModels()
-    private lateinit var binding: FragmentOnbordingBinding
+    private val viewModel: LoginViewModel by viewModel()
+
+    private lateinit var binding: FragmentLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,15 +30,19 @@ class OnbordingFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentOnbordingBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_onbordingFragment_to_loginFragment)
+        binding.singUp.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_singUpFragment)
+        }
+
+        binding.buttonEnter.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
         }
     }
 }

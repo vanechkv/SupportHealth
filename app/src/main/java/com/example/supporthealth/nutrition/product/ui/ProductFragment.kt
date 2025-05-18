@@ -25,7 +25,7 @@ class ProductFragment : Fragment() {
 
     private lateinit var binding: FragmentProductBinding
 
-    private val args: SearchFragmentArgs by navArgs()
+    private val args: ProductFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +54,8 @@ class ProductFragment : Fragment() {
             binding.fatValue.text = "%.1f г".format(product.fat)
             binding.carbohydratesValue.text = "%.1f г".format(product.carbs)
         }
+
+        binding.gramsEditText.setText(args.grams.toString())
 
         val defaultGrams = binding.gramsEditText.text.toString().toIntOrNull() ?: 100
         viewModel.updateGrams(defaultGrams)

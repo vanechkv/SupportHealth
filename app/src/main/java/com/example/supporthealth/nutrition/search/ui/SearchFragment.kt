@@ -232,6 +232,7 @@ class SearchFragment : Fragment() {
             .actionNavigationSearchToNavigationProduct(
                 meal = args.meal,
                 date = args.date,
+                grams = 100,
                 productId = product.productId
             )
         findNavController().navigate(action)

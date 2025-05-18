@@ -39,7 +39,7 @@ interface MealProductDao {
         val existing = getCrossRef(mealId, productId)
         if (existing != null) {
             val updated = existing.copy(
-                grams = (existing.grams + gramsToAdd).coerceAtLeast(0f)
+                grams = (gramsToAdd).coerceAtLeast(0f)
             )
             updateMealProductCrossRef(updated)
         } else {

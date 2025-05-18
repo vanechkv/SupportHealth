@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginBottom="@dimen/margin_padding_16dp">
+
+    <TextView
+        android:id="@+id/product_name"
+        style="@style/RegularTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_padding_8dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/amount_of_grams"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Курица" />
+
+    <TextView
+        android:id="@+id/product_calories"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/product_name"
+        tools:text="114 ккал" />
+
+    <TextView
+        android:id="@+id/grams"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_6dp"
+        android:text="@string/a_hundred_grams"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/product_calories"
+        app:layout_constraintTop_toBottomOf="@id/product_name" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/amount_of_grams"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_purple"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/product_name"
+        app:layout_constraintBottom_toBottomOf="@id/product_calories">
+
+        <EditText
+            android:id="@+id/grams_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:inputType="number"
+            android:text="@string/default_grams"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

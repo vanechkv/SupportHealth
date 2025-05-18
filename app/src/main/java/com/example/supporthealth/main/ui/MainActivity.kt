@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         binding.navView.setupWithNavController(navController)
 
         binding.buttonChat.setOnClickListener {
-            startActivity(Intent(this, ChatActivity::class.java))
+            navController.navigate(R.id.action_mainActivity_to_chatActivity)
         }
 
         navController.addOnDestinationChangedListener { _, destination, _ ->

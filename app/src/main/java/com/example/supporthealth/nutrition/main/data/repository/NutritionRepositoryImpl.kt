@@ -7,6 +7,7 @@ import com.example.supporthealth.main.domain.api.ProductDao
 import com.example.supporthealth.main.domain.api.WaterDao
 import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
+import com.example.supporthealth.main.domain.models.MealWithProducts
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
@@ -22,6 +23,7 @@ import com.example.supporthealth.profile.details.domain.models.ActivityLevel
 import com.example.supporthealth.profile.details.domain.models.Gender
 import com.example.supporthealth.profile.details.domain.models.GoalType
 import com.example.supporthealth.profile.details.domain.models.UserDetails
+import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 import java.time.Period
 import java.time.format.DateTimeFormatter
@@ -146,12 +148,42 @@ class NutritionRepositoryImpl(
         insertWaterData(date)
     }
 
+    override suspend fun updateNutrition(date: String) {
+        val nutrition = getNutritionData(date) ?: return
+        val meals = mealDao.getMeals(nutrition.id)
+
+        var totalCalories = 0
+        var totalProteins = 0f
+        var totalFats = 0f
+        var totalCarbs = 0f
+
+        meals.forEach { meal ->
+            totalCalories += meal.calories
+            totalProteins += meal.proteins
+            totalFats     += meal.fats
+            totalCarbs    += meal.carbs
+        }
+
+        val updated = nutrition.copy(
+            calories = totalCalories,
+            proteins = totalProteins,
+            fats = totalFats,
+            carbs = totalCarbs
+        )
+
+        nutritionDao.updateNutrition(updated)
+    }
+
     override suspend fun getNutritionData(date: String): NutritionEntity? {
         return nutritionDao.getNutritionByDate(date)
     }
 
     override suspend fun getNutritionFull(nutritionId: Long): NutritionFull {
         return nutritionDao.getNutritionFull(nutritionId)
+    }
+
+    override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
+        return mealDao.getMealWithProducts(mealId)
     }
 
     override suspend fun insertWaterData(date: String) {
@@ -271,6 +303,7 @@ class NutritionRepositoryImpl(
         )
 
         mealDao.updateMeal(updatedMeal)
+        updateNutrition(date)
     }
 
     override suspend fun getMealId(nutritionId: Long, mealType: MealType): Long {

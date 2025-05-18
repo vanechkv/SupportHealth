@@ -2,6 +2,9 @@ package com.example.supporthealth.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.supporthealth.chat.data.NetworkClientChat
+import com.example.supporthealth.chat.data.network.ChatApi
+import com.example.supporthealth.chat.data.network.RetrofitNetworkClientChat
 import com.example.supporthealth.main.data.AppDatabase
 import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
 import com.example.supporthealth.nutrition.search.data.NetworkClient
@@ -12,13 +15,10 @@ import com.example.supporthealth.profile.details.data.storage.UserStorage
 import com.example.supporthealth.profile.main.data.storage.SettingHistoryStorage
 import com.example.supporthealth.welcome.detailsOnbording.data.storage.DetailsOnBordingStorage
 import com.google.gson.Gson
-import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.util.concurrent.TimeUnit
 
 private const val SUPPORT_HEALTH_PREFERENCES = "support_health_preferences"
 
@@ -26,10 +26,18 @@ val dataModule = module {
 
     single<SupportHealthApi> {
         Retrofit.Builder()
-            .baseUrl("https://edf9-94-131-125-44.ngrok-free.app/docs/")
+            .baseUrl("https://9433-94-131-125-44.ngrok-free.app/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SupportHealthApi::class.java)
+    }
+
+    single<ChatApi> {
+        Retrofit.Builder()
+            .baseUrl("https://9433-94-131-125-44.ngrok-free.app/docs/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ChatApi::class.java)
     }
 
     factory {
@@ -83,6 +91,10 @@ val dataModule = module {
 
     single {
         SettingHistoryStorage(get())
+    }
+
+    single<NetworkClientChat> {
+        RetrofitNetworkClientChat(androidContext(), get())
     }
 
     single<NetworkClient> {

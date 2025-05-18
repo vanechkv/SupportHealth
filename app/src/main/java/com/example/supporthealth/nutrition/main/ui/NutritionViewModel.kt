@@ -30,13 +30,15 @@ class NutritionViewModel(
     private val waterLiveData = MutableLiveData<Water>()
     fun observeWater(): LiveData<Water> = waterLiveData
 
-    private val mealResultLiveData = MutableLiveData<Map<MealType, Result>>()
-    fun observeMealResult(): LiveData<Map<MealType, Result>> = mealResultLiveData
+    private val mealResultLiveData = MutableLiveData<Map<MealType, Result>?>()
+    fun observeMealResult(): LiveData<Map<MealType, Result>?> = mealResultLiveData
 
     private val mealResults = mutableMapOf<MealType, Result>()
 
     fun loadDay(date: String) {
         viewModelScope.launch {
+            mealResults.clear()
+            mealResultLiveData.postValue(emptyMap())
             val nutritionEntity = nutritionInteractor.getNutritionData(date)
             if (nutritionEntity != null) {
                 val full = nutritionInteractor.getNutritionFull(nutritionEntity.id)

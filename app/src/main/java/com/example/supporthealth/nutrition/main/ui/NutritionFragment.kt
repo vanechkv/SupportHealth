@@ -72,7 +72,7 @@ class NutritionFragment<TextView> : Fragment() {
         }
 
         viewModel.observeMealResult().observe(viewLifecycleOwner) { resultMap ->
-            resultMap.forEach { (mealType, result) ->
+            resultMap?.forEach { (mealType, result) ->
                 when (mealType) {
                     MealType.BREAKFAST -> resultBreakfast(result)
                     MealType.LUNCH -> resultLunch(result)
@@ -424,9 +424,11 @@ class NutritionFragment<TextView> : Fragment() {
     }
 
     private fun openEatingScreen(mealId: Long) {
+        val formattedDate = currentDate.format(dateFormat)
         val action = NutritionFragmentDirections
             .actionNavigationNutritionToEatingFragment(
-                mealId = mealId
+                mealId = mealId,
+                date = formattedDate
             )
         findNavController().navigate(action)
     }

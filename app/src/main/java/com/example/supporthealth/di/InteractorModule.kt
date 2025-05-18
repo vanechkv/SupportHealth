@@ -1,5 +1,7 @@
 package com.example.supporthealth.di
 
+import com.example.supporthealth.chat.domain.api.interactor.ChatInteractor
+import com.example.supporthealth.chat.domain.impl.ChatInteractorImpl
 import com.example.supporthealth.profile.details.domain.api.interactor.UserDetailsInteractor
 import com.example.supporthealth.profile.details.domain.impl.UserDetailsInteractorImpl
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
@@ -39,5 +41,9 @@ val interactorModule = module {
 
     single<ProductInteractor> {
         ProductInteractorImpl(get())
+    }
+
+    single<ChatInteractor> {
+        ChatInteractorImpl(get())
     }
 }

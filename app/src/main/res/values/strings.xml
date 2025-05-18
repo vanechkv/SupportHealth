@@ -114,6 +114,10 @@
     <string name="check_in">Зарегистрироваться</string>
     <string name="dont_have_an_account">Еще нет аккаунта?</string>
     <string name="have_an_account">Уже есть аккаунт?</string>
+    <string name="assistant">Ассистент</string>
+    <string name="chat_hint">Что у вас нового? Еда, шаги, цели — всё учтём</string>
+    <string name="ok">Ок</string>
+    <string name="cancel">Отмена</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="separator">/</string>

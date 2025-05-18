@@ -1,5 +1,6 @@
 package com.example.supporthealth.profile.main.ui
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,9 @@ import androidx.fragment.app.commit
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentProfileBinding
+import com.example.supporthealth.welcome.main.ui.WelcomeActivity
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ProfileFragment : Fragment() {
@@ -68,6 +72,13 @@ class ProfileFragment : Fragment() {
 
         binding.notifications.setOnClickListener {
 
+        }
+
+        binding.buttonRemove.setOnClickListener {
+            FirebaseAuth.getInstance().signOut()
+            val intent = Intent(requireContext(), WelcomeActivity::class.java)
+            startActivity(intent)
+            requireActivity().finish()
         }
     }
 

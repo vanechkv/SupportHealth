@@ -119,8 +119,8 @@ class DetailsOnBordingFragment : Fragment() {
         }
 
         binding.buttonNext.setOnClickListener {
-            viewModel.saveIsFirstLaunch(false)
             findNavController().navigate(R.id.action_detailsOnBordingFragment_to_mainActivity)
+            requireActivity().finish()
         }
     }
 

@@ -2,6 +2,7 @@ package com.example.supporthealth.nutrition.main.domain.api.interactor
 
 import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
+import com.example.supporthealth.main.domain.models.MealWithProducts
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
@@ -11,6 +12,7 @@ import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.profile.details.domain.models.UserDetails
+import kotlinx.coroutines.flow.Flow
 
 interface NutritionInteractor {
 
@@ -26,9 +28,13 @@ interface NutritionInteractor {
 
     suspend fun insertNutritionData(date: String)
 
+    suspend fun updateNutrition(date: String)
+
     suspend fun getNutritionData(date: String): NutritionEntity?
 
     suspend fun getNutritionFull(nutritionId: Long): NutritionFull
+
+    fun getMealWithProduct(mealId: Long): Flow<MealWithProducts>
 
     suspend fun insertWaterData(date: String)
 

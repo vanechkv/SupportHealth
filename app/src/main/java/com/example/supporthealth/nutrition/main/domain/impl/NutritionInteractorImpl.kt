@@ -2,6 +2,7 @@ package com.example.supporthealth.nutrition.main.domain.impl
 
 import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
+import com.example.supporthealth.main.domain.models.MealWithProducts
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
@@ -13,6 +14,7 @@ import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.example.supporthealth.profile.details.domain.models.UserDetails
+import kotlinx.coroutines.flow.Flow
 
 class NutritionInteractorImpl(private val repository: NutritionRepository) : NutritionInteractor {
     override fun calculate(userDetails: UserDetails) {
@@ -39,12 +41,20 @@ class NutritionInteractorImpl(private val repository: NutritionRepository) : Nut
         repository.insertNutritionData(date)
     }
 
+    override suspend fun updateNutrition(date: String) {
+        repository.updateNutrition(date)
+    }
+
     override suspend fun getNutritionData(date: String): NutritionEntity? {
         return repository.getNutritionData(date)
     }
 
     override suspend fun getNutritionFull(nutritionId: Long): NutritionFull {
         return repository.getNutritionFull(nutritionId)
+    }
+
+    override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
+        return repository.getMealWithProduct(mealId)
     }
 
     override suspend fun insertWaterData(date: String) {

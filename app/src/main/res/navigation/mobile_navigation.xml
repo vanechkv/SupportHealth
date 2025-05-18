@@ -119,6 +119,9 @@
             android:name="date"
             app:argType="string" />
         <argument
+            android:name="grams"
+            app:argType="integer" />
+        <argument
             android:name="productId"
             app:argType="string" />
     </fragment>
@@ -150,6 +153,9 @@
         <argument
             android:name="mealId"
             app:argType="long" />
+        <argument
+            android:name="date"
+            app:argType="string" />
         <action
             android:id="@+id/action_eatingFragment_to_navigation_search"
             app:destination="@id/navigation_search"
@@ -157,5 +163,20 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_eatingFragment_to_navigation_product"
+            app:destination="@id/navigation_product"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <activity
+        android:id="@+id/chatActivity"
+        android:name="com.example.supporthealth.chat.ui.ChatActivity"
+        android:label="activity_chat"
+        tools:layout="@layout/activity_chat" />
+    <action
+        android:id="@+id/action_mainActivity_to_chatActivity"
+        app:destination="@id/chatActivity"/>
 </navigation>

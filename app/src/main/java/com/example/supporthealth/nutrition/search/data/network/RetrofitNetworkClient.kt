@@ -36,7 +36,6 @@ class RetrofitNetworkClient(
         } catch (e: SocketTimeoutException) {
             Response().apply { resultCode = 408 }
         } catch (e: Exception) {
-            Log.e("NetworkError", "Exception: ${e.localizedMessage}", e)
             val code = when (e) {
                 is UnknownHostException -> 503
                 is SocketTimeoutException -> 408

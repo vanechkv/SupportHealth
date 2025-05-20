@@ -26,7 +26,7 @@ val dataModule = module {
 
     single<SupportHealthApi> {
         Retrofit.Builder()
-            .baseUrl("https://9433-94-131-125-44.ngrok-free.app/docs/")
+            .baseUrl("https://5426-94-131-125-44.ngrok-free.app/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SupportHealthApi::class.java)
@@ -34,7 +34,7 @@ val dataModule = module {
 
     single<ChatApi> {
         Retrofit.Builder()
-            .baseUrl("https://9433-94-131-125-44.ngrok-free.app/docs/")
+            .baseUrl("https://5426-94-131-125-44.ngrok-free.app/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ChatApi::class.java)
@@ -71,6 +71,10 @@ val dataModule = module {
 
     single {
         get<AppDatabase>().mealProductDao()
+    }
+
+    single {
+        get<AppDatabase>().stepDao()
     }
 
     single {

@@ -7,12 +7,14 @@ import com.example.supporthealth.main.domain.api.MealDao
 import com.example.supporthealth.main.domain.api.MealProductDao
 import com.example.supporthealth.main.domain.api.NutritionDao
 import com.example.supporthealth.main.domain.api.ProductDao
+import com.example.supporthealth.main.domain.api.StepDao
 import com.example.supporthealth.main.domain.api.WaterDao
 import com.example.supporthealth.main.domain.models.Converters
 import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.ProductEntity
 import com.example.supporthealth.main.domain.models.MealProductCrossRef
+import com.example.supporthealth.main.domain.models.StepEntity
 import com.example.supporthealth.main.domain.models.WaterEntity
 
 
@@ -22,7 +24,8 @@ import com.example.supporthealth.main.domain.models.WaterEntity
         MealEntity::class,
         ProductEntity::class,
         WaterEntity::class,
-        MealProductCrossRef::class
+        MealProductCrossRef::class,
+        StepEntity::class
     ],
     version = 1
 )
@@ -38,4 +41,6 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun waterDao(): WaterDao
 
     abstract fun mealProductDao(): MealProductDao
+
+    abstract fun stepDao(): StepDao
 }

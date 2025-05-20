@@ -6,6 +6,7 @@ import com.example.supporthealth.main.domain.models.MealWithProducts
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
+import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
 import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
@@ -55,6 +56,10 @@ class NutritionInteractorImpl(private val repository: NutritionRepository) : Nut
 
     override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
         return repository.getMealWithProduct(mealId)
+    }
+
+    override fun getProductsWithGrams(mealId: Long): Flow<List<ProductWithGrams>> {
+        return repository.getProductsWithGrams(mealId)
     }
 
     override suspend fun insertWaterData(date: String) {

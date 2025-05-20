@@ -1,3 +1,5 @@
 package com.example.supporthealth.chat.data.dto
 
-data class ChatRequest(val message: String)
+import com.google.gson.annotations.SerializedName
+
+data class ChatRequest(@SerializedName("text") val message: String)

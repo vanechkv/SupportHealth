@@ -32,6 +32,10 @@ class ProductInteractorImpl(private val repository: ProductRepository) : Product
         repository.saveHistory(products)
     }
 
+    override fun saveProduct(product: Product) {
+        repository.saveProduct(product)
+    }
+
     override fun getProduct(): Product {
         return repository.getProduct()
     }

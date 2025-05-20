@@ -18,8 +18,8 @@ class ProductAdapter(
 
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.product_name)
-        val calories = view.findViewById<TextView>(R.id.calories)
-        val grams = view.findViewById<EditText>(R.id.amount_of_grams)
+        val calories = view.findViewById<TextView>(R.id.product_calories)
+        val grams = view.findViewById<EditText>(R.id.grams_edit_text)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -37,8 +37,8 @@ class ProductAdapter(
         holder.grams.setText(product.grams.toString())
         holder.grams.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                val newValue = s?.toString()?.toIntOrNull() ?: 0
-                product.grams = newValue
+                val newValue = s?.toString()?.toFloatOrNull() ?: 0
+                product.grams = newValue as Float
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}

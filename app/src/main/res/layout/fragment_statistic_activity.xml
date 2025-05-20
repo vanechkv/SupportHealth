@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.statistic.ui.StatisticActivityFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="@dimen/margin_padding_16dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/margin_padding_16dp" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_padding_8dp"
+        android:paddingVertical="@dimen/margin_padding_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/HeaderTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/statistic"
+            app:layout_constraintBottom_toBottomOf="@id/button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/steps"
+        style="@style/TitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:textColor="@color/see_foam_greene"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        tools:text="5888 шагов" />
+
+    <TextView
+        android:id="@+id/today"
+        style="@style/TitleTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/today"
+        android:textColor="@color/see_foam_greene"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/steps" />
+
+    <TextView
+        android:id="@+id/target"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/target_separator"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/today" />
+
+    <TextView
+        android:id="@+id/target_steps"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_6dp"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toEndOf="@id/target"
+        app:layout_constraintTop_toBottomOf="@id/today"
+        tools:text="10000" />
+
+    <include
+        android:id="@+id/statistic_week"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        layout="@layout/statistic_activity_week_view"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/target"/>
+
+    <TextView
+        android:id="@+id/title_info"
+        style="@style/BoldTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_32dp"
+        android:text="@string/dynamics"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/statistic_week" />
+
+    <include
+        android:id="@+id/dynamics"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        layout="@layout/dynamics_activity_view"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_info"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

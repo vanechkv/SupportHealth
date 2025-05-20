@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_monday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/monday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/monday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_monday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_monday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_monday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_tuesday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toStartOf="@id/donut_progress_wednesday"
+        app:layout_constraintStart_toEndOf="@id/donut_progress_monday"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tuesday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tuesday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_tuesday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_tuesday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_tuesday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_wednesday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toStartOf="@id/donut_progress_thursday"
+        app:layout_constraintStart_toEndOf="@id/donut_progress_tuesday"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/wednesday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/wednesday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_wednesday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_wednesday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_wednesday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_thursday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toStartOf="@id/donut_progress_friday"
+        app:layout_constraintStart_toEndOf="@id/donut_progress_wednesday"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/thursday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/thursday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_thursday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_thursday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_thursday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_friday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toStartOf="@id/donut_progress_saturday"
+        app:layout_constraintStart_toEndOf="@id/donut_progress_thursday"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/friday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/friday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_friday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_friday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_friday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_saturday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toStartOf="@id/donut_progress_sunday"
+        app:layout_constraintStart_toEndOf="@id/donut_progress_friday"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/saturday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saturday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_saturday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_saturday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_saturday" />
+
+    <com.mikhaellopez.circularprogressbar.CircularProgressBar
+        android:id="@+id/donut_progress_sunday"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_progress="0"
+        app:cpb_progress_direction="to_right"
+        app:cpb_progress_max="100"
+        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_width="@dimen/margin_padding_6dp"
+        app:cpb_round_border="true"
+        app:cpb_start_angle="270"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/sunday"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sunday"
+        android:textColor="?attr/colorOnPrimaryFixed"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_sunday"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_sunday"
+        app:layout_constraintTop_toBottomOf="@id/donut_progress_sunday" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

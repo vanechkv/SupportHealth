@@ -12,6 +12,7 @@ import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
 import com.example.supporthealth.main.domain.models.WaterEntity
+import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
 import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
@@ -54,7 +55,7 @@ class NutritionRepositoryImpl(
         }
 
         var calories = bmr * activityFactor
-        calories = when (userDetails.target) {
+        calories = when (userDetails.targetNutrition) {
             GoalType.LOSE -> calories * 0.85
             GoalType.GAIN -> calories * 1.15
             GoalType.MAINTAIN -> calories
@@ -184,6 +185,10 @@ class NutritionRepositoryImpl(
 
     override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
         return mealDao.getMealWithProducts(mealId)
+    }
+
+    override fun getProductsWithGrams(mealId: Long): Flow<List<ProductWithGrams>> {
+        return mealProductDao.getProductsWithGramsByMeal(mealId)
     }
 
     override suspend fun insertWaterData(date: String) {

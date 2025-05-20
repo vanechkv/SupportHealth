@@ -26,6 +26,12 @@ class ProductHistoryStorage(
         saveProducts(historyProductList)
     }
 
+    fun saveProductEating(product: Product) {
+        pref.edit()
+            .putString(NEW_PRODUCT_IN_HISTORY_KEY, createJsonFromProduct(product))
+            .apply()
+    }
+
     fun getProduct(): Product {
         val json = pref.getString(NEW_PRODUCT_IN_HISTORY_KEY, null)
         return createProductFromJson(json)

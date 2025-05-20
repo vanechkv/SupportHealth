@@ -362,54 +362,92 @@
             android:id="@+id/mobility_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="?attr/colorOnSecondaryFixed"
-            android:hint="@string/select_mobility"
-            android:textColor="?attr/colorOnPrimaryFixed"
             android:background="@drawable/bg_edit_text"
-            android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="@string/select_mobility"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
             app:drawableEndCompat="@drawable/ic_expand_more"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/title_target"
+        android:id="@+id/title_target_nutrition"
         style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_16dp"
-        android:text="@string/target"
+        android:text="@string/target_nutrition"
         android:textColor="?attr/colorOnSecondaryFixed"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/mobility" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/target"
+        android:id="@+id/target_nutrition"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_edit_text"
         android:padding="@dimen/margin_padding_8dp"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
-        app:layout_constraintTop_toBottomOf="@id/title_target">
+        app:layout_constraintTop_toBottomOf="@id/title_target_nutrition">
 
         <TextView
-            android:id="@+id/target_selector"
+            android:id="@+id/target_nutrition_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColorHint="?attr/colorOnSecondaryFixed"
-            android:hint="@string/select_target"
-            android:textColor="?attr/colorOnPrimaryFixed"
             android:background="@drawable/bg_edit_text"
-            android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
+            android:gravity="center_vertical"
+            android:hint="@string/select_target"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
             app:drawableEndCompat="@drawable/ic_expand_more"
-            app:layout_constraintTop_toTopOf="parent"
-            />
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/title_target_activity"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="@string/target_steps"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/target_nutrition" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/target_activity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_edit_text"
+        android:padding="@dimen/margin_padding_8dp"
+        app:layout_constraintEnd_toStartOf="@id/right_guideline"
+        app:layout_constraintStart_toEndOf="@id/left_guideline"
+        app:layout_constraintTop_toBottomOf="@id/title_target_activity">
+
+        <EditText
+            android:id="@+id/activity_target_edit_text"
+            style="@style/RegularTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="@string/select_value"
+            android:maxLines="1"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textColorHint="?attr/colorOnSecondaryFixed"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

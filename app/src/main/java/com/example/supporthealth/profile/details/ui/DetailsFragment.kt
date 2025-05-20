@@ -34,6 +34,7 @@ class DetailsFragment : Fragment() {
     private var selectedDate: Calendar = Calendar.getInstance()
     private var selectedWeight: Int = 50
     private var selectedHeight: Int = 150
+    private var selectedTargetActivity: Int = 6000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +63,8 @@ class DetailsFragment : Fragment() {
             binding.weightEditText.setText(userData?.weight.toString())
             binding.birthdayEditText.setText(userData?.birthday)
             binding.mobilitySelector.text = userData?.mobility?.toUiString()
-            binding.targetSelector.text = userData?.target?.toUiString()
+            binding.targetNutritionSelector.text = userData?.targetNutrition?.toUiString()
+            binding.activityTargetEditText.setText(userData?.targetActivity.toString())
 
             if (userData?.weight != null) {
                 selectedWeight = userData.weight
@@ -121,6 +123,19 @@ class DetailsFragment : Fragment() {
             }
         }
 
+        binding.activityTargetEditText.setOnClickListener {
+            showNumberPickerDialog(
+                title = getString(R.string.select_value),
+                unit = "шаги",
+                minValue = 100,
+                maxValue = 30000,
+                currentValue = selectedTargetActivity
+            ) { selected ->
+                selectedTargetActivity = selected
+                binding.activityTargetEditText.setText(selected.toString())
+            }
+        }
+
         binding.mobilitySelector.setOnClickListener {
             val options = resources.getStringArray(R.array.mobility_array).toList()
             val current = binding.mobilitySelector.text.toString().takeIf { it.isNotBlank() }
@@ -134,16 +149,16 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        binding.targetSelector.setOnClickListener {
+        binding.targetNutritionSelector.setOnClickListener {
             val options = resources.getStringArray(R.array.target_array).toList()
-            val current = binding.targetSelector.text.toString().takeIf { it.isNotBlank() }
+            val current = binding.targetNutritionSelector.text.toString().takeIf { it.isNotBlank() }
 
             showChoiceDialog(
                 title = getString(R.string.select_target),
                 options = options,
                 currentSelection = current
             ) { selected ->
-                binding.targetSelector.text = selected
+                binding.targetNutritionSelector.text = selected
             }
         }
 
@@ -170,7 +185,8 @@ class DetailsFragment : Fragment() {
             weight = selectedWeight,
             birthday = binding.birthdayEditText.text.toString(),
             mobility = binding.mobilitySelector.text.toString().toActivityLevel(),
-            target = binding.targetSelector.text.toString().toGoalType()
+            targetNutrition = binding.targetNutritionSelector.text.toString().toGoalType(),
+            targetActivity = selectedTargetActivity
         )
 
         viewModel.recalculate(userData)

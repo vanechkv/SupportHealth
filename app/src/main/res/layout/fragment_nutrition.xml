@@ -82,7 +82,7 @@
 
             <include
                 android:id="@+id/statistic_view"
-                layout="@layout/statistic_view" />
+                layout="@layout/statistic_nutrition_view" />
 
             <ImageButton
                 android:id="@+id/button_back_day"

@@ -15,5 +15,6 @@
         <item name="android:navigationBarColor">?attr/colorOnPrimary</item>
         <!-- Customize your theme here. -->
         <item name="colorOnPrimaryFixed">@color/gray_night</item>
+        <item name="colorBackgroundFloating">@color/white</item>
     </style>
 </resources>

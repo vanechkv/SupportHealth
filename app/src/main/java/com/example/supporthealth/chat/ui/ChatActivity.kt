@@ -21,15 +21,15 @@ class ChatActivity : AppCompatActivity() {
 
     private val viewModel: ChatViewModel by viewModel()
 
-    val messages = mutableListOf<ChatMessage>()
+    private val messages = mutableListOf<ChatMessage>()
 
     private val adapter = ChatAdapter(
         messages,
         onAddMeal = { mealSuggestion ->
-            finish()
+            onOkClick(mealSuggestion)
         },
-        onCancelMeal = { position ->
-            messages.removeAt(position)
+        onCancelMeal = {
+            onCancelClick()
         }
     )
 
@@ -83,6 +83,17 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun onOkClick(mealSuggestion: ChatMessage.MealSuggestion) {
+        viewModel.addMeal(mealSuggestion)
+        messages.add(ChatMessage.Text(getText(R.string.eating_add).toString(), false))
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun onCancelClick() {
+        messages.add(ChatMessage.Text(getText(R.string.repeat_request).toString(), false))
+        adapter.notifyDataSetChanged()
+    }
+
     private fun render(state: ChatState) {
 
         when (state) {
@@ -91,18 +102,23 @@ class ChatActivity : AppCompatActivity() {
                 messages.add(ChatMessage.Loading)
                 adapter.notifyDataSetChanged()
             }
-            is ChatState.Message -> {
-                messages.removeAll { it is ChatMessage.Loading }
-                messages.add(state.text)
-                adapter.notifyDataSetChanged()
-            }
+
             is ChatState.MealSuggestion -> {
                 messages.removeAll { it is ChatMessage.Loading }
                 messages.add(state.mealSuggestion)
                 adapter.notifyDataSetChanged()
             }
-            is ChatState.Empty -> {
 
+            is ChatState.Empty -> {
+                messages.removeAll { it is ChatMessage.Loading }
+                messages.add(ChatMessage.Text(getText(state.message).toString(), false))
+                adapter.notifyDataSetChanged()
+            }
+
+            is ChatState.Error -> {
+                messages.removeAll { it is ChatMessage.Loading }
+                messages.add(ChatMessage.Text(getText(state.errorMessage).toString(), false))
+                adapter.notifyDataSetChanged()
             }
         }
     }

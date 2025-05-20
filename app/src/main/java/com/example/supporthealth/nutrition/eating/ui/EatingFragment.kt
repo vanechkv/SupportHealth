@@ -11,6 +11,7 @@ import com.example.supporthealth.databinding.FragmentEatingBinding
 import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
+import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.main.domain.models.Meal
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,7 +28,15 @@ class EatingFragment : Fragment() {
     private val viewModel: EatingViewModel by viewModel { parametersOf(args.mealId) }
 
     private val adapter = ProductAdapter(arrayListOf()) {
-        openProductDetails(it, 100)
+        viewModel.onProductClick(Product(
+            productId = it.productId,
+            name = it.name,
+            calories = it.calories,
+            protein = it.proteins,
+            fat = it.fats,
+            carbs = it.carbs
+        ))
+        openProductDetails(it)
     }
 
     private lateinit var binding: FragmentEatingBinding
@@ -53,9 +62,12 @@ class EatingFragment : Fragment() {
 
         viewModel.observeMealWithProducts().observe(viewLifecycleOwner) { mealWithProducts ->
             binding.title.text = mealWithProducts.meal.mealType.displayName
-            adapter.updateProduct(mealWithProducts.products)
             meal = mealWithProducts.meal
             setMeal(meal!!)
+        }
+
+        viewModel.observeProductsWithGrams().observe(viewLifecycleOwner) { productsWithGrams ->
+            adapter.updateProduct(productsWithGrams)
         }
 
         binding.buttonBack.setOnClickListener {
@@ -76,12 +88,12 @@ class EatingFragment : Fragment() {
         findNavController().navigate(action)
     }
 
-    private fun openProductDetails(product: ProductEntity, grams: Int) {
+    private fun openProductDetails(product: ProductWithGrams) {
         val action = EatingFragmentDirections
             .actionEatingFragmentToNavigationProduct(
                 meal = meal!!.mealType,
                 date = args.date,
-                grams = grams,
+                grams = product.grams,
                 productId = product.productId
             )
         findNavController().navigate(action)

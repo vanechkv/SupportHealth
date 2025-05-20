@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.supporthealth.R
 import com.example.supporthealth.chat.domain.models.ChatMessage
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ChatAdapter(
     private val items: List<ChatMessage>,
@@ -92,16 +95,52 @@ class ChatAdapter(
         val buttonCancel = view.findViewById<Button>(R.id.button_cancel)
 
         fun bind(msg: ChatMessage.MealSuggestion) {
-            dateView.text = msg.date
+            dateView.text = formatDate(msg.date)
             mealTypeView.text = msg.mealType.displayName
             val productsAdapter = ProductAdapter(msg.products)
             productsRecycler.adapter = productsAdapter
 
             buttonAdd.setOnClickListener {
                 onAddMeal(msg.copy(products = productsAdapter.getCurrentProducts()))
+                buttonAdd.isVisible = false
+                buttonCancel.isVisible = false
             }
             buttonCancel.setOnClickListener {
                 onCancelMeal(adapterPosition)
+                buttonAdd.isVisible = false
+                buttonCancel.isVisible = false
+            }
+        }
+    }
+
+    private fun formatDate(dateString: String?): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSSSSS][.SSS]")
+        val dateTime = try {
+            java.time.LocalDateTime.parse(dateString, formatter)
+        } catch (e: Exception) {
+            java.time.LocalDateTime.parse(dateString!!.substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
+        }
+        val date = dateTime.toLocalDate()
+
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
+        val tomorrow = today.plusDays(1)
+
+        return when (date) {
+            yesterday -> "Вчера"
+            today -> "Сегодня"
+            tomorrow -> "Завтра"
+            else -> {
+                val dayOfWeek = when (date.dayOfWeek) {
+                    java.time.DayOfWeek.MONDAY -> "Пн"
+                    java.time.DayOfWeek.TUESDAY -> "Вт"
+                    java.time.DayOfWeek.WEDNESDAY -> "Ср"
+                    java.time.DayOfWeek.THURSDAY -> "Чт"
+                    java.time.DayOfWeek.FRIDAY -> "Пт"
+                    java.time.DayOfWeek.SATURDAY -> "Сб"
+                    java.time.DayOfWeek.SUNDAY -> "Вс"
+                }
+                "$dayOfWeek, ${date.dayOfMonth}"
             }
         }
     }

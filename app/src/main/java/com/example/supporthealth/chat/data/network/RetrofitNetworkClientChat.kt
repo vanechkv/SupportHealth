@@ -3,6 +3,7 @@ package com.example.supporthealth.chat.data.network
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import com.example.supporthealth.chat.data.NetworkClientChat
 import com.example.supporthealth.chat.data.dto.ChatRequest
 import com.example.supporthealth.chat.data.dto.Response
@@ -26,17 +27,15 @@ class RetrofitNetworkClientChat(
             val resp = chatApi.sendMessage(dto.message).execute()
             val body = resp.body()
             return if (body != null) {
-                Response().apply {
-                    resultCode = resp.code()
-                    text = body.text
-                    mealSuggestion = body.mealSuggestion
-                }
+                body.apply { resultCode = resp.code() }
             } else {
                 Response().apply { resultCode = resp.code() }
             }
         } catch (e: SocketTimeoutException) {
+            Log.d("ChatViewModel", "Callback: mealSuggestion=$e")
             Response().apply { resultCode = 408 }
         } catch (e: Exception) {
+            Log.d("ChatViewModel", "Callback: mealSuggestion=$e")
             val code = when (e) {
                 is UnknownHostException -> 503
                 is SocketTimeoutException -> 408

@@ -6,6 +6,7 @@ import com.example.supporthealth.main.domain.models.MealWithProducts
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
+import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
 import com.example.supporthealth.nutrition.main.domain.models.Meal
 import com.example.supporthealth.nutrition.main.domain.models.Result
@@ -35,6 +36,8 @@ interface NutritionRepository {
     suspend fun getNutritionFull(nutritionId: Long): NutritionFull
 
     fun getMealWithProduct(mealId: Long): Flow<MealWithProducts>
+
+    fun getProductsWithGrams(mealId: Long): Flow<List<ProductWithGrams>>
 
     suspend fun insertWaterData(date: String)
 

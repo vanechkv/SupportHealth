@@ -6,7 +6,7 @@ data class ProductDto(
     @SerializedName("product_id") val productId: String,
     val name: String,
     val calories: Float,
-    val protein: Float,
-    val fat: Float,
+    val proteins: Float,
+    val fats: Float,
     val carbs: Float
 )

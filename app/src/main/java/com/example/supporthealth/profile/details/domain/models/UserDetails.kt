@@ -9,5 +9,6 @@ data class UserDetails(
     val weight: Int,
     val birthday: String,
     val mobility: ActivityLevel,
-    val target: GoalType
+    val targetNutrition: GoalType,
+    val targetActivity: Int
 )

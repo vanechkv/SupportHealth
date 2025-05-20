@@ -7,6 +7,6 @@ import retrofit2.http.Query
 
 interface ChatApi {
 
-    @GET("")
-    fun sendMessage(@Query("message") message: String): Call<ChatResponse>
+    @GET("/analyze")
+    fun sendMessage(@Query("text") message: String): Call<ChatResponse>
 }

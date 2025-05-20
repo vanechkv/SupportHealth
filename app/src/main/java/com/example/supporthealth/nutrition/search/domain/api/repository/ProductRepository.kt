@@ -12,6 +12,8 @@ interface ProductRepository {
 
     fun saveHistory(products: List<Product>)
 
+    fun saveProduct(product: Product)
+
     fun getProduct(): Product
 
     fun getHistory(): List<Product>

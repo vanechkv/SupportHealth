@@ -8,6 +8,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.supporthealth.main.domain.models.MealProductCrossRef
+import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MealProductDao {
@@ -33,6 +35,14 @@ interface MealProductDao {
         LIMIT 1
     """)
     suspend fun getCrossRef(mealId: Long, productId: Long): MealProductCrossRef?
+
+    @Query("""
+    SELECT p.*, mp.grams
+    FROM product AS p
+    INNER JOIN meal_product AS mp ON mp.id_product = p.id
+    WHERE mp.id_meal = :mealId
+""")
+    fun getProductsWithGramsByMeal(mealId: Long): Flow<List<ProductWithGrams>>
 
     @Transaction
     suspend fun insertOrUpdateMealProduct(mealId: Long, productId: Long, gramsToAdd: Float) {

@@ -7,6 +7,6 @@ interface ChatInteractor {
     fun sendMessage(message: String, consumer: ChatConsumer)
 
     interface ChatConsumer {
-        fun consume(text: ChatMessage.Text?, mealSuggestion: ChatMessage.MealSuggestion?, error: String?)
+        fun consume(mealSuggestion: ChatMessage.MealSuggestion?, error: String?)
     }
 }

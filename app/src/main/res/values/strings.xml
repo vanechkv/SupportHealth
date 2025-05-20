@@ -17,6 +17,8 @@
     <string name="water_balance">Водный баланс</string>
     <string name="water">Вода</string>
     <string name="target">Цель</string>
+    <string name="target_nutrition">Цель питания</string>
+    <string name="target_steps">Цель активности</string>
     <string name="product_search">Поиск продукта</string>
     <string name="recent">Недавние</string>
     <string name="favorites">Избранные</string>
@@ -118,6 +120,24 @@
     <string name="chat_hint">Что у вас нового? Еда, шаги, цели — всё учтём</string>
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
+    <string name="general_info">Общая информация</string>
+    <string name="distant">Расстояние</string>
+    <string name="time">Время</string>
+    <string name="floors">Этажи</string>
+    <string name="statistic">Статистика</string>
+    <string name="today">за сегодня,</string>
+    <string name="target_separator">цель —</string>
+    <string name="dynamics">Динамика</string>
+    <string name="monday">Пн</string>
+    <string name="tuesday">Вт</string>
+    <string name="wednesday">Ср</string>
+    <string name="thursday">Чт</string>
+    <string name="friday">Пт</string>
+    <string name="saturday">Сб</string>
+    <string name="sunday">Вс</string>
+    <string name="target_complete">выполнение цели</string>
+    <string name="eating_add">Прием пищи добавлен!</string>
+    <string name="repeat_request">Повторите запрос!</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="separator">/</string>

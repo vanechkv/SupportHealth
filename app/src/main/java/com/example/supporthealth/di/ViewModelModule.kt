@@ -1,5 +1,6 @@
 package com.example.supporthealth.di
 
+import com.example.supporthealth.activity.main.ui.ActivityViewModel
 import com.example.supporthealth.chat.ui.ChatViewModel
 import com.example.supporthealth.nutrition.eating.ui.EatingViewModel
 import com.example.supporthealth.profile.details.ui.DetailsViewModel
@@ -38,10 +39,14 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ChatViewModel(get())
+        ChatViewModel(get(), get())
     }
 
     viewModel { (mealId: Long) ->
-        EatingViewModel(mealId, get())
+        EatingViewModel(mealId, get(), get())
+    }
+
+    viewModel {
+        ActivityViewModel(get())
     }
 }

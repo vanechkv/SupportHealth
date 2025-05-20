@@ -26,8 +26,8 @@ class ProductRepositoryImpl(
                         it.productId,
                         it.name,
                         it.calories.toInt(),
-                        it.protein,
-                        it.fat,
+                        it.proteins,
+                        it.fats,
                         it.carbs
                     )
                 })
@@ -45,6 +45,10 @@ class ProductRepositoryImpl(
 
     override fun saveHistory(products: List<Product>) {
         productsHistoryStorage.saveProducts(products)
+    }
+
+    override fun saveProduct(product: Product) {
+        productsHistoryStorage.saveProductEating(product)
     }
 
     override fun getProduct(): Product {

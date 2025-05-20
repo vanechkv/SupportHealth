@@ -33,6 +33,7 @@ class DetailsOnBordingFragment : Fragment() {
     private var selectedDate: Calendar = Calendar.getInstance()
     private var selectedWeight: Int = 50
     private var selectedHeight: Int = 150
+    private var selectedTargetActivity: Int = 6000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,16 +106,29 @@ class DetailsOnBordingFragment : Fragment() {
             }
         }
 
-        binding.targetSelector.setOnClickListener {
+        binding.targetNutritionSelector.setOnClickListener {
             val options = resources.getStringArray(R.array.target_array).toList()
-            val current = binding.targetSelector.text.toString().takeIf { it.isNotBlank() }
+            val current = binding.targetNutritionSelector.text.toString().takeIf { it.isNotBlank() }
 
             showChoiceDialog(
                 title = getString(R.string.select_target),
                 options = options,
                 currentSelection = current
             ) { selected ->
-                binding.targetSelector.text = selected
+                binding.targetNutritionSelector.text = selected
+            }
+        }
+
+        binding.activityTargetEditText.setOnClickListener {
+            showNumberPickerDialog(
+                title = getString(R.string.select_value),
+                unit = "шаги",
+                minValue = 100,
+                maxValue = 30000,
+                currentValue = selectedTargetActivity
+            ) { selected ->
+                selectedTargetActivity = selected
+                binding.activityTargetEditText.setText(selected.toString())
             }
         }
 
@@ -142,7 +156,8 @@ class DetailsOnBordingFragment : Fragment() {
             weight = selectedWeight,
             birthday = binding.birthdayEditText.text.toString(),
             mobility = binding.mobilitySelector.text.toString().toActivityLevel(),
-            target = binding.targetSelector.text.toString().toGoalType()
+            targetNutrition = binding.targetNutritionSelector.text.toString().toGoalType(),
+            targetActivity = selectedTargetActivity
         )
 
         viewModel.recalculateNorm(LocalDate.now().toString(),userData)

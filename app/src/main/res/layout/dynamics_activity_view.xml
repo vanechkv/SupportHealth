@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_eating">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/table_layout"
+        style="@style/RegularTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_eating"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabIndicatorColor="@color/white"
+        app:tabIndicatorFullWidth="true"
+        app:tabMode="fixed"
+        app:tabTextColor="@color/white" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/bar_chart"
+        android:layout_width="match_parent"
+        android:layout_height="233dp"
+        android:layout_marginHorizontal="@dimen/margin_padding_16dp"
+        app:layout_constraintTop_toBottomOf="@id/table_layout" />
+
+    <TextView
+        android:id="@+id/steps"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bar_chart"
+        tools:text="9388 шага" />
+
+    <TextView
+        android:id="@+id/steps_info"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="@id/steps"
+        app:layout_constraintTop_toBottomOf="@id/steps"
+        tools:text="за день" />
+
+    <TextView
+        android:id="@+id/target"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_8dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="@id/steps"
+        app:layout_constraintTop_toBottomOf="@id/steps_info"
+        tools:text="93%" />
+
+    <TextView
+        android:id="@+id/target_info"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/target_complete"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="@id/target"
+        app:layout_constraintTop_toBottomOf="@id/target" />
+
+    <TextView
+        android:id="@+id/distant"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/steps"
+        app:layout_constraintTop_toTopOf="@id/steps"
+        tools:text="7,7 км" />
+
+    <TextView
+        android:id="@+id/distant_info"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toStartOf="@id/distant"
+        app:layout_constraintTop_toBottomOf="@id/distant"
+        tools:text="расстояние за день" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

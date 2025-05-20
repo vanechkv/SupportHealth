@@ -2,6 +2,7 @@ package com.example.supporthealth.app
 
 import android.app.Application
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
 import com.example.supporthealth.di.dataModule
@@ -28,5 +29,8 @@ class App : Application() {
         val settingsInteractor: SettingsInteractor by inject()
         settingsInteractor.setDarkTheme(settingsInteractor.isDarkTheme())
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags("ru"))
+
+        val intent = Intent(this@App, StepCounterService::class.java)
+        this@App.startForegroundService(intent)
     }
 }

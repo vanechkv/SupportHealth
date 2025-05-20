@@ -7,5 +7,5 @@ data class ProductAi(
     val protein: Float,
     val fat: Float,
     val carbs: Float,
-    var grams: Int
+    var grams: Float
 )

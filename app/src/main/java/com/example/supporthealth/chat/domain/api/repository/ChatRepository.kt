@@ -5,5 +5,5 @@ import com.example.supporthealth.chat.domain.models.Resource
 
 interface ChatRepository {
 
-    fun sendMessage(message: String) : Resource<ChatMessage>
+    fun sendMessage(message: String) : Resource<ChatMessage.MealSuggestion>
 }

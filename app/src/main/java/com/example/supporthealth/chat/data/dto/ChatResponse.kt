@@ -1,7 +1,7 @@
 package com.example.supporthealth.chat.data.dto
 
+import com.google.gson.annotations.SerializedName
+
 class ChatResponse (
-    val resultCode: Int,
-    val text: ChatMessageDto.Text? = null,
-    val mealSuggestion: ChatMessageDto.MealSuggestion? = null
-)
+    @SerializedName("result") val mealSuggestion: ChatMessageDto.MealSuggestion
+) : Response()

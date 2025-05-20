@@ -42,7 +42,7 @@
 
     <include
         android:id="@+id/statistic"
-        layout="@layout/statistic_view"
+        layout="@layout/statistic_nutrition_view"
         android:layout_width="@dimen/margin_padding_0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/margin_padding_16dp"

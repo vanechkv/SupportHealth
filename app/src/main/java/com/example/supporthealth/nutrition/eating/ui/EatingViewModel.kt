@@ -29,4 +29,10 @@ class EatingViewModel(
     fun onProductClick(product: Product) {
         productInteractor.saveProduct(product)
     }
+
+    fun deleteProduct(product: ProductWithGrams) {
+        viewModelScope.launch {
+            nutritionInteractor.deleteProductFromMeal(mealId, product.id)
+        }
+    }
 }

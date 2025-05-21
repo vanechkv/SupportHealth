@@ -191,6 +191,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:inputType="number"
+                android:maxLength="5"
                 android:text="@string/default_grams"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_14sp"

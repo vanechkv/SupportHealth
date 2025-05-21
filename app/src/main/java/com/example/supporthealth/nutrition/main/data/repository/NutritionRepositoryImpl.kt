@@ -96,10 +96,10 @@ class NutritionRepositoryImpl(
     }
 
     override suspend fun calculateResult(mealId: Long): Result {
-        val meal = getMealByMealId(mealId)
+        val meal = getMealByMealId(mealId) ?: return Result.FINE
 
         val statuses = listOf(
-            getStatus(meal!!.calories.toFloat(), meal.recommendedCalories.toFloat()),
+            getStatus(meal.calories.toFloat(), meal.recommendedCalories.toFloat()),
             getStatus(meal.proteins, meal.recommendedProteins),
             getStatus(meal.fats, meal.recommendedFats),
             getStatus(meal.carbs, meal.recommendedCarbs)
@@ -113,13 +113,57 @@ class NutritionRepositoryImpl(
         }
     }
 
+    override suspend fun recalculateAllFromToday() {
+        val today = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val todayStr = today.format(formatter)
+        val nutritionNorm = getNutrition()
+        val waterNorm = getWater()
+        val mealsNorm = getMeals()
+
+        val nutritionList = nutritionDao.getNutritionFromDate(todayStr)
+
+        for (nutrition in nutritionList) {
+            val updated = nutrition.copy(
+                recommendedCalories = nutritionNorm.calories,
+                recommendedProteins = nutritionNorm.proteins,
+                recommendedFats = nutritionNorm.fats,
+                recommendedCarbs = nutritionNorm.carbs
+            )
+            nutritionDao.updateNutrition(updated)
+
+            val meals = mealDao.getMeals(nutrition.id)
+            MealType.values().forEach { mealType ->
+                val meal = meals.find { it.mealType == mealType }
+                val mealNorm = mealsNorm.find { it.mealType == mealType }
+                if (meal != null && mealNorm != null) {
+                    val updatedMeal = meal.copy(
+                        recommendedCalories = mealNorm.calories,
+                        recommendedProteins = mealNorm.proteins,
+                        recommendedFats = mealNorm.fats,
+                        recommendedCarbs = mealNorm.carbs
+                    )
+                    mealDao.updateMeal(updatedMeal)
+                }
+            }
+            val waterEntity = waterDao.getWaterByNutritionId(nutrition.id)
+            if (waterEntity != null) {
+                val updatedWater = waterEntity.copy(
+                    recommendedWaterMl = waterNorm.waterMl
+                )
+                waterDao.updateWater(updatedWater)
+            }
+        }
+    }
+
     private fun getStatus(actual: Float, recommended: Float): Result {
         val percent = (actual / recommended) * 100
         return when {
             percent < 60f -> Result.NOT_ENOUGH
-            percent < 90f -> Result.FINE
-            percent <= 110f -> Result.GREAT
-            else -> Result.EXCESS
+            percent in 60f..89.9f -> Result.FINE
+            percent in 90f..110f -> Result.GREAT
+            percent > 110f -> Result.EXCESS
+            else -> Result.FINE
         }
     }
 
@@ -149,6 +193,7 @@ class NutritionRepositoryImpl(
         insertWaterData(date)
     }
 
+
     override suspend fun updateNutrition(date: String) {
         val nutrition = getNutritionData(date) ?: return
         val meals = mealDao.getMeals(nutrition.id)
@@ -161,8 +206,8 @@ class NutritionRepositoryImpl(
         meals.forEach { meal ->
             totalCalories += meal.calories
             totalProteins += meal.proteins
-            totalFats     += meal.fats
-            totalCarbs    += meal.carbs
+            totalFats += meal.fats
+            totalCarbs += meal.carbs
         }
 
         val updated = nutrition.copy(
@@ -295,8 +340,8 @@ class NutritionRepositoryImpl(
                 val factor = ref.grams / 100f
                 totalCalories += (product.calories * factor).toInt()
                 totalProteins += product.proteins * factor
-                totalFats     += product.fats * factor
-                totalCarbs    += product.carbs * factor
+                totalFats += product.fats * factor
+                totalCarbs += product.carbs * factor
             }
         }
 
@@ -329,6 +374,17 @@ class NutritionRepositoryImpl(
             carbs = product.carbs
         )
         return productDao.insertProduct(productData)
+    }
+
+    override suspend fun deleteProductFromMeal(mealId: Long, productId: Long) {
+        mealProductDao.deleteByMealIdAndProductId(mealId, productId)
+
+        val meal = getMealByMealId(mealId)
+        val nutrition = meal?.let { nutritionDao.getNutritionById(it.nutritionId) }
+        val date = nutrition?.date ?: return
+        val mealType = meal.mealType
+
+        updateMeal(date, mealType)
     }
 
     override suspend fun getProductByProductId(productId: String): ProductEntity? {

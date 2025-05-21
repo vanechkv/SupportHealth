@@ -31,4 +31,7 @@ interface NutritionDao {
     @Transaction
     @Query("SELECT * FROM `nutrition` WHERE id = :id")
     suspend fun getNutritionFull(id: Long): NutritionFull
+
+    @Query("SELECT * FROM nutrition WHERE date >= :startDate")
+    suspend fun getNutritionFromDate(startDate: String): List<NutritionEntity>
 }

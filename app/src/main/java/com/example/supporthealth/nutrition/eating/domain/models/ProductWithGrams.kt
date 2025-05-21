@@ -1,6 +1,7 @@
 package com.example.supporthealth.nutrition.eating.domain.models
 
 data class ProductWithGrams(
+    val id: Long,
     val productId: String,
     val name: String,
     val calories: Int,

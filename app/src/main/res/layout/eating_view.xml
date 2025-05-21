@@ -102,7 +102,8 @@
             android:layout_marginStart="@dimen/margin_padding_8dp"
             android:src="@drawable/ic_sentiment_neutral"
             app:layout_constraintStart_toEndOf="@id/result_breakfast"
-            app:layout_constraintTop_toBottomOf="@id/title_breakfast"
+            app:layout_constraintTop_toTopOf="@id/result_breakfast"
+            app:layout_constraintBottom_toBottomOf="@id/result_breakfast"
             android:visibility="gone"/>
 
         <Button
@@ -226,7 +227,8 @@
             android:layout_marginStart="@dimen/margin_padding_8dp"
             android:src="@drawable/ic_sentiment_neutral"
             app:layout_constraintStart_toEndOf="@id/result_lunch"
-            app:layout_constraintTop_toBottomOf="@id/title_lunch"
+            app:layout_constraintTop_toTopOf="@id/result_lunch"
+            app:layout_constraintBottom_toBottomOf="@id/result_lunch"
             android:visibility="gone"/>
 
         <Button
@@ -350,7 +352,8 @@
             android:layout_marginStart="@dimen/margin_padding_8dp"
             android:src="@drawable/ic_sentiment_neutral"
             app:layout_constraintStart_toEndOf="@id/result_afternoon_tea"
-            app:layout_constraintTop_toBottomOf="@id/title_afternoon_tea"
+            app:layout_constraintTop_toTopOf="@id/result_afternoon_tea"
+            app:layout_constraintBottom_toBottomOf="@id/result_afternoon_tea"
             android:visibility="gone"/>
 
         <Button
@@ -474,7 +477,8 @@
             android:layout_marginStart="@dimen/margin_padding_8dp"
             android:src="@drawable/ic_sentiment_neutral"
             app:layout_constraintStart_toEndOf="@id/result_dinner"
-            app:layout_constraintTop_toBottomOf="@id/title_dinner"
+            app:layout_constraintTop_toTopOf="@id/result_dinner"
+            app:layout_constraintBottom_toBottomOf="@id/result_dinner"
             android:visibility="gone"/>
 
         <Button

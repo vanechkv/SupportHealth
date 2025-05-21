@@ -11,18 +11,28 @@
         android:layout_width="245dp"
         android:layout_height="245dp"
         app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
-        app:cpb_background_progressbar_width="@dimen/margin_padding_32dp"
+        app:cpb_background_progressbar_width="@dimen/margin_padding_16dp"
         app:cpb_indeterminate_mode="false"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
         app:cpb_progressbar_color="@color/see_foam_greene"
-        app:cpb_progressbar_width="@dimen/margin_padding_32dp"
+        app:cpb_progressbar_width="@dimen/margin_padding_16dp"
         app:cpb_round_border="true"
         app:cpb_start_angle="360"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_statistic"
+        android:visibility="gone"/>
 
     <include
         android:id="@+id/text_statistic"

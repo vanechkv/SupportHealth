@@ -8,17 +8,28 @@
         android:id="@+id/donut_progress_monday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_monday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_monday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_monday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_monday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_monday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/monday"
@@ -35,18 +46,29 @@
         android:id="@+id/donut_progress_tuesday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toStartOf="@id/donut_progress_wednesday"
         app:layout_constraintStart_toEndOf="@id/donut_progress_monday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_tuesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_tuesday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_tuesday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_tuesday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_tuesday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/tuesday"
@@ -63,18 +85,29 @@
         android:id="@+id/donut_progress_wednesday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toStartOf="@id/donut_progress_thursday"
         app:layout_constraintStart_toEndOf="@id/donut_progress_tuesday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_wednesday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_wednesday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_wednesday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_wednesday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_wednesday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/wednesday"
@@ -91,18 +124,29 @@
         android:id="@+id/donut_progress_thursday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toStartOf="@id/donut_progress_friday"
         app:layout_constraintStart_toEndOf="@id/donut_progress_wednesday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_thursday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_thursday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_thursday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_thursday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_thursday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/thursday"
@@ -119,18 +163,29 @@
         android:id="@+id/donut_progress_friday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toStartOf="@id/donut_progress_saturday"
         app:layout_constraintStart_toEndOf="@id/donut_progress_thursday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_friday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_friday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_friday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_friday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_friday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/friday"
@@ -147,18 +202,29 @@
         android:id="@+id/donut_progress_saturday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toStartOf="@id/donut_progress_sunday"
         app:layout_constraintStart_toEndOf="@id/donut_progress_friday"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_saturday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_saturday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_saturday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_saturday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_saturday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/saturday"
@@ -175,17 +241,28 @@
         android:id="@+id/donut_progress_sunday"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        app:cpb_background_progressbar_color="?attr/colorBackgroundFloating"
+        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
         app:cpb_background_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_progress="0"
         app:cpb_progress_direction="to_right"
         app:cpb_progress_max="100"
-        app:cpb_progressbar_color="?attr/colorOnPrimaryFixed"
+        app:cpb_progressbar_color="@color/see_foam_greene"
         app:cpb_progressbar_width="@dimen/margin_padding_6dp"
         app:cpb_round_border="true"
-        app:cpb_start_angle="270"
+        app:cpb_start_angle="360"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/icon_complete_sunday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_grade"
+        app:layout_constraintStart_toStartOf="@id/donut_progress_sunday"
+        app:layout_constraintEnd_toEndOf="@id/donut_progress_sunday"
+        app:layout_constraintTop_toTopOf="@id/donut_progress_sunday"
+        app:layout_constraintBottom_toBottomOf="@id/donut_progress_sunday"
+        android:visibility="gone"/>
 
     <TextView
         android:id="@+id/sunday"

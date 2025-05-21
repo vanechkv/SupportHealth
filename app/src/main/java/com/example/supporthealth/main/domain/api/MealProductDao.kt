@@ -20,6 +20,12 @@ interface MealProductDao {
     @Delete
     suspend fun deleteMealProductCrossRef(crossRef: MealProductCrossRef)
 
+    @Query("""
+    DELETE FROM meal_product
+    WHERE id_meal = :mealId AND id_product = :productId
+""")
+    suspend fun deleteByMealIdAndProductId(mealId: Long, productId: Long)
+
     @Update
     suspend fun updateMealProductCrossRef(crossRef: MealProductCrossRef)
 

@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.icu.util.LocaleData
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.Spanned
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +51,26 @@ class DetailsOnBordingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val letterFilter = object : InputFilter {
+            override fun filter(
+                source: CharSequence?,
+                start: Int,
+                end: Int,
+                dest: Spanned?,
+                dstart: Int,
+                dend: Int
+            ): CharSequence? {
+                source ?: return null
+                val regex = Regex("^[a-zA-Zа-яА-ЯёЁ]+$")
+                if (source.isEmpty()) return null // allow delete
+                return if (source.matches(regex)) null else ""
+            }
+        }
+
+        binding.surnameEditText.filters = arrayOf(letterFilter)
+        binding.nameEditText.filters = arrayOf(letterFilter)
+        binding.patronymicEditText.filters = arrayOf(letterFilter)
 
         binding.weightEditText.setOnClickListener {
             showNumberPickerDialog(
@@ -133,6 +155,53 @@ class DetailsOnBordingFragment : Fragment() {
         }
 
         binding.buttonNext.setOnClickListener {
+            var isValid = true
+
+            fun setFieldError(field: android.widget.EditText, message: String) {
+                field.error = message
+                isValid = false
+            }
+
+            if (binding.surnameEditText.text.isNullOrBlank()) {
+                setFieldError(binding.surnameEditText, getString(R.string.error_required))
+            }
+            if (binding.nameEditText.text.isNullOrBlank()) {
+                setFieldError(binding.nameEditText, getString(R.string.error_required))
+            }
+            if (binding.patronymicEditText.text.isNullOrBlank()) {
+                setFieldError(binding.patronymicEditText, getString(R.string.error_required))
+            }
+            if (binding.weightEditText.text.isNullOrBlank()) {
+                setFieldError(binding.weightEditText, getString(R.string.error_required))
+            }
+            if (binding.heightEditText.text.isNullOrBlank()) {
+                setFieldError(binding.heightEditText, getString(R.string.error_required))
+            }
+            if (binding.birthdayEditText.text.isNullOrBlank()) {
+                setFieldError(binding.birthdayEditText, getString(R.string.error_required))
+            }
+            if (binding.mobilitySelector.text.isNullOrBlank()) {
+                binding.mobilitySelector.error = getString(R.string.error_required)
+                isValid = false
+            }
+            if (binding.targetNutritionSelector.text.isNullOrBlank()) {
+                binding.targetNutritionSelector.error = getString(R.string.error_required)
+                isValid = false
+            }
+            if (binding.activityTargetEditText.text.isNullOrBlank()) {
+                setFieldError(binding.activityTargetEditText, getString(R.string.error_required))
+            }
+
+            if (!binding.radioMale.isChecked && !binding.radioFemale.isChecked) {
+                binding.radioMale.error = getString(R.string.error_required)
+                isValid = false
+            } else {
+                binding.radioMale.error = null
+                binding.radioFemale.error = null
+            }
+
+            if (!isValid) return@setOnClickListener
+
             findNavController().navigate(R.id.action_detailsOnBordingFragment_to_mainActivity)
             requireActivity().finish()
         }

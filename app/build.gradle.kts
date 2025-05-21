@@ -71,4 +71,5 @@ dependencies {
     implementation("com.google.firebase:firebase-auth:23.2.0")
     implementation("com.mikhaellopez:circularprogressbar:3.1.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation ("androidx.work:work-runtime-ktx:2.9.0")
 }

@@ -16,5 +16,6 @@
         <!-- Customize your theme here. -->
         <item name="colorOnPrimaryFixed">@color/white</item>
         <item name="colorBackgroundFloating">@color/gray_night</item>
+        <item name="colorOnBackground">@color/gray_night_50</item>
     </style>
 </resources>

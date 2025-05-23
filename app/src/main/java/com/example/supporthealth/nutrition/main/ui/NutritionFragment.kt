@@ -16,6 +16,7 @@ import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.MealType
 import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.NutrientStat
 import com.example.supporthealth.nutrition.main.domain.models.Nutrition
 import com.example.supporthealth.nutrition.main.domain.models.Result
 import com.example.supporthealth.nutrition.main.domain.models.Water
@@ -480,20 +481,27 @@ class NutritionFragment : Fragment() {
     private fun setNutritionFull(nutritionFull: NutritionFull) {
         binding.statisticView.apply {
             calories.text = "${nutritionFull.nutrition.calories} ккал"
-            val calDiff = nutritionFull.nutrition.recommendedCalories - nutritionFull.nutrition.calories
+            val calDiff =
+                nutritionFull.nutrition.recommendedCalories - nutritionFull.nutrition.calories
             when {
                 calDiff > 0 -> {
                     remainingCalories.text = "$calDiff ккал осталось"
                     remainingCalories.setTextColor(
-                        MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                        MaterialColors.getColor(
+                            requireContext(),
+                            com.google.android.material.R.attr.colorOnSecondaryFixed,
+                            Color.BLACK
+                        )
                     )
                 }
+
                 calDiff == 0 -> {
                     remainingCalories.text = "Норма достигнута"
                     remainingCalories.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                     )
                 }
+
                 else -> {
                     remainingCalories.text = "${-calDiff} ккал сверх"
                     remainingCalories.setTextColor(
@@ -503,20 +511,27 @@ class NutritionFragment : Fragment() {
             }
 
             protein.text = "${nutritionFull.nutrition.proteins.toInt()} г"
-            val protDiff = nutritionFull.nutrition.recommendedProteins.toInt() - nutritionFull.nutrition.proteins.toInt()
+            val protDiff =
+                nutritionFull.nutrition.recommendedProteins.toInt() - nutritionFull.nutrition.proteins.toInt()
             when {
                 protDiff > 0 -> {
                     remainingProtein.text = "$protDiff г осталось"
                     remainingProtein.setTextColor(
-                        MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                        MaterialColors.getColor(
+                            requireContext(),
+                            com.google.android.material.R.attr.colorOnSecondaryFixed,
+                            Color.BLACK
+                        )
                     )
                 }
+
                 protDiff == 0 -> {
                     remainingProtein.text = "Норма достигнута"
                     remainingProtein.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                     )
                 }
+
                 else -> {
                     remainingProtein.text = "${-protDiff} г сверх"
                     remainingProtein.setTextColor(
@@ -526,20 +541,27 @@ class NutritionFragment : Fragment() {
             }
 
             fat.text = "${nutritionFull.nutrition.fats.toInt()} г"
-            val fatDiff = nutritionFull.nutrition.recommendedFats.toInt() - nutritionFull.nutrition.fats.toInt()
+            val fatDiff =
+                nutritionFull.nutrition.recommendedFats.toInt() - nutritionFull.nutrition.fats.toInt()
             when {
                 fatDiff > 0 -> {
                     remainingFat.text = "$fatDiff г осталось"
                     remainingFat.setTextColor(
-                        MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                        MaterialColors.getColor(
+                            requireContext(),
+                            com.google.android.material.R.attr.colorOnSecondaryFixed,
+                            Color.BLACK
+                        )
                     )
                 }
+
                 fatDiff == 0 -> {
                     remainingFat.text = "Норма достигнута"
                     remainingFat.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                     )
                 }
+
                 else -> {
                     remainingFat.text = "${-fatDiff} г сверх"
                     remainingFat.setTextColor(
@@ -549,20 +571,27 @@ class NutritionFragment : Fragment() {
             }
 
             carbohydrates.text = "${nutritionFull.nutrition.carbs.toInt()} г"
-            val carbDiff = nutritionFull.nutrition.recommendedCarbs.toInt() - nutritionFull.nutrition.carbs.toInt()
+            val carbDiff =
+                nutritionFull.nutrition.recommendedCarbs.toInt() - nutritionFull.nutrition.carbs.toInt()
             when {
                 carbDiff > 0 -> {
                     remainingCarbohydrates.text = "$carbDiff г осталось"
                     remainingCarbohydrates.setTextColor(
-                        MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                        MaterialColors.getColor(
+                            requireContext(),
+                            com.google.android.material.R.attr.colorOnSecondaryFixed,
+                            Color.BLACK
+                        )
                     )
                 }
+
                 carbDiff == 0 -> {
                     remainingCarbohydrates.text = "Норма достигнута"
                     remainingCarbohydrates.setTextColor(
                         ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                     )
                 }
+
                 else -> {
                     remainingCarbohydrates.text = "${-carbDiff} г сверх"
                     remainingCarbohydrates.setTextColor(
@@ -570,6 +599,22 @@ class NutritionFragment : Fragment() {
                     )
                 }
             }
+            staticDonut.updateNutrients(
+                listOf(
+                    NutrientStat(
+                        nutritionFull.nutrition.fats,
+                        nutritionFull.nutrition.recommendedFats
+                    ),
+                    NutrientStat(
+                        nutritionFull.nutrition.proteins,
+                        nutritionFull.nutrition.recommendedProteins
+                    ),
+                    NutrientStat(
+                        nutritionFull.nutrition.carbs,
+                        nutritionFull.nutrition.recommendedCarbs
+                    )
+                )
+            )
         }
 
         nutritionFull.meals.forEach { meal ->
@@ -593,22 +638,45 @@ class NutritionFragment : Fragment() {
             calories.text = "0 ккал"
             remainingCalories.text = "${nutrition.calories} ккал осталось"
             remainingCalories.setTextColor(
-                MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorOnSecondaryFixed,
+                    Color.BLACK
+                )
             )
             protein.text = "0 г"
             remainingProtein.text = "${nutrition.proteins.toInt()} г осталось"
             remainingProtein.setTextColor(
-                MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorOnSecondaryFixed,
+                    Color.BLACK
+                )
             )
             fat.text = "0 г"
             remainingFat.text = "${nutrition.fats.toInt()} г осталось"
             remainingFat.setTextColor(
-                MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorOnSecondaryFixed,
+                    Color.BLACK
+                )
             )
             carbohydrates.text = "0 г"
             remainingCarbohydrates.text = "${nutrition.carbs.toInt()} г осталось"
             remainingCarbohydrates.setTextColor(
-                MaterialColors.getColor(requireContext(), com.google.android.material.R.attr.colorOnSecondaryFixed, Color.BLACK)
+                MaterialColors.getColor(
+                    requireContext(),
+                    com.google.android.material.R.attr.colorOnSecondaryFixed,
+                    Color.BLACK
+                )
+            )
+            staticDonut.updateNutrients(
+                listOf(
+                    NutrientStat(0f, nutrition.fats),
+                    NutrientStat(0f, nutrition.proteins),
+                    NutrientStat(0f, nutrition.carbs)
+                )
             )
         }
     }

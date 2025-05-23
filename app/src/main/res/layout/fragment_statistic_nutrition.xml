@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    tools:context=".nutrition.statistic.ui.StatisticNutritionFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_padding_8dp"
+        android:paddingVertical="@dimen/margin_padding_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/HeaderTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/statistic"
+            app:layout_constraintBottom_toBottomOf="@id/button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_arrow_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_padding_0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_padding_0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/left_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="@dimen/margin_padding_16dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/right_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="@dimen/margin_padding_16dp" />
+
+            <include
+                android:id="@+id/statistic_view"
+                layout="@layout/statistic_nutrition_view"
+                android:layout_width="@dimen/margin_padding_0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintStart_toEndOf="@id/left_guideline" />
+
+            <ImageButton
+                android:id="@+id/button_back_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_8dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:background="@null"
+                android:src="@drawable/ic_arrow_back"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statistic_view" />
+
+            <ImageButton
+                android:id="@+id/button_forward_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:layout_marginEnd="@dimen/margin_padding_8dp"
+                android:background="@null"
+                android:src="@drawable/ic_arrow_forward"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/statistic_view" />
+
+            <ImageButton
+                android:id="@+id/button_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/ic_calendar"
+                app:layout_constraintBottom_toBottomOf="@id/calendar_day"
+                app:layout_constraintEnd_toStartOf="@id/calendar_day"
+                app:layout_constraintTop_toTopOf="@id/calendar_day" />
+
+            <TextView
+                android:id="@+id/calendar_day"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintBottom_toBottomOf="@id/button_back_day"
+                app:layout_constraintEnd_toStartOf="@id/button_forward_day"
+                app:layout_constraintStart_toEndOf="@id/button_back_day"
+                app:layout_constraintTop_toTopOf="@id/button_back_day"
+                tools:text="Сегодня" />
+
+            <TextView
+                android:id="@+id/title_nutrient"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_32dp"
+                android:text="@string/nutrient_distribution"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/calendar_day" />
+
+            <com.example.supporthealth.nutrition.main.ui.MultiDonutView
+                android:id="@+id/static_nutrient_donut"
+                android:layout_width="166dp"
+                android:layout_height="166dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient" />
+
+            <TextView
+                android:id="@+id/title_calories_by_day"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_32dp"
+                android:text="@string/calorie_distribution_by_day"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/static_nutrient_donut" />
+
+            <com.example.supporthealth.nutrition.main.ui.MultiDonutView
+                android:id="@+id/static_calories_by_day_donut"
+                android:layout_width="286dp"
+                android:layout_height="286dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_calories_by_day" />
+
+            <TextView
+                android:id="@+id/title_calories_intake"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_32dp"
+                android:text="@string/calorie_intake"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/static_calories_by_day_donut" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_calories"
+                android:layout_width="@dimen/margin_padding_0dp"
+                android:layout_height="166dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_calories_intake" />
+
+            <TextView
+                android:id="@+id/title_water_intake"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_32dp"
+                android:text="@string/water_intake"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/bar_chart_calories" />
+
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/bar_chart_water"
+                android:layout_width="@dimen/margin_padding_0dp"
+                android:layout_height="166dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_water_intake" />
+
+            <TextView
+                android:id="@+id/title_value"
+                style="@style/BoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_32dp"
+                android:text="@string/nutritional_value"
+                android:textColor="?attr/colorOnPrimaryFixed"
+                android:textSize="@dimen/text_size_16sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/bar_chart_water" />
+
+            <TextView
+                android:id="@+id/title_calories_value"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:text="@string/calories"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_value" />
+
+            <TextView
+                android:id="@+id/calories_value"
+                style="@style/MediumTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toTopOf="@id/title_calories_value"
+                tools:text="114 ккал" />
+
+            <TextView
+                android:id="@+id/title_protein_value"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_8dp"
+                android:text="@string/protein"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_calories_value" />
+
+            <TextView
+                android:id="@+id/protein_value"
+                style="@style/MediumTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toTopOf="@id/title_protein_value"
+                tools:text="23 г" />
+
+            <TextView
+                android:id="@+id/title_fat_value"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_8dp"
+                android:text="@string/fat"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_protein_value" />
+
+            <TextView
+                android:id="@+id/fat_value"
+                style="@style/MediumTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toTopOf="@id/title_fat_value"
+                tools:text="1,6 г" />
+
+            <TextView
+                android:id="@+id/title_carbohydrates_value"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_8dp"
+                android:text="@string/carbohydrates"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_fat_value" />
+
+            <TextView
+                android:id="@+id/carbohydrates_value"
+                style="@style/MediumTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@id/right_guideline"
+                app:layout_constraintTop_toTopOf="@id/title_carbohydrates_value"
+                tools:text="0 г" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="4dp"
+        app:checkedButton="@id/day"
+        app:singleSelection="true"
+        android:background="@drawable/bg_toggle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/margin_padding_16dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/day"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            app:backgroundTint="@color/white_50"
+            style="@style/Widget.Material3.Button"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/week"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            app:backgroundTint="@android:color/transparent"
+            style="@style/Widget.Material3.Button"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/month"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/month"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            app:backgroundTint="@android:color/transparent"
+            style="@style/Widget.Material3.Button" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

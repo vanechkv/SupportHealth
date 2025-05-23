@@ -51,11 +51,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.devicesFragment,
                 R.id.eatingFragment,
                 R.id.navigation_search,
-                R.id.navigation_product -> {
+                R.id.navigation_product,
+                R.id.statisticActivityFragment-> {
                     binding.navView.isVisible = false
                     binding.buttonChat.isVisible = false
                 }
-
                 else -> {
                     binding.navView.isVisible = true
                     binding.buttonChat.isVisible = true

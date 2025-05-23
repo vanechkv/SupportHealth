@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
     tools:context=".profile.details.ui.DetailsFragment">
 
     <androidx.constraintlayout.widget.Guideline
@@ -439,9 +440,10 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:clickable="true"
-            android:focusable="false"
+            android:inputType="number"
             android:hint="@string/select_value"
             android:maxLines="1"
+            android:maxLength="5"
             android:textColor="?attr/colorOnPrimaryFixed"
             android:textColorHint="?attr/colorOnSecondaryFixed"
             app:layout_constraintBottom_toBottomOf="parent"

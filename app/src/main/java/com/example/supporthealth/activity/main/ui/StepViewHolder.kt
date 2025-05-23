@@ -2,7 +2,9 @@ package com.example.supporthealth.activity.main.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.supporthealth.R
 import com.example.supporthealth.main.domain.models.StepEntity
@@ -14,12 +16,14 @@ class StepViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     private val donutProgress: CircularProgressBar = itemView.findViewById(R.id.donut_progress)
     private val steps: TextView = itemView.findViewById(R.id.steps)
     private val targetSteps: TextView = itemView.findViewById(R.id.target_steps)
+    private val iconComplete: ImageView = itemView.findViewById(R.id.icon_complete)
 
     fun bind(step: StepEntity) {
         donutProgress.progressMax = step.target.toFloat()
         donutProgress.progress = step.steps.coerceAtMost(step.target).toFloat()
         steps.text = pluralizeSteps(step.steps)
         targetSteps.text = step.target.toString()
+        iconComplete.isVisible = step.steps >= step.target
     }
 
     private fun pluralizeSteps(steps: Int): String {

@@ -55,9 +55,9 @@
     </style>
 
     <style name="TabLayoutStyle">
-        <item name="tabIndicatorColor">?attr/colorOnSecondary</item>
+        <item name="tabIndicatorColor">@color/white</item>
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabMode">fixed</item>
-        <item name="tabTextColor">?attr/colorOnPrimaryFixed</item>
+        <item name="tabTextColor">@color/white</item>
     </style>
 </resources>

@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.supporthealth.main.domain.models.StepEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface StepDao {
@@ -30,5 +31,8 @@ interface StepDao {
     suspend fun clearAll()
 
     @Query("SELECT * FROM steps ORDER BY date DESC")
-    fun observeAllSteps(): kotlinx.coroutines.flow.Flow<MutableList<StepEntity>>
+    fun observeAllSteps(): Flow<MutableList<StepEntity>>
+
+    @Query("SELECT * FROM steps WHERE date = :date LIMIT 1")
+    fun getStepByDate(date: String): Flow<StepEntity>
 }

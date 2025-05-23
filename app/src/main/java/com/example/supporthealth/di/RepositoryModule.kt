@@ -1,5 +1,7 @@
 package com.example.supporthealth.di
 
+import com.example.supporthealth.activity.main.data.repository.ActivityRepositoryImpl
+import com.example.supporthealth.activity.main.domain.api.repository.ActivityRepository
 import com.example.supporthealth.chat.data.repository.ChatRepositoryImpl
 import com.example.supporthealth.chat.domain.api.repository.ChatRepository
 import com.example.supporthealth.profile.details.data.repository.UserDetailsRepositoryImpl
@@ -45,5 +47,9 @@ val repositoryModule = module {
 
     single<ChatRepository> {
         ChatRepositoryImpl(get())
+    }
+
+    single<ActivityRepository> {
+        ActivityRepositoryImpl(get(), get())
     }
 }

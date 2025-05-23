@@ -1,10 +1,5 @@
 package com.example.supporthealth.activity.main.ui
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -82,9 +77,9 @@ class ActivityFragment : Fragment() {
         val step = allSteps.getOrNull(currentDayIndex) ?: return
         adapter.updateSteps(listOf(step))
         binding.calendarDay.text = formatDateForUser(step.date)
-        binding.caloriesValue.text = step.calories.toString()
-        binding.distantValue.text = step.steps.toString()
-        binding.timeValue.text = step.time.toString()
+        binding.caloriesValue.text = "${step.calories} ккал"
+        binding.distantValue.text = "${step.steps} м"
+        binding.timeValue.text = "${step.time} мин"
         binding.floorsValue.text = step.floors.toString()
     }
 
@@ -96,11 +91,24 @@ class ActivityFragment : Fragment() {
     private fun formatDateForUser(dateStr: String): String {
         val today = java.time.LocalDate.now()
         val yesterday = today.minusDays(1)
+        val tomorrow = today.plusDays(1)
         val parsed = java.time.LocalDate.parse(dateStr)
         return when (parsed) {
-            today -> "Сегодня"
             yesterday -> "Вчера"
-            else -> "%02d.%02d.%04d".format(parsed.dayOfMonth, parsed.monthValue, parsed.year)
+            today -> "Сегодня"
+            tomorrow -> "Завтра"
+            else -> {
+                val dayOfWeek = when (parsed.dayOfWeek) {
+                    java.time.DayOfWeek.MONDAY -> "Пн"
+                    java.time.DayOfWeek.TUESDAY -> "Вт"
+                    java.time.DayOfWeek.WEDNESDAY -> "Ср"
+                    java.time.DayOfWeek.THURSDAY -> "Чт"
+                    java.time.DayOfWeek.FRIDAY -> "Пт"
+                    java.time.DayOfWeek.SATURDAY -> "Сб"
+                    java.time.DayOfWeek.SUNDAY -> "Вс"
+                }
+                "$dayOfWeek, ${parsed.dayOfMonth}"
+            }
         }
     }
 }

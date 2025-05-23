@@ -60,6 +60,7 @@
             android:background="@null"
             android:inputType="number"
             android:text="@string/default_grams"
+            android:maxLength="5"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14sp"
             app:layout_constraintEnd_toEndOf="parent"

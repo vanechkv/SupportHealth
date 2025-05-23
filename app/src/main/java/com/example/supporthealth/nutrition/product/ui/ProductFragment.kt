@@ -64,9 +64,12 @@ class ProductFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {
                 val grams = s?.toString()?.toIntOrNull() ?: 0
                 viewModel.updateGrams(grams)
+                validateGrams()
             }
+
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
             }
@@ -77,13 +80,26 @@ class ProductFragment : Fragment() {
         binding.buttonAdd.setOnClickListener {
             findNavController().navigateUp()
             viewModel.observeProductValue().value?.let { it1 ->
-                viewModel.addProduct(args.date, args.meal,
-                    it1, binding.gramsEditText.text.toString().trim().toFloat())
+                viewModel.addProduct(
+                    args.date, args.meal,
+                    it1, binding.gramsEditText.text.toString().trim().toFloat()
+                )
             }
         }
 
         binding.buttonBack.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun validateGrams() {
+        val grams = binding.gramsEditText.text.toString().toIntOrNull() ?: 0
+        binding.buttonAdd.isEnabled = grams > 0
+        if (grams == 0) {
+            binding.gramsEditText.error =
+                getString(R.string.error_grams_zero)
+        } else {
+            binding.gramsEditText.error = null
         }
     }
 }

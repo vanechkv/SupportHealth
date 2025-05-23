@@ -33,6 +33,6 @@ class ProductViewHolder(parent: ViewGroup, private val onProductClick: (ProductW
         imageProduct.isVisible = false
         productName.text = product.name
         calories.text = "${(product.calories * product.grams / 100f).toInt()} ккал"
-        grams.text = "— ${product.grams}"
+        grams.text = "— ${product.grams} г"
     }
 }

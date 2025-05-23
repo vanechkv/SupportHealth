@@ -8,13 +8,14 @@
     android:paddingHorizontal="@dimen/margin_padding_32dp"
     android:paddingVertical="@dimen/margin_padding_16dp">
 
-    <ImageView
+
+    <com.example.supporthealth.nutrition.main.ui.MultiDonutView
         android:id="@+id/static_donut"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/donut_large"
+        android:layout_width="126dp"
+        android:layout_height="126dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <TextView
         android:id="@+id/title_calories"
@@ -42,83 +43,86 @@
 
     <TextView
         android:id="@+id/remaining_calories"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_padding_16dp"
         android:textColor="?attr/colorOnSecondaryFixed"
-        style="@style/RegularTextStyle"
         app:layout_constraintStart_toEndOf="@id/static_donut"
         app:layout_constraintTop_toBottomOf="@id/calories"
         tools:text="2500 ккал осталось" />
 
     <TextView
         android:id="@+id/title_protein"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
         android:text="@string/protein"
-        style="@style/RegularTextStyle"
         android:textColor="@color/iced_pink_rose"
         android:textSize="@dimen/text_size_16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/static_donut"/>
+        app:layout_constraintTop_toBottomOf="@id/static_donut" />
 
     <TextView
         android:id="@+id/protein"
+        style="@style/SemiBoldTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SemiBoldTextStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title_protein"
         tools:text="5 г" />
 
     <TextView
         android:id="@+id/remaining_protein"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnSecondaryFixed"
-        style="@style/RegularTextStyle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/protein"
         tools:text="100 г осталось" />
 
     <TextView
         android:id="@+id/title_fat"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
         android:text="@string/fat"
-        style="@style/RegularTextStyle"
         android:textColor="@color/yellow"
         android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintEnd_toStartOf="@id/title_carbohydrates"
         app:layout_constraintStart_toEndOf="@id/title_protein"
-        app:layout_constraintTop_toBottomOf="@id/static_donut"
-        app:layout_constraintEnd_toStartOf="@id/title_carbohydrates"/>
+        app:layout_constraintTop_toBottomOf="@id/static_donut" />
 
     <TextView
         android:id="@+id/fat"
+        style="@style/SemiBoldTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SemiBoldTextStyle"
         app:layout_constraintStart_toStartOf="@id/title_fat"
         app:layout_constraintTop_toBottomOf="@id/title_fat"
         tools:text="20 г" />
 
     <TextView
         android:id="@+id/remaining_fat"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnSecondaryFixed"
-        style="@style/RegularTextStyle"
         app:layout_constraintStart_toStartOf="@id/title_fat"
         app:layout_constraintTop_toBottomOf="@id/fat"
         tools:text="150 г осталось" />
 
     <TextView
         android:id="@+id/title_carbohydrates"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
         android:layout_marginEnd="@dimen/margin_padding_32dp"
         android:text="@string/carbohydrates"
-        style="@style/RegularTextStyle"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -126,19 +130,19 @@
 
     <TextView
         android:id="@+id/carbohydrates"
+        style="@style/SemiBoldTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SemiBoldTextStyle"
         app:layout_constraintStart_toStartOf="@id/title_carbohydrates"
         app:layout_constraintTop_toBottomOf="@id/title_carbohydrates"
         tools:text="40 г" />
 
     <TextView
         android:id="@+id/remaining_carbohydrates"
+        style="@style/RegularTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/colorOnSecondaryFixed"
-        style="@style/RegularTextStyle"
         app:layout_constraintStart_toStartOf="@id/title_carbohydrates"
         app:layout_constraintTop_toBottomOf="@id/carbohydrates"
         tools:text="1500 г осталось" />

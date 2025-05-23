@@ -21,6 +21,8 @@ interface NutritionRepository {
 
     suspend fun calculateResult(mealId: Long): Result
 
+    suspend fun recalculateAllFromToday()
+
     fun getNutrition(): Nutrition
 
     fun getMeals(): List<Meal>
@@ -52,6 +54,8 @@ interface NutritionRepository {
     suspend fun getMealByMealId(mealId: Long): MealEntity?
 
     suspend fun insertProduct(product: Product): Long
+
+    suspend fun deleteProductFromMeal(mealId: Long, productId: Long)
 
     suspend fun getProductByProductId(productId: String): ProductEntity?
 

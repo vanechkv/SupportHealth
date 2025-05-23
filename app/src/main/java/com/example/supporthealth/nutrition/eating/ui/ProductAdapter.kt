@@ -7,7 +7,7 @@ import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.search.domain.models.Product
 
 class ProductAdapter(
-    private var products: ArrayList<ProductWithGrams>,
+    var products: ArrayList<ProductWithGrams>,
     private val onProductClick: (ProductWithGrams) -> Unit
 ) : RecyclerView.Adapter<ProductViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {

@@ -22,7 +22,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
-import org.koin.android.scope.serviceScope
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -69,14 +68,21 @@ class StepCounterService: Service(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_STEP_COUNTER) {
             val prefs = getSharedPreferences("steps", Context.MODE_PRIVATE)
-            val initial = prefs.getInt("step_counter_initial", -1)
             val current = event.values[0].toInt()
-            if (initial == -1) {
-                prefs.edit().putInt("step_counter_initial", current).apply()
-                stepsAtReset = current
-            } else {
-                stepsAtReset = initial
+
+            val today = LocalDate.now().format(DateTimeFormatter.ISO_DATE)
+            val savedDate = prefs.getString("step_counter_date", null)
+            var initial = prefs.getInt("step_counter_initial", -1)
+
+            if (savedDate == null || savedDate != today || initial == -1) {
+                prefs.edit()
+                    .putInt("step_counter_initial", current)
+                    .putString("step_counter_date", today)
+                    .apply()
+                initial = current
             }
+
+            stepsAtReset = initial
             val steps = current - stepsAtReset
             saveStepsToDb(steps.coerceAtLeast(0))
         }

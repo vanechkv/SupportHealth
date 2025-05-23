@@ -26,6 +26,10 @@ class NutritionInteractorImpl(private val repository: NutritionRepository) : Nut
         return repository.calculateResult(mealId)
     }
 
+    override suspend fun recalculateAllFromToday() {
+        repository.recalculateAllFromToday()
+    }
+
     override fun getNutrition(): Nutrition {
         return repository.getNutrition()
     }
@@ -88,6 +92,10 @@ class NutritionInteractorImpl(private val repository: NutritionRepository) : Nut
 
     override suspend fun insertProduct(product: Product): Long {
         return repository.insertProduct(product)
+    }
+
+    override suspend fun deleteProductFromMeal(mealId: Long, productId: Long) {
+        repository.deleteProductFromMeal(mealId, productId)
     }
 
     override suspend fun getProductByProductId(productId: String): ProductEntity? {

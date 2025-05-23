@@ -7,10 +7,17 @@
     <color name="see_foam_greene">#7CD3A2</color>
     <color name="gray_night">#323232</color>
     <color name="gray_night_70">#B3323232</color>
+    <color name="gray_night_50">#444444</color>
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#F3D799</color>
     <color name="blue">#999BF3</color>
     <color name="white_70">#B3FFFFFF</color>
+    <color name="white_50">#EEEEEE</color>
     <color name="gray_light">#414141</color>
     <color name="black">#000000</color>
+    <color name="red">#FE2525</color>
+    <color name="iced_pink_rose_50">#80F399A2</color>
+    <color name="see_foam_greene_50">#807CD3A2</color>
+    <color name="yellow_50">#80F3D799</color>
+    <color name="blue_50">#80999BF3</color>
 </resources>

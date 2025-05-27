@@ -11,25 +11,11 @@
         android:label="fragment_onbording"
         tools:layout="@layout/fragment_onbording" >
         <action
-            android:id="@+id/action_onbordingFragment_to_loginFragment"
-            app:destination="@id/loginFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-    </fragment>
-    <fragment
-        android:id="@+id/detailsOnBordingFragment"
-        android:name="com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingFragment"
-        android:label="fragment_details_on_bording"
-        tools:layout="@layout/fragment_details_on_bording" >
+            android:id="@+id/action_onbordingFragment_to_detailsOnBordingFragment"
+            app:destination="@id/detailsOnBordingFragment" />
         <action
-            android:id="@+id/action_detailsOnBordingFragment_to_mainActivity"
-            app:destination="@id/mainActivity"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            android:id="@+id/action_onbordingFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
 
     <activity
@@ -42,12 +28,8 @@
         android:label="fragment_sing_up"
         tools:layout="@layout/fragment_sing_up" >
         <action
-            android:id="@+id/action_singUpFragment_to_detailsOnBordingFragment"
-            app:destination="@id/detailsOnBordingFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            android:id="@+id/action_singUpFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -55,18 +37,20 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_loginFragment_to_singUpFragment"
-            app:destination="@id/singUpFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
-        <action
             android:id="@+id/action_loginFragment_to_mainActivity"
             app:destination="@id/mainActivity"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsOnBordingFragment"
+        android:name="com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingFragment"
+        android:label="fragment_details_on_bording"
+        tools:layout="@layout/fragment_details_on_bording" >
+        <action
+            android:id="@+id/action_detailsOnBordingFragment_to_singUpFragment"
+            app:destination="@id/singUpFragment" />
     </fragment>
 </navigation>

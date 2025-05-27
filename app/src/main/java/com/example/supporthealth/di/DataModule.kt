@@ -1,12 +1,19 @@
 package com.example.supporthealth.di
 
 import android.content.Context
+import android.media.MediaPlayer
 import androidx.room.Room
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
 import com.example.supporthealth.chat.data.NetworkClientChat
 import com.example.supporthealth.chat.data.network.ChatApi
 import com.example.supporthealth.chat.data.network.RetrofitNetworkClientChat
 import com.example.supporthealth.main.data.AppDatabase
+import com.example.supporthealth.nutrition.main.data.NetworkClientNutrition
+import com.example.supporthealth.nutrition.main.data.network.NutritionApi
+import com.example.supporthealth.nutrition.main.data.network.RetrofitNetworkClientNutrition
 import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
+import com.example.supporthealth.nutrition.main.domain.api.AudioVoiceWorker
 import com.example.supporthealth.nutrition.search.data.NetworkClient
 import com.example.supporthealth.nutrition.search.data.network.RetrofitNetworkClient
 import com.example.supporthealth.nutrition.search.data.network.SupportHealthApi
@@ -26,7 +33,7 @@ val dataModule = module {
 
     single<SupportHealthApi> {
         Retrofit.Builder()
-            .baseUrl("https://4671-94-131-125-44.ngrok-free.app/docs/")
+            .baseUrl("https://health-app.ru/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(SupportHealthApi::class.java)
@@ -34,14 +41,26 @@ val dataModule = module {
 
     single<ChatApi> {
         Retrofit.Builder()
-            .baseUrl("https://4671-94-131-125-44.ngrok-free.app/docs/")
+            .baseUrl("https://health-app.ru/docs/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ChatApi::class.java)
     }
 
+    single<NutritionApi> {
+        Retrofit.Builder()
+            .baseUrl("https://health-app.ru/docs/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(NutritionApi::class.java)
+    }
+
     factory {
         Gson()
+    }
+
+    single {
+        MediaPlayer()
     }
 
     single {
@@ -103,5 +122,15 @@ val dataModule = module {
 
     single<NetworkClient> {
         RetrofitNetworkClient(androidContext(), get())
+    }
+
+    single<NetworkClientNutrition> {
+        RetrofitNetworkClientNutrition(androidContext(), get())
+    }
+
+    single { WorkManager.getInstance(androidContext()) }
+
+    factory { (context: Context, params: WorkerParameters) ->
+        AudioVoiceWorker(context, params)
     }
 }

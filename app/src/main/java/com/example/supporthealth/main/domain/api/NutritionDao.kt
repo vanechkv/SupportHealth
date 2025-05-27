@@ -9,6 +9,7 @@ import androidx.room.Transaction
 import androidx.room.Update
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.NutritionFull
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface NutritionDao {
@@ -34,4 +35,7 @@ interface NutritionDao {
 
     @Query("SELECT * FROM nutrition WHERE date >= :startDate")
     suspend fun getNutritionFromDate(startDate: String): List<NutritionEntity>
+
+    @Query("SELECT * FROM nutrition WHERE date BETWEEN :startDate AND :endDate")
+    fun getNutritionInPeriod(startDate: String, endDate: String): Flow<List<NutritionFull>>
 }

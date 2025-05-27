@@ -51,6 +51,8 @@
             android:id="@+id/contentLayout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_padding_0dp"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:paddingBottom="80dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/header">
 
@@ -133,13 +135,110 @@
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/calendar_day" />
 
-            <com.example.supporthealth.nutrition.main.ui.MultiDonutView
+            <com.example.supporthealth.nutrition.statistic.ui.DonutNutrientView
                 android:id="@+id/static_nutrient_donut"
                 android:layout_width="166dp"
                 android:layout_height="166dp"
                 android:layout_marginTop="@dimen/margin_padding_16dp"
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/title_nutrient" />
+
+            <TextView
+                android:id="@+id/title_nutrient_proteins"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_16dp"
+                android:text="@string/protein"
+                android:textColor="@color/iced_pink_rose"
+                app:layout_constraintStart_toEndOf="@id/static_nutrient_donut"
+                app:layout_constraintTop_toTopOf="@id/static_nutrient_donut" />
+
+            <TextView
+                android:id="@+id/nutrient_proteins"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_nutrient_proteins"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_proteins"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_proteins_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_proteins"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_proteins"
+                tools:text="/ 257 г" />
+
+            <TextView
+                android:id="@+id/title_nutrient_fats"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fat"
+                android:textColor="@color/yellow"
+                app:layout_constraintStart_toStartOf="@id/title_nutrient_proteins"
+                app:layout_constraintTop_toBottomOf="@id/nutrient_proteins" />
+
+            <TextView
+                android:id="@+id/nutrient_fats"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_nutrient_fats"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_fats"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_fats_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_fats"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_fats"
+                tools:text="/ 257 г" />
+
+            <TextView
+                android:id="@+id/title_nutrient_carbs"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/carbohydrates"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toStartOf="@id/title_nutrient_fats"
+                app:layout_constraintTop_toBottomOf="@id/nutrient_fats" />
+
+            <TextView
+                android:id="@+id/nutrient_carbs"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_nutrient_carbs"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_carbs"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_carbs_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_carbs"
+                app:layout_constraintTop_toBottomOf="@id/title_nutrient_carbs"
+                tools:text="/ 257 г" />
 
             <TextView
                 android:id="@+id/title_calories_by_day"
@@ -153,13 +252,142 @@
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/static_nutrient_donut" />
 
-            <com.example.supporthealth.nutrition.main.ui.MultiDonutView
+            <com.example.supporthealth.nutrition.statistic.ui.DonutCaloriesByDayView
                 android:id="@+id/static_calories_by_day_donut"
-                android:layout_width="286dp"
-                android:layout_height="286dp"
+                android:layout_width="wrap_content"
+                android:layout_height="332dp"
                 android:layout_marginTop="@dimen/margin_padding_16dp"
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/title_calories_by_day" />
+
+            <TextView
+                android:id="@+id/title_breakfast"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_16dp"
+                android:text="@string/breakfast"
+                android:textColor="@color/yellow"
+                app:layout_constraintStart_toEndOf="@id/static_calories_by_day_donut"
+                app:layout_constraintTop_toTopOf="@id/static_calories_by_day_donut" />
+
+            <TextView
+                android:id="@+id/nutrient_breakfast"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_breakfast"
+                app:layout_constraintTop_toBottomOf="@id/title_breakfast"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_breakfast_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_breakfast"
+                app:layout_constraintTop_toBottomOf="@id/title_breakfast"
+                tools:text="/ 257 г" />
+
+            <TextView
+                android:id="@+id/title_lunch"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/lunch"
+                android:textColor="@color/see_foam_greene"
+                app:layout_constraintStart_toStartOf="@id/title_breakfast"
+                app:layout_constraintTop_toBottomOf="@id/nutrient_breakfast" />
+
+            <TextView
+                android:id="@+id/nutrient_lunch"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_lunch"
+                app:layout_constraintTop_toBottomOf="@id/title_lunch"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_lunch_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_lunch"
+                app:layout_constraintTop_toBottomOf="@id/title_lunch"
+                tools:text="/ 257 г" />
+
+            <TextView
+                android:id="@+id/title_afternoon_tea"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/afternoon_tea"
+                android:textColor="@color/blue"
+                app:layout_constraintStart_toStartOf="@id/title_lunch"
+                app:layout_constraintTop_toBottomOf="@id/nutrient_lunch" />
+
+            <TextView
+                android:id="@+id/nutrient_afternoon_tea"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_afternoon_tea"
+                app:layout_constraintTop_toBottomOf="@id/title_afternoon_tea"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_afternoon_tea_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_afternoon_tea"
+                app:layout_constraintTop_toBottomOf="@id/title_afternoon_tea"
+                tools:text="/ 257 г" />
+
+            <TextView
+                android:id="@+id/title_dinner"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dinner"
+                android:textColor="@color/iced_pink_rose"
+                app:layout_constraintStart_toStartOf="@id/title_afternoon_tea"
+                app:layout_constraintTop_toBottomOf="@id/nutrient_afternoon_tea" />
+
+            <TextView
+                android:id="@+id/nutrient_dinner"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_dinner"
+                app:layout_constraintTop_toBottomOf="@id/title_dinner"
+                tools:text="58%" />
+
+            <TextView
+                android:id="@+id/nutrient_dinner_total"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_padding_6dp"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/nutrient_dinner"
+                app:layout_constraintTop_toBottomOf="@id/title_dinner"
+                tools:text="/ 257 г" />
 
             <TextView
                 android:id="@+id/title_calories_intake"
@@ -173,14 +401,57 @@
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/static_calories_by_day_donut" />
 
+            <TextView
+                android:id="@+id/title_average_calories"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:text="@string/average_value"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_calories_intake" />
+
+            <TextView
+                android:id="@+id/average_calories"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_average_calories"
+                tools:text="2546 ккал" />
+
+            <TextView
+                android:id="@+id/title_target_calories"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:text="@string/target"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/title_average_calories"
+                app:layout_constraintTop_toBottomOf="@id/title_calories_intake" />
+
+            <TextView
+                android:id="@+id/target_calories"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_target_calories"
+                app:layout_constraintTop_toBottomOf="@id/title_target_calories"
+                tools:text="1850 ккал" />
+
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/bar_chart_calories"
                 android:layout_width="@dimen/margin_padding_0dp"
                 android:layout_height="166dp"
                 android:layout_marginTop="@dimen/margin_padding_16dp"
-                app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintEnd_toStartOf="@id/right_guideline"
-                app:layout_constraintTop_toBottomOf="@id/title_calories_intake" />
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/average_calories" />
 
             <TextView
                 android:id="@+id/title_water_intake"
@@ -194,14 +465,57 @@
                 app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/bar_chart_calories" />
 
+            <TextView
+                android:id="@+id/title_average_water"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:text="@string/average_value"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_water_intake" />
+
+            <TextView
+                android:id="@+id/average_water"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/title_average_water"
+                tools:text="3456 мл" />
+
+            <TextView
+                android:id="@+id/title_target_water"
+                style="@style/RegularTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="64dp"
+                android:layout_marginTop="@dimen/margin_padding_16dp"
+                android:text="@string/target"
+                android:textColor="?attr/colorOnSecondaryFixed"
+                app:layout_constraintStart_toEndOf="@id/title_average_water"
+                app:layout_constraintTop_toBottomOf="@id/title_water_intake" />
+
+            <TextView
+                android:id="@+id/target_water"
+                style="@style/SemiBoldTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_14sp"
+                app:layout_constraintStart_toStartOf="@id/title_target_water"
+                app:layout_constraintTop_toBottomOf="@id/title_target_water"
+                tools:text="2666 мл" />
+
             <com.github.mikephil.charting.charts.BarChart
                 android:id="@+id/bar_chart_water"
                 android:layout_width="@dimen/margin_padding_0dp"
                 android:layout_height="166dp"
                 android:layout_marginTop="@dimen/margin_padding_16dp"
-                app:layout_constraintStart_toEndOf="@id/left_guideline"
                 app:layout_constraintEnd_toStartOf="@id/right_guideline"
-                app:layout_constraintTop_toBottomOf="@id/title_water_intake" />
+                app:layout_constraintStart_toEndOf="@id/left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/average_water" />
 
             <TextView
                 android:id="@+id/title_value"
@@ -302,49 +616,49 @@
         android:id="@+id/toggleGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_16dp"
+        android:background="@drawable/bg_toggle"
         android:paddingHorizontal="4dp"
         app:checkedButton="@id/day"
-        app:singleSelection="true"
-        android:background="@drawable/bg_toggle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/margin_padding_16dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:singleSelection="true">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/day"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/toggle_button_bg"
             android:text="@string/day"
             android:textAllCaps="false"
-            android:textSize="@dimen/text_size_14sp"
-            android:textStyle="bold"
             android:textColor="?attr/colorOnPrimaryFixed"
-            app:backgroundTint="@color/white_50"
-            style="@style/Widget.Material3.Button"/>
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/week"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/toggle_button_bg"
             android:text="@string/week"
             android:textAllCaps="false"
-            android:textSize="@dimen/text_size_14sp"
-            android:textStyle="bold"
             android:textColor="?attr/colorOnPrimaryFixed"
-            app:backgroundTint="@android:color/transparent"
-            style="@style/Widget.Material3.Button"/>
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/month"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/toggle_button_bg"
             android:text="@string/month"
             android:textAllCaps="false"
-            android:textSize="@dimen/text_size_14sp"
-            android:textStyle="bold"
             android:textColor="?attr/colorOnPrimaryFixed"
-            app:backgroundTint="@android:color/transparent"
-            style="@style/Widget.Material3.Button" />
+            android:textSize="@dimen/text_size_14sp"
+            android:textStyle="bold" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

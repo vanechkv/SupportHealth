@@ -57,8 +57,7 @@ class ProductFragment : Fragment() {
 
         binding.gramsEditText.setText(args.grams.toString())
 
-        val defaultGrams = binding.gramsEditText.text.toString().toIntOrNull() ?: 100
-        viewModel.updateGrams(defaultGrams)
+        viewModel.updateGrams(args.grams)
 
         binding.gramsEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
@@ -79,10 +78,9 @@ class ProductFragment : Fragment() {
 
         binding.buttonAdd.setOnClickListener {
             findNavController().navigateUp()
-            viewModel.observeProductValue().value?.let { it1 ->
+            viewModel.observeProductValue().value?.let {
                 viewModel.addProduct(
-                    args.date, args.meal,
-                    it1, binding.gramsEditText.text.toString().trim().toFloat()
+                    args.date, args.meal, binding.gramsEditText.text.toString().trim().toFloat()
                 )
             }
         }

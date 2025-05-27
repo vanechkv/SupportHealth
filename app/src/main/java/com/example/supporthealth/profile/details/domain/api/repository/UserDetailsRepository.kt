@@ -7,4 +7,6 @@ interface UserDetailsRepository {
     fun saveUserDetails(userDetails: UserDetails)
 
     fun getUserDetails() : UserDetails?
+
+    fun deleteUserDetails()
 }

@@ -13,14 +13,13 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar
 class StepViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(
     LayoutInflater.from(parent.context).inflate(R.layout.statistic_activity_view, parent, false)
 ) {
-    private val donutProgress: CircularProgressBar = itemView.findViewById(R.id.donut_progress)
+    private val donutProgress: DonutActivityView = itemView.findViewById(R.id.static_donut)
     private val steps: TextView = itemView.findViewById(R.id.steps)
     private val targetSteps: TextView = itemView.findViewById(R.id.target_steps)
     private val iconComplete: ImageView = itemView.findViewById(R.id.icon_complete)
 
     fun bind(step: StepEntity) {
-        donutProgress.progressMax = step.target.toFloat()
-        donutProgress.progress = step.steps.coerceAtMost(step.target).toFloat()
+        donutProgress.updateSteps(step.steps, step.target)
         steps.text = pluralizeSteps(step.steps)
         targetSteps.text = step.target.toString()
         iconComplete.isVisible = step.steps >= step.target

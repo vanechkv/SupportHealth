@@ -8,6 +8,7 @@ import com.example.supporthealth.profile.details.ui.DetailsViewModel
 import com.example.supporthealth.nutrition.main.ui.NutritionViewModel
 import com.example.supporthealth.nutrition.product.ui.ProductViewModel
 import com.example.supporthealth.nutrition.search.ui.SearchViewModel
+import com.example.supporthealth.nutrition.statistic.ui.StatisticNutritionViewModel
 import com.example.supporthealth.profile.main.ui.ProfileViewModel
 import com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -16,7 +17,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
 
     viewModel {
-        NutritionViewModel(get())
+        NutritionViewModel(get(), get())
     }
 
     viewModel {
@@ -24,7 +25,7 @@ val viewModelModule = module {
     }
 
     viewModel {
-        ProfileViewModel(get(), get())
+        ProfileViewModel(get(), get(), get())
     }
 
     viewModel {
@@ -53,5 +54,9 @@ val viewModelModule = module {
 
     viewModel {
         StatisticActivityViewModel(get())
+    }
+
+    viewModel {
+        StatisticNutritionViewModel(get())
     }
 }

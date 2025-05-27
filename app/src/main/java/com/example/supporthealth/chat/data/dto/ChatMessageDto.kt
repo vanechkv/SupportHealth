@@ -7,7 +7,7 @@ sealed class ChatMessageDto {
     data class Text(val text: String, val isUser: Boolean): ChatMessageDto()
     data class MealSuggestion(
         @SerializedName("timestamp") val date: String?,
-        @SerializedName("meal_type") val mealType: String?,
+        @SerializedName("intake_type") val mealType: String?,
         @SerializedName("entries") val products: List<ProductAiDto>
     ): ChatMessageDto() {
         fun russianMealToMealType(rus: String?): MealType = when (rus?.trim()?.lowercase()) {

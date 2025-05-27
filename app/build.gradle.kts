@@ -72,5 +72,4 @@ dependencies {
     implementation("com.mikhaellopez:circularprogressbar:3.1.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation ("androidx.work:work-runtime-ktx:2.9.0")
-    implementation ("com.eightbitlab:blurview:1.6.6")
 }

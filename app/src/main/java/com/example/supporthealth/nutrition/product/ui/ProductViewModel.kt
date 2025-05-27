@@ -35,17 +35,17 @@ class ProductViewModel(
 
     fun getName(): String = baseProduct.name
 
-    fun addProduct(date: String, mealType: MealType, product: Product, weight: Float) {
+    fun addProduct(date: String, mealType: MealType, weight: Float) {
         viewModelScope.launch {
             var nutrition = nutritionInteractor.getNutritionData(date)
             if (nutrition == null) {
                 nutritionInteractor.insertNutritionData(date)
                 nutrition = nutritionInteractor.getNutritionData(date)
             }
-            var productData = nutritionInteractor.getProductByProductId(product.productId)
+            var productData = nutritionInteractor.getProductByProductId(baseProduct.productId)
             if (productData == null) {
-                nutritionInteractor.insertProduct(product)
-                productData = nutritionInteractor.getProductByProductId(product.productId)
+                nutritionInteractor.insertProduct(baseProduct)
+                productData = nutritionInteractor.getProductByProductId(baseProduct.productId)
             }
             val mealId = nutritionInteractor.getMealId(nutrition!!.id, mealType)
             nutritionInteractor.addProductToMeal(mealId, productData!!.id, weight)

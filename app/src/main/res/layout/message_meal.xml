@@ -50,6 +50,19 @@
         app:layout_constraintTop_toTopOf="@id/date"
         tools:text="Завтрак" />
 
+    <TextView
+        android:id="@+id/result"
+        style="@style/RegularTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_8dp"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        android:textSize="@dimen/text_size_16sp"
+        app:layout_constraintStart_toEndOf="@id/mealType"
+        app:layout_constraintTop_toTopOf="@id/date"
+        tools:text="— Добавлен"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_products"
         android:layout_width="@dimen/margin_padding_0dp"

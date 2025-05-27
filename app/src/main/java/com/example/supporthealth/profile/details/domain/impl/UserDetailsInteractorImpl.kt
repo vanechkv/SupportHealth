@@ -14,4 +14,8 @@ class UserDetailsInteractorImpl(private val repository: UserDetailsRepository) :
     override fun getUserDetails(): UserDetails? {
         return repository.getUserDetails()
     }
+
+    override fun deleteUserDetails() {
+        repository.deleteUserDetails()
+    }
 }

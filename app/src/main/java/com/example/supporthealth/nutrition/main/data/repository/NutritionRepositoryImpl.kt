@@ -228,6 +228,30 @@ class NutritionRepositoryImpl(
         return nutritionDao.getNutritionFull(nutritionId)
     }
 
+    override fun getNutritionInPeriod(): Flow<List<NutritionFull>> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val today = LocalDate.now()
+        val endDate = today
+        val startDate = today.minusDays(6)
+
+        return nutritionDao.getNutritionInPeriod(
+            startDate = startDate.format(formatter),
+            endDate = endDate.format(formatter)
+        )
+    }
+
+    override fun getNutritionInPeriodMonth(): Flow<List<NutritionFull>> {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val today = LocalDate.now()
+        val endDate = today
+        val startDate = today.minusDays(29)
+
+        return nutritionDao.getNutritionInPeriod(
+            startDate = startDate.format(formatter),
+            endDate = endDate.format(formatter)
+        )
+    }
+
     override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
         return mealDao.getMealWithProducts(mealId)
     }

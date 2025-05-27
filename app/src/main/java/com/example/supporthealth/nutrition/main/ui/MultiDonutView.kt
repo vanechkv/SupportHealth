@@ -78,14 +78,30 @@ class MultiDonutView @JvmOverloads constructor(
         strokeCap = Paint.Cap.ROUND
     }
 
+    private val overPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        color = ContextCompat.getColor(context, R.color.red)
+        strokeWidth = 42f
+        style = Paint.Style.STROKE
+        strokeCap = Paint.Cap.ROUND
+    }
+
     private var nutrients: List<NutrientStat> = listOf(
         NutrientStat(100f, 200f),
         NutrientStat(200f, 400f),
         NutrientStat(50f, 100f)
     )
 
+    private var calories: Float = 0f
+    private var recommendationCalories: Float = 0f
+
     fun updateNutrients(newNutrients: List<NutrientStat>) {
         nutrients = newNutrients
+        invalidate()
+    }
+
+    fun updateCalories(newCalories: Float, newRecommendationCalories: Float) {
+        calories = newCalories
+        recommendationCalories = newRecommendationCalories
         invalidate()
     }
 
@@ -100,6 +116,18 @@ class MultiDonutView @JvmOverloads constructor(
             height - centerPadding
         )
         canvas.drawArc(centerRect, 0f, 360f, false, centralCirclePaint)
+        if (recommendationCalories > 0f) {
+            if (calories <= recommendationCalories) {
+                val caloriesFraction = (calories / recommendationCalories).coerceIn(0f, 1f)
+                val caloriesSweep = 360f * caloriesFraction
+                canvas.drawArc(centerRect, -90f, caloriesSweep, false, centralProgressPaint)
+            } else {
+                canvas.drawArc(centerRect, -90f, 360f, false, centralProgressPaint)
+                val overFraction = ((calories - recommendationCalories) / recommendationCalories).coerceAtMost(1f)
+                val overSweep = 360f * overFraction
+                canvas.drawArc(centerRect, -90f, overSweep, false, overPaint)
+            }
+        }
 
         val gap = 22f
         val count = nutrients.size

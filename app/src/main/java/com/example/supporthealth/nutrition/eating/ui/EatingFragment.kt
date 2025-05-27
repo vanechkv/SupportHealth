@@ -22,6 +22,7 @@ import com.example.supporthealth.main.domain.models.NutritionFull
 import com.example.supporthealth.main.domain.models.ProductEntity
 import com.example.supporthealth.nutrition.eating.domain.models.ProductWithGrams
 import com.example.supporthealth.nutrition.main.domain.models.Meal
+import com.example.supporthealth.nutrition.main.domain.models.NutrientStat
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import com.google.android.material.color.MaterialColors
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -297,6 +298,24 @@ class EatingFragment : Fragment() {
             protein.text = "${meal.proteins.toInt()} г"
             fat.text = "${meal.fats.toInt()} г"
             carbohydrates.text = "${meal.carbs.toInt()} г"
+
+            staticDonut.updateNutrients(
+                listOf(
+                    NutrientStat(
+                        meal.fats,
+                        meal.recommendedFats
+                    ),
+                    NutrientStat(
+                        meal.proteins,
+                        meal.recommendedProteins
+                    ),
+                    NutrientStat(
+                        meal.carbs,
+                        meal.recommendedCarbs
+                    )
+                )
+            )
+            staticDonut.updateCalories(meal.calories.toFloat(), meal.recommendedCalories.toFloat())
         }
     }
 }

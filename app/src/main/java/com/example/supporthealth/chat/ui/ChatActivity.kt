@@ -1,5 +1,6 @@
 package com.example.supporthealth.chat.ui
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.supporthealth.R
 import com.example.supporthealth.chat.domain.models.ChatMessage
 import com.example.supporthealth.chat.domain.models.ChatState
@@ -27,11 +29,25 @@ class ChatActivity : AppCompatActivity() {
         messages,
         onAddMeal = { mealSuggestion ->
             onOkClick(mealSuggestion)
-        },
-        onCancelMeal = {
-            onCancelClick()
         }
-    )
+    ).apply {
+        onMealTypeChanged = { position, newType ->
+            val item = items[position]
+            if (item is ChatMessage.MealSuggestion) {
+                val newMsg = item.copy(mealType = newType)
+                (items as MutableList)[position] = newMsg
+                notifyItemChanged(position)
+            }
+        }
+        onDateChanged = { position, newDate ->
+            val item = items[position]
+            if (item is ChatMessage.MealSuggestion) {
+                val updatedItem = item.copy(date = newDate.toString())
+                (items as MutableList)[position] = updatedItem
+                notifyItemChanged(position)
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +93,7 @@ class ChatActivity : AppCompatActivity() {
             val text = binding.chatEditText.text.toString()
             messages.add(ChatMessage.Text(text, true))
             adapter.notifyDataSetChanged()
+            binding.recyclerChat.smoothScrollToPosition(adapter.itemCount - 1)
             viewModel.sendMessage(text)
             binding.chatEditText.text.clear()
 
@@ -85,13 +102,6 @@ class ChatActivity : AppCompatActivity() {
 
     private fun onOkClick(mealSuggestion: ChatMessage.MealSuggestion) {
         viewModel.addMeal(mealSuggestion)
-        messages.add(ChatMessage.Text(getText(R.string.eating_add).toString(), false))
-        adapter.notifyDataSetChanged()
-    }
-
-    private fun onCancelClick() {
-        messages.add(ChatMessage.Text(getText(R.string.repeat_request).toString(), false))
-        adapter.notifyDataSetChanged()
     }
 
     private fun render(state: ChatState) {
@@ -101,24 +111,28 @@ class ChatActivity : AppCompatActivity() {
                 messages.removeAll { it is ChatMessage.Loading }
                 messages.add(ChatMessage.Loading)
                 adapter.notifyDataSetChanged()
+                binding.recyclerChat.smoothScrollToPosition(adapter.itemCount - 1)
             }
 
             is ChatState.MealSuggestion -> {
                 messages.removeAll { it is ChatMessage.Loading }
                 messages.add(state.mealSuggestion)
                 adapter.notifyDataSetChanged()
+                binding.recyclerChat.smoothScrollToPosition(adapter.itemCount - 1)
             }
 
             is ChatState.Empty -> {
                 messages.removeAll { it is ChatMessage.Loading }
                 messages.add(ChatMessage.Text(getText(state.message).toString(), false))
                 adapter.notifyDataSetChanged()
+                binding.recyclerChat.smoothScrollToPosition(adapter.itemCount - 1)
             }
 
             is ChatState.Error -> {
                 messages.removeAll { it is ChatMessage.Loading }
                 messages.add(ChatMessage.Text(getText(state.errorMessage).toString(), false))
                 adapter.notifyDataSetChanged()
+                binding.recyclerChat.smoothScrollToPosition(adapter.itemCount - 1)
             }
         }
     }

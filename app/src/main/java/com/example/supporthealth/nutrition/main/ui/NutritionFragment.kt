@@ -53,6 +53,12 @@ class NutritionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.startAudioWorkerForYesterday()
+
+        binding.buttonBarChar.setOnClickListener {
+            findNavController().navigate(R.id.action_navigation_nutrition_to_statisticNutritionFragment)
+        }
+
         viewModel.observeNutritionData().observe(viewLifecycleOwner) { nutrition ->
             if (nutrition != null) {
                 setNutritionFull(nutrition)
@@ -615,6 +621,7 @@ class NutritionFragment : Fragment() {
                     )
                 )
             )
+            staticDonut.updateCalories(nutritionFull.nutrition.calories.toFloat(), nutritionFull.nutrition.recommendedCalories.toFloat())
         }
 
         nutritionFull.meals.forEach { meal ->
@@ -678,6 +685,7 @@ class NutritionFragment : Fragment() {
                     NutrientStat(0f, nutrition.carbs)
                 )
             )
+            staticDonut.updateCalories(0f, 0f)
         }
     }
 

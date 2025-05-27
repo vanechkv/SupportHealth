@@ -1,11 +1,7 @@
 package com.example.supporthealth.profile.details.data.repository
 
-import android.content.SharedPreferences
 import com.example.supporthealth.profile.details.data.storage.UserStorage
 import com.example.supporthealth.profile.details.domain.api.repository.UserDetailsRepository
-import com.example.supporthealth.profile.details.domain.models.ActivityLevel
-import com.example.supporthealth.profile.details.domain.models.Gender
-import com.example.supporthealth.profile.details.domain.models.GoalType
 import com.example.supporthealth.profile.details.domain.models.UserDetails
 
 class UserDetailsRepositoryImpl(private val userStorage: UserStorage) : UserDetailsRepository {
@@ -16,5 +12,9 @@ class UserDetailsRepositoryImpl(private val userStorage: UserStorage) : UserDeta
 
     override fun getUserDetails(): UserDetails? {
         return userStorage.getUserDetails()
+    }
+
+    override fun deleteUserDetails() {
+        userStorage.deleteUserDetails()
     }
 }

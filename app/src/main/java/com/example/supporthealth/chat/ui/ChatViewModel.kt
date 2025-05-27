@@ -12,6 +12,7 @@ import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionI
 import com.example.supporthealth.nutrition.search.domain.models.Product
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class ChatViewModel(
     private val chatInteractor: ChatInteractor,
@@ -56,10 +57,9 @@ class ChatViewModel(
 
     fun addMeal(mealSuggestion: ChatMessage.MealSuggestion) {
         viewModelScope.launch {
-            var date: String = LocalDate.now().toString()
-            if (mealSuggestion.date != null) {
-                date = mealSuggestion.date
-            }
+            val date = mealSuggestion.date?.let { rawDate ->
+                parseAnyDate(rawDate)?.toString() ?: LocalDate.now().toString()
+            } ?: LocalDate.now().toString()
             var nutrition = nutritionInteractor.getNutritionData(date)
             if (nutrition == null) {
                 nutritionInteractor.insertNutritionData(date)
@@ -82,6 +82,24 @@ class ChatViewModel(
                 nutritionInteractor.addProductToMeal(mealId, productData!!.id, product.grams)
                 nutritionInteractor.updateMeal(date, mealSuggestion.mealType)
             }
+        }
+    }
+
+    private fun parseAnyDate(dateString: String?): LocalDate? {
+        if (dateString.isNullOrBlank()) return null
+        val dateTimeFormats = listOf(
+            "yyyy-MM-dd'T'HH:mm:ss[.SSSSSS][.SSS]",
+            "yyyy-MM-dd'T'HH:mm:ss"
+        )
+        for (pattern in dateTimeFormats) {
+            try {
+                return java.time.LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(pattern)).toLocalDate()
+            } catch (ignored: Exception) {}
+        }
+        return try {
+            LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE)
+        } catch (ignored: Exception) {
+            null
         }
     }
 }

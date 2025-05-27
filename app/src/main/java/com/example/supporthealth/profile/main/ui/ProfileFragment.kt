@@ -79,6 +79,7 @@ class ProfileFragment : Fragment() {
             val intent = Intent(requireContext(), WelcomeActivity::class.java)
             startActivity(intent)
             requireActivity().finish()
+            viewModel.clearUserDetails()
         }
     }
 

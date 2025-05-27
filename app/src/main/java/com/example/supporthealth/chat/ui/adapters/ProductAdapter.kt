@@ -16,6 +16,8 @@ class ProductAdapter(
     private val products: List<ProductAi>
 ) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    private var isEditable = true
+
     inner class ProductViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.findViewById<TextView>(R.id.product_name)
         val calories = view.findViewById<TextView>(R.id.product_calories)
@@ -39,22 +41,43 @@ class ProductAdapter(
         holder.productGrams.text = "— ${product.grams.toInt()} г"
         holder.watcher?.let { holder.grams.removeTextChangedListener(it) }
         holder.grams.setText(product.grams.toInt().toString())
-        val watcher = object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                if (s.isNullOrEmpty()) {
-                    holder.grams.error = holder.itemView.context.getString(R.string.error_grams_zero)
-                    product.grams = 0f
-                } else {
-                    holder.grams.error = null
-                    val newValue = s.toString().toFloatOrNull() ?: 0f
-                    product.grams = newValue
+
+        holder.grams.isEnabled = isEditable
+        holder.grams.isFocusable = isEditable
+        holder.grams.isFocusableInTouchMode = isEditable
+
+        if (isEditable) {
+            val watcher = object : TextWatcher {
+                override fun afterTextChanged(s: Editable?) {
+                    if (s.isNullOrEmpty()) {
+                        holder.grams.error =
+                            holder.itemView.context.getString(R.string.error_grams_zero)
+                        product.grams = 0f
+                    } else {
+                        holder.grams.error = null
+                        val newValue = s.toString().toFloatOrNull() ?: 0f
+                        product.grams = newValue
+                    }
                 }
+
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             }
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            holder.grams.addTextChangedListener(watcher)
+            holder.watcher = watcher
         }
-        holder.grams.addTextChangedListener(watcher)
-        holder.watcher = watcher
+    }
+
+    fun setEditable(editable: Boolean) {
+        isEditable = editable
+        notifyDataSetChanged()
     }
 
     fun getCurrentProducts(): List<ProductAi> = products

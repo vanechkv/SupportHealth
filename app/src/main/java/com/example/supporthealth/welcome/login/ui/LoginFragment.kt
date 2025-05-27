@@ -38,8 +38,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.singUp.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_singUpFragment)
+        binding.back.setOnClickListener {
+            findNavController().navigateUp()
         }
 
         binding.buttonEnter.setOnClickListener {

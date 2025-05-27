@@ -4,20 +4,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.supporthealth.R
 import com.example.supporthealth.chat.domain.models.ChatMessage
+import com.example.supporthealth.main.domain.models.MealType
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class ChatAdapter(
-    private val items: List<ChatMessage>,
-    private val onAddMeal: (ChatMessage.MealSuggestion) -> Unit,
-    private val onCancelMeal: (Int) -> Unit
+    val items: List<ChatMessage>,
+    private val onAddMeal: (ChatMessage.MealSuggestion) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    var onMealTypeChanged: (position: Int, newType: MealType) -> Unit = { _, _ -> }
+    var onDateChanged: (position: Int, newDate: LocalDate) -> Unit = { _, _ -> }
 
     companion object {
         private const val LOADING = 0
@@ -88,6 +92,7 @@ class ChatAdapter(
     }
 
     inner class MealViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val result = view.findViewById<TextView>(R.id.result)
         val dateView = view.findViewById<TextView>(R.id.date)
         val mealTypeView = view.findViewById<TextView>(R.id.mealType)
         val productsRecycler = view.findViewById<RecyclerView>(R.id.recycler_products)
@@ -97,30 +102,90 @@ class ChatAdapter(
         fun bind(msg: ChatMessage.MealSuggestion) {
             dateView.text = formatDate(msg.date)
             mealTypeView.text = msg.mealType.displayName
+            mealTypeView.setOnClickListener {
+                val mealTypes = MealType.entries.toTypedArray()
+                val popup = PopupMenu(itemView.context, mealTypeView)
+                mealTypes.forEachIndexed { idx, mealType ->
+                    popup.menu.add(0, idx, idx, mealType.displayName)
+                }
+                popup.setOnMenuItemClickListener { menuItem ->
+                    val selectedMealType = mealTypes[menuItem.itemId]
+                    mealTypeView.text = selectedMealType.displayName
+                    onMealTypeChanged(adapterPosition, selectedMealType)
+                    true
+                }
+                popup.show()
+            }
+            dateView.setOnClickListener {
+                val initialDate = parseAnyDate(msg.date) ?: LocalDate.now()
+
+                val context = itemView.context
+                val datePicker = android.app.DatePickerDialog(
+                    context,
+                    { _, year, month, dayOfMonth ->
+                        val newDate = LocalDate.of(year, month + 1, dayOfMonth)
+                        dateView.text = formatDate(newDate.toString())
+                        onDateChanged(adapterPosition, newDate)
+                    },
+                    initialDate.year,
+                    initialDate.monthValue - 1,
+                    initialDate.dayOfMonth
+                )
+                datePicker.show()
+            }
             val productsAdapter = ProductAdapter(msg.products)
             productsRecycler.adapter = productsAdapter
 
             buttonAdd.setOnClickListener {
                 onAddMeal(msg.copy(products = productsAdapter.getCurrentProducts()))
+                result.isVisible = true
+                result.text = "— Добавлен"
                 buttonAdd.isVisible = false
                 buttonCancel.isVisible = false
+                dateView.isEnabled = false
+                mealTypeView.isEnabled = false
+                productsAdapter.setEditable(false)
             }
             buttonCancel.setOnClickListener {
-                onCancelMeal(adapterPosition)
+                result.isVisible = true
+                result.text = "— Отменен"
                 buttonAdd.isVisible = false
                 buttonCancel.isVisible = false
+                dateView.isEnabled = false
+                mealTypeView.isEnabled = false
+                productsAdapter.setEditable(false)
             }
         }
     }
 
     private fun formatDate(dateString: String?): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSSSSS][.SSS]")
-        val dateTime = try {
-            java.time.LocalDateTime.parse(dateString, formatter)
+        if (dateString.isNullOrEmpty()) return ""
+
+        val date: LocalDate = try {
+            when {
+                dateString.length <= 10 -> {
+                    LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE)
+                }
+                else -> {
+                    try {
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss[.SSSSSS][.SSS]")
+                        java.time.LocalDateTime.parse(dateString, formatter).toLocalDate()
+                    } catch (e: Exception) {
+                        val safeDateString = if (dateString.length >= 19) {
+                            dateString.substring(0, 19)
+                        } else {
+                            dateString
+                        }
+                        java.time.LocalDateTime.parse(
+                            safeDateString,
+                            DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+                        ).toLocalDate()
+                    }
+                }
+            }
         } catch (e: Exception) {
-            java.time.LocalDateTime.parse(dateString!!.substring(0, 19), DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"))
+            return dateString
         }
-        val date = dateTime.toLocalDate()
 
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
@@ -144,4 +209,23 @@ class ChatAdapter(
             }
         }
     }
+
+    private fun parseAnyDate(dateString: String?): LocalDate? {
+        if (dateString.isNullOrBlank()) return null
+        val dateTimeFormats = listOf(
+            "yyyy-MM-dd'T'HH:mm:ss[.SSSSSS][.SSS]",
+            "yyyy-MM-dd'T'HH:mm:ss"
+        )
+        for (pattern in dateTimeFormats) {
+            try {
+                return java.time.LocalDateTime.parse(dateString, DateTimeFormatter.ofPattern(pattern)).toLocalDate()
+            } catch (ignored: Exception) {}
+        }
+        return try {
+            LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE)
+        } catch (ignored: Exception) {
+            null
+        }
+    }
+
 }

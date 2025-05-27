@@ -38,7 +38,7 @@ class SingUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.login.setOnClickListener {
+        binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
 
@@ -58,7 +58,7 @@ class SingUpFragment : Fragment() {
             FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        findNavController().navigate(R.id.action_singUpFragment_to_detailsOnBordingFragment)
+                        findNavController().navigate(R.id.action_singUpFragment_to_mainActivity)
                     } else {
 
                     }

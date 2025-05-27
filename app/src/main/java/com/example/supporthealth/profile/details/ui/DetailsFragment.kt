@@ -279,10 +279,21 @@ class DetailsFragment : Fragment() {
         } else {
             binding.targetNutritionSelector.error = null
         }
-        if (binding.activityTargetEditText.text.isNullOrBlank()) {
+        val minSteps = 100
+        val text = binding.activityTargetEditText.text?.toString()
+
+        if (text.isNullOrBlank()) {
             markError(binding.activityTargetEditText, getString(R.string.error_required))
         } else {
-            binding.activityTargetEditText.error = null
+            val steps = text.toIntOrNull()
+            if (steps == null || steps < minSteps) {
+                markError(
+                    binding.activityTargetEditText,
+                    getString(R.string.error_min_steps, minSteps)
+                )
+            } else {
+                binding.activityTargetEditText.error = null
+            }
         }
         if (!binding.radioMale.isChecked && !binding.radioFemale.isChecked) {
             binding.radioMale.error = getString(R.string.error_required)

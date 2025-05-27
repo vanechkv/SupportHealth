@@ -19,6 +19,7 @@ import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayoutMediator
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.time.DayOfWeek
@@ -194,6 +195,17 @@ class StatisticActivityFragment : Fragment() {
         labels: List<String>,
         description: String = "Динамика"
     ) {
+        val hasAnyData = stepsPerPeriod.any { it > 0 }
+        if (stepsPerPeriod.isEmpty() || !hasAnyData) {
+            barChart.clear()
+            barChart.setNoDataText("Нет данных")
+            barChart.setNoDataTextColor(
+                ContextCompat.getColor(requireContext(), R.color.gray_night)
+            )
+            barChart.invalidate()
+            return
+        }
+
         val entries = stepsPerPeriod.mapIndexedNotNull { idx, value ->
             if (value > 0) BarEntry(idx.toFloat(), value.toFloat()) else null
         }

@@ -4,9 +4,11 @@ import com.example.supporthealth.activity.main.domain.api.interactor.ActivityInt
 import com.example.supporthealth.activity.main.domain.impl.ActivityInteractorImpl
 import com.example.supporthealth.chat.domain.api.interactor.ChatInteractor
 import com.example.supporthealth.chat.domain.impl.ChatInteractorImpl
+import com.example.supporthealth.nutrition.main.domain.api.interactor.AudioVoiceInteractor
 import com.example.supporthealth.profile.details.domain.api.interactor.UserDetailsInteractor
 import com.example.supporthealth.profile.details.domain.impl.UserDetailsInteractorImpl
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
+import com.example.supporthealth.nutrition.main.domain.impl.AudioVoiceInteractorImpl
 import com.example.supporthealth.nutrition.main.domain.impl.NutritionInteractorImpl
 import com.example.supporthealth.nutrition.search.domain.api.interactor.ProductInteractor
 import com.example.supporthealth.nutrition.search.domain.impl.ProductInteractorImpl
@@ -51,5 +53,9 @@ val interactorModule = module {
 
     single<ActivityInteractor> {
         ActivityInteractorImpl(get())
+    }
+
+    single<AudioVoiceInteractor> {
+        AudioVoiceInteractorImpl(get())
     }
 }

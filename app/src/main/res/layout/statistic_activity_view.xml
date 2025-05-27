@@ -6,23 +6,14 @@
     android:background="@drawable/bg_container"
     android:paddingVertical="@dimen/margin_padding_16dp">
 
-    <com.mikhaellopez.circularprogressbar.CircularProgressBar
-        android:id="@+id/donut_progress"
-        android:layout_width="245dp"
-        android:layout_height="245dp"
-        app:cpb_background_progressbar_color="?attr/colorOnSecondaryFixed"
-        app:cpb_background_progressbar_width="@dimen/margin_padding_16dp"
-        app:cpb_indeterminate_mode="false"
-        app:cpb_progress="0"
-        app:cpb_progress_direction="to_right"
-        app:cpb_progress_max="100"
-        app:cpb_progressbar_color="@color/see_foam_greene"
-        app:cpb_progressbar_width="@dimen/margin_padding_16dp"
-        app:cpb_round_border="true"
-        app:cpb_start_angle="360"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.example.supporthealth.activity.main.ui.DonutActivityView
+        android:id="@+id/static_donut"
+        android:layout_width="232dp"
+        android:layout_height="232dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <ImageView
         android:id="@+id/icon_complete"

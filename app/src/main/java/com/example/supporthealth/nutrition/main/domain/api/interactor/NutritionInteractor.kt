@@ -37,6 +37,10 @@ interface NutritionInteractor {
 
     suspend fun getNutritionFull(nutritionId: Long): NutritionFull
 
+    fun getNutritionInPeriod(): Flow<List<NutritionFull>>
+
+    fun getNutritionInPeriodMonth(): Flow<List<NutritionFull>>
+
     fun getMealWithProduct(mealId: Long): Flow<MealWithProducts>
 
     fun getProductsWithGrams(mealId: Long): Flow<List<ProductWithGrams>>

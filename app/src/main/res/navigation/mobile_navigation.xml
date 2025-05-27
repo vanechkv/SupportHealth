@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/navigation_activity">
 
     <fragment
-        android:id="@+id/navigation_home"
-        android:name="com.example.supporthealth.home.ui.HomeFragment"
+        android:id="@+id/navigation_habits"
+        android:name="com.example.supporthealth.habits.ui.HabitsFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_habits" />
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -59,6 +59,13 @@
         <action
             android:id="@+id/action_navigation_nutrition_to_eatingFragment"
             app:destination="@id/eatingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_nutrition_to_statisticNutritionFragment"
+            app:destination="@id/statisticNutritionFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -201,4 +208,9 @@
         android:name="com.example.supporthealth.stress.statistic.ui.StatisticMoodFragment"
         android:label="fragment_statistic_mood"
         tools:layout="@layout/fragment_statistic_mood" />
+  <fragment
+        android:id="@+id/statisticNutritionFragment"
+        android:name="com.example.supporthealth.nutrition.statistic.ui.StatisticNutritionFragment"
+        android:label="fragment_statistic_nutrition"
+        tools:layout="@layout/fragment_statistic_nutrition" />
 </navigation>

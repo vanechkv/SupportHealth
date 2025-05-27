@@ -1,7 +1,6 @@
 package com.example.supporthealth.main.ui
 
 import android.Manifest
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -11,9 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.activity.main.ui.ActivityFragment
@@ -25,6 +22,7 @@ import com.example.supporthealth.nutrition.main.ui.NutritionFragment
 import com.example.supporthealth.nutrition.search.ui.SearchFragmentArgs
 import com.example.supporthealth.profile.main.ui.ProfileFragment
 import com.example.supporthealth.stress.main.ui.StressFragment
+import com.example.supporthealth.databinding.ActivityMainBinding
 
 class   MainActivity : AppCompatActivity() {
 
@@ -59,10 +57,12 @@ class   MainActivity : AppCompatActivity() {
                 R.id.eatingFragment,
                 R.id.navigation_search,
                 R.id.navigation_product,
-                R.id.statisticActivityFragment-> {
+                R.id.statisticActivityFragment,
+                R.id.statisticNutritionFragment -> {
                     binding.navView.isVisible = false
                     binding.buttonChat.isVisible = false
                 }
+
                 else -> {
                     binding.navView.isVisible = true
                     binding.buttonChat.isVisible = true
@@ -74,7 +74,8 @@ class   MainActivity : AppCompatActivity() {
     private fun requestHealthPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED
+            ) {
                 ActivityCompat.requestPermissions(
                     this,
                     arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),

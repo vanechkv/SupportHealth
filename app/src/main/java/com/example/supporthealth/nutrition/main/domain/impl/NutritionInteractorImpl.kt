@@ -58,6 +58,14 @@ class NutritionInteractorImpl(private val repository: NutritionRepository) : Nut
         return repository.getNutritionFull(nutritionId)
     }
 
+    override fun getNutritionInPeriod(): Flow<List<NutritionFull>> {
+        return repository.getNutritionInPeriod()
+    }
+
+    override fun getNutritionInPeriodMonth(): Flow<List<NutritionFull>> {
+        return repository.getNutritionInPeriodMonth()
+    }
+
     override fun getMealWithProduct(mealId: Long): Flow<MealWithProducts> {
         return repository.getMealWithProduct(mealId)
     }

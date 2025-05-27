@@ -25,6 +25,10 @@ class UserStorage(
         return createUserDetailsFromJson(json)
     }
 
+    fun deleteUserDetails() {
+        pref.edit().remove(USER_DETAILS).apply()
+    }
+
     private fun createJsonFromUserDetails(userDetails: UserDetails): String {
         return gson.toJson(userDetails)
     }

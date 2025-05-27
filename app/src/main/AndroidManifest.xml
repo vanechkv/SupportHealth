@@ -25,11 +25,13 @@
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".welcome.main.ui.WelcomeActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".main.ui.MainActivity"
             android:exported="false"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".app.LauncherActivity"
             android:exported="true">

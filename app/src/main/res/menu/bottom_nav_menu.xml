@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:enabled="true"
-        android:icon="@drawable/ic_home"
-        android:title="@null" />
-
-    <item
         android:id="@+id/navigation_activity"
         android:enabled="true"
         android:icon="@drawable/ic_activity"
@@ -23,6 +17,12 @@
         android:id="@+id/navigation_stress"
         android:enabled="true"
         android:icon="@drawable/ic_stress"
+        android:title="@null" />
+
+    <item
+        android:id="@+id/navigation_habits"
+        android:enabled="true"
+        android:icon="@drawable/ic_sync"
         android:title="@null" />
 
     <item

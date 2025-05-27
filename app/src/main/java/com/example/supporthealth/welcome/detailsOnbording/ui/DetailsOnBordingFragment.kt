@@ -85,6 +85,10 @@ class DetailsOnBordingFragment : Fragment() {
             }
         }
 
+        binding.back.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
         binding.heightEditText.setOnClickListener {
             showNumberPickerDialog(
                 title = getString(R.string.select_value),
@@ -141,97 +145,114 @@ class DetailsOnBordingFragment : Fragment() {
             }
         }
 
-        binding.activityTargetEditText.setOnClickListener {
-            showNumberPickerDialog(
-                title = getString(R.string.select_value),
-                unit = "шаги",
-                minValue = 100,
-                maxValue = 30000,
-                currentValue = selectedTargetActivity
-            ) { selected ->
-                selectedTargetActivity = selected
-                binding.activityTargetEditText.setText(selected.toString())
-            }
-        }
-
         binding.buttonNext.setOnClickListener {
-            var isValid = true
+            if (!validateFieldsWithErrors()) return@setOnClickListener
 
-            fun setFieldError(field: android.widget.EditText, message: String) {
-                field.error = message
-                isValid = false
-            }
-
-            if (binding.surnameEditText.text.isNullOrBlank()) {
-                setFieldError(binding.surnameEditText, getString(R.string.error_required))
-            }
-            if (binding.nameEditText.text.isNullOrBlank()) {
-                setFieldError(binding.nameEditText, getString(R.string.error_required))
-            }
-            if (binding.patronymicEditText.text.isNullOrBlank()) {
-                setFieldError(binding.patronymicEditText, getString(R.string.error_required))
-            }
-            if (binding.weightEditText.text.isNullOrBlank()) {
-                setFieldError(binding.weightEditText, getString(R.string.error_required))
-            }
-            if (binding.heightEditText.text.isNullOrBlank()) {
-                setFieldError(binding.heightEditText, getString(R.string.error_required))
-            }
-            if (binding.birthdayEditText.text.isNullOrBlank()) {
-                setFieldError(binding.birthdayEditText, getString(R.string.error_required))
-            }
-            if (binding.mobilitySelector.text.isNullOrBlank()) {
-                binding.mobilitySelector.error = getString(R.string.error_required)
-                isValid = false
-            }
-            if (binding.targetNutritionSelector.text.isNullOrBlank()) {
-                binding.targetNutritionSelector.error = getString(R.string.error_required)
-                isValid = false
-            }
-            if (binding.activityTargetEditText.text.isNullOrBlank()) {
-                setFieldError(binding.activityTargetEditText, getString(R.string.error_required))
-            }
-
-            if (!binding.radioMale.isChecked && !binding.radioFemale.isChecked) {
-                binding.radioMale.error = getString(R.string.error_required)
-                isValid = false
-            } else {
-                binding.radioMale.error = null
-                binding.radioFemale.error = null
-            }
-
-            if (!isValid) return@setOnClickListener
-
-            findNavController().navigate(R.id.action_detailsOnBordingFragment_to_mainActivity)
             requireActivity().finish()
+
+            val gender = when {
+                binding.radioMale.isChecked -> Gender.MALE
+                binding.radioFemale.isChecked -> Gender.FEMALE
+                else -> Gender.MALE
+            }
+
+            val userData = UserDetails(
+                surname = binding.surnameEditText.text.toString(),
+                name = binding.nameEditText.text.toString(),
+                patronymic = binding.patronymicEditText.text.toString(),
+                gender = gender,
+                height = selectedHeight,
+                weight = selectedWeight,
+                birthday = binding.birthdayEditText.text.toString(),
+                mobility = binding.mobilitySelector.text.toString().toActivityLevel(),
+                targetNutrition = binding.targetNutritionSelector.text.toString().toGoalType(),
+                targetActivity = selectedTargetActivity
+            )
+
+            viewModel.recalculateNorm(LocalDate.now().toString(),userData)
+            viewModel.saveData(userData)
         }
+    }
+
+    private fun validateFieldsWithErrors(): Boolean {
+        var isValid = true
+
+        fun markError(field: android.widget.EditText, message: String) {
+            field.error = message
+            isValid = false
+        }
+
+        if (binding.surnameEditText.text.isNullOrBlank()) {
+            markError(binding.surnameEditText, getString(R.string.error_required))
+        } else {
+            binding.surnameEditText.error = null
+        }
+        if (binding.nameEditText.text.isNullOrBlank()) {
+            markError(binding.nameEditText, getString(R.string.error_required))
+        } else {
+            binding.nameEditText.error = null
+        }
+        if (binding.patronymicEditText.text.isNullOrBlank()) {
+            markError(binding.patronymicEditText, getString(R.string.error_required))
+        } else {
+            binding.patronymicEditText.error = null
+        }
+        if (binding.weightEditText.text.isNullOrBlank()) {
+            markError(binding.weightEditText, getString(R.string.error_required))
+        } else {
+            binding.weightEditText.error = null
+        }
+        if (binding.heightEditText.text.isNullOrBlank()) {
+            markError(binding.heightEditText, getString(R.string.error_required))
+        } else {
+            binding.heightEditText.error = null
+        }
+        if (binding.birthdayEditText.text.isNullOrBlank()) {
+            markError(binding.birthdayEditText, getString(R.string.error_required))
+        } else {
+            binding.birthdayEditText.error = null
+        }
+        if (binding.mobilitySelector.text.isNullOrBlank()) {
+            binding.mobilitySelector.error = getString(R.string.error_required)
+            isValid = false
+        } else {
+            binding.mobilitySelector.error = null
+        }
+        if (binding.targetNutritionSelector.text.isNullOrBlank()) {
+            binding.targetNutritionSelector.error = getString(R.string.error_required)
+            isValid = false
+        } else {
+            binding.targetNutritionSelector.error = null
+        }
+        val minSteps = 100
+        val text = binding.activityTargetEditText.text?.toString()
+
+        if (text.isNullOrBlank()) {
+            markError(binding.activityTargetEditText, getString(R.string.error_required))
+        } else {
+            val steps = text.toIntOrNull()
+            if (steps == null || steps < minSteps) {
+                markError(
+                    binding.activityTargetEditText,
+                    getString(R.string.error_min_steps, minSteps)
+                )
+            } else {
+                binding.activityTargetEditText.error = null
+            }
+        }
+        if (!binding.radioMale.isChecked && !binding.radioFemale.isChecked) {
+            binding.radioMale.error = getString(R.string.error_required)
+            binding.radioFemale.error = getString(R.string.error_required)
+            isValid = false
+        } else {
+            binding.radioMale.error = null
+            binding.radioFemale.error = null
+        }
+        return isValid
     }
 
     override fun onDestroy() {
         super.onDestroy()
-
-        val gender = when {
-            binding.radioMale.isChecked -> Gender.MALE
-            binding.radioFemale.isChecked -> Gender.FEMALE
-            else -> Gender.MALE
-        }
-
-        val userData = UserDetails(
-            surname = binding.surnameEditText.text.toString(),
-            name = binding.nameEditText.text.toString(),
-            patronymic = binding.patronymicEditText.text.toString(),
-            gender = gender,
-            height = selectedHeight,
-            weight = selectedWeight,
-            birthday = binding.birthdayEditText.text.toString(),
-            mobility = binding.mobilitySelector.text.toString().toActivityLevel(),
-            targetNutrition = binding.targetNutritionSelector.text.toString().toGoalType(),
-            targetActivity = selectedTargetActivity
-        )
-
-        viewModel.recalculateNorm(LocalDate.now().toString(),userData)
-        viewModel.saveData(userData)
-
     }
 
     private fun showChoiceDialog(

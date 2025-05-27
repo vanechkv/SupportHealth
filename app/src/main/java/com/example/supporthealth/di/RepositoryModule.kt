@@ -4,9 +4,11 @@ import com.example.supporthealth.activity.main.data.repository.ActivityRepositor
 import com.example.supporthealth.activity.main.domain.api.repository.ActivityRepository
 import com.example.supporthealth.chat.data.repository.ChatRepositoryImpl
 import com.example.supporthealth.chat.domain.api.repository.ChatRepository
+import com.example.supporthealth.nutrition.main.data.repository.AudioVoiceRepositoryImpl
 import com.example.supporthealth.profile.details.data.repository.UserDetailsRepositoryImpl
 import com.example.supporthealth.profile.details.domain.api.repository.UserDetailsRepository
 import com.example.supporthealth.nutrition.main.data.repository.NutritionRepositoryImpl
+import com.example.supporthealth.nutrition.main.domain.api.repository.AudioVoiceRepository
 import com.example.supporthealth.nutrition.main.domain.api.repository.NutritionRepository
 import com.example.supporthealth.nutrition.search.data.repository.ProductRepositoryImpl
 import com.example.supporthealth.nutrition.search.domain.api.repository.ProductRepository
@@ -56,5 +58,9 @@ val repositoryModule = module {
 
     single {
         MoodRepository(get())
+    }
+    
+    single<AudioVoiceRepository> {
+        AudioVoiceRepositoryImpl(get(), get())
     }
 }

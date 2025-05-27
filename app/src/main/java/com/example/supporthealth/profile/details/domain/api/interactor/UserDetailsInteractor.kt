@@ -7,4 +7,6 @@ interface UserDetailsInteractor {
     fun saveUserDetails(userDetails: UserDetails)
 
     fun getUserDetails() : UserDetails?
+
+    fun deleteUserDetails()
 }

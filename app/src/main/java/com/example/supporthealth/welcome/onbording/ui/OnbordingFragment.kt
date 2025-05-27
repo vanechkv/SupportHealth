@@ -37,6 +37,10 @@ class OnbordingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonNext.setOnClickListener {
+            findNavController().navigate(R.id.action_onbordingFragment_to_detailsOnBordingFragment)
+        }
+
+        binding.login.setOnClickListener {
             findNavController().navigate(R.id.action_onbordingFragment_to_loginFragment)
         }
     }

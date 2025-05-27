@@ -20,9 +20,12 @@ import com.example.supporthealth.nutrition.search.data.network.SupportHealthApi
 import com.example.supporthealth.nutrition.search.data.storage.ProductHistoryStorage
 import com.example.supporthealth.profile.details.data.storage.UserStorage
 import com.example.supporthealth.profile.main.data.storage.SettingHistoryStorage
+import com.example.supporthealth.stress.main.data.MoodRepository
+import com.example.supporthealth.stress.main.ui.StressViewModel
 import com.example.supporthealth.welcome.detailsOnbording.data.storage.DetailsOnBordingStorage
 import com.google.gson.Gson
 import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -94,6 +97,10 @@ val dataModule = module {
 
     single {
         get<AppDatabase>().stepDao()
+    }
+
+    single {
+        get<AppDatabase>().moodDao()
     }
 
     single {

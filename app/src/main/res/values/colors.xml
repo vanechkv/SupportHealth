@@ -20,4 +20,27 @@
     <color name="see_foam_greene_50">#807CD3A2</color>
     <color name="yellow_50">#80F3D799</color>
     <color name="blue_50">#80999BF3</color>
+    <!-- Цвета для настроения -->
+    <color name="mood_terrible">#5A2A6A</color>       <!-- Тёмно-фиолетовый -->
+    <color name="mood_bad">#C71585</color>            <!-- Ярко-розовый -->
+    <color name="mood_okay">#FF5A5A</color>           <!-- Красный -->
+    <color name="mood_normal">#F399A2</color>         <!-- Нежно-розовый -->
+    <color name="mood_good">#6A89FF</color>           <!-- Голубой -->
+    <color name="mood_great">#00CC99</color>          <!-- Зелёный -->
+    <color name="mood_greatest">#00FF00</color> <!-- Ярко-зелёный -->
+    <color name="mood_default">#FFFFFF</color>        <!-- Белый (на всякий случай) -->
+    <color name="energy_0">#7B1FA2</color>     <!-- тёмно-фиолетовый -->
+    <color name="energy_1">#9C27B0</color>     <!-- фиолетовый -->
+    <color name="energy_2">#AB47BC</color>     <!-- светлее -->
+    <color name="energy_3">#BA68C8</color>     <!-- мягкий сиреневый -->
+    <color name="energy_4">#7986CB</color>     <!-- переход к синеватому -->
+    <color name="energy_5">#64B5F6</color>     <!-- голубой -->
+    <color name="energy_6">#03A9F4</color>     <!-- яркий голубой -->
+    <color name="bg_layout">#121033</color> <!-- или любой другой фоновый цвет -->
+    <color name="tab_unselected">#80FFFFFF</color> <!-- белый с прозрачностью -->
+    <color name="chart_background">#1E1E2C</color> <!-- или любой фон -->
+    <color name="bg_dark">#121212</color>
+    <color name="tab_selected">#FFFFFF</color>
+    <color name="purple_500">#6200EE</color>
+
 </resources>

@@ -16,6 +16,7 @@ import com.example.supporthealth.profile.main.data.repository.SettingsRepository
 import com.example.supporthealth.profile.main.domain.api.SettingsRepository
 import com.example.supporthealth.profile.sharing.domain.api.repository.ExternalNavigator
 import com.example.supporthealth.profile.sharing.domain.impl.ExternalNavigatorImpl
+import com.example.supporthealth.stress.main.data.MoodRepository
 import com.example.supporthealth.welcome.detailsOnbording.data.repository.DetailsOnBordingRepositoryImpl
 import com.example.supporthealth.welcome.detailsOnbording.domain.api.repository.DetailsOnBordingRepository
 import org.koin.android.ext.koin.androidContext
@@ -55,6 +56,10 @@ val repositoryModule = module {
         ActivityRepositoryImpl(get(), get())
     }
 
+    single {
+        MoodRepository(get())
+    }
+    
     single<AudioVoiceRepository> {
         AudioVoiceRepositoryImpl(get(), get())
     }

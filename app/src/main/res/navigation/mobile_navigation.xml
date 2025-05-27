@@ -37,9 +37,13 @@
     </fragment>
     <fragment
         android:id="@+id/navigation_stress"
-        android:name="com.example.supporthealth.stress.ui.StressFragment"
+        android:name="com.example.supporthealth.stress.main.ui.StressFragment"
         android:label="@string/stress"
-        tools:layout="@layout/fragment_stress" />
+        tools:layout="@layout/fragment_stress" >
+        <action
+            android:id="@+id/action_navigation_stress_to_statisticMoodFragment"
+            app:destination="@id/statisticMoodFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_nutrition"
         android:name="com.example.supporthealth.nutrition.main.ui.NutritionFragment"
@@ -200,6 +204,11 @@
         android:label="fragment_statistic_activity"
         tools:layout="@layout/fragment_statistic_activity" />
     <fragment
+        android:id="@+id/statisticMoodFragment"
+        android:name="com.example.supporthealth.stress.statistic.ui.StatisticMoodFragment"
+        android:label="fragment_statistic_mood"
+        tools:layout="@layout/fragment_statistic_mood" />
+  <fragment
         android:id="@+id/statisticNutritionFragment"
         android:name="com.example.supporthealth.nutrition.statistic.ui.StatisticNutritionFragment"
         android:label="fragment_statistic_nutrition"

@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.supporthealth.main.domain.api.MealDao
 import com.example.supporthealth.main.domain.api.MealProductDao
+import com.example.supporthealth.main.domain.api.MoodDao
 import com.example.supporthealth.main.domain.api.NutritionDao
 import com.example.supporthealth.main.domain.api.ProductDao
 import com.example.supporthealth.main.domain.api.StepDao
@@ -14,6 +15,7 @@ import com.example.supporthealth.main.domain.models.MealEntity
 import com.example.supporthealth.main.domain.models.NutritionEntity
 import com.example.supporthealth.main.domain.models.ProductEntity
 import com.example.supporthealth.main.domain.models.MealProductCrossRef
+import com.example.supporthealth.main.domain.models.MoodEntity
 import com.example.supporthealth.main.domain.models.StepEntity
 import com.example.supporthealth.main.domain.models.WaterEntity
 
@@ -25,7 +27,8 @@ import com.example.supporthealth.main.domain.models.WaterEntity
         ProductEntity::class,
         WaterEntity::class,
         MealProductCrossRef::class,
-        StepEntity::class
+        StepEntity::class,
+        MoodEntity::class
     ],
     version = 1
 )
@@ -43,4 +46,5 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun mealProductDao(): MealProductDao
 
     abstract fun stepDao(): StepDao
+    abstract fun moodDao(): MoodDao
 }

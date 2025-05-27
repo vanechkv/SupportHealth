@@ -4,6 +4,8 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -11,14 +13,28 @@ import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.supporthealth.R
+import com.example.supporthealth.activity.main.ui.ActivityFragment
+import com.example.supporthealth.app.StepCounterService
+import com.example.supporthealth.chat.ui.ChatActivity
+import com.example.supporthealth.databinding.ActivityMainBinding
+import com.example.supporthealth.home.ui.HomeFragment
+import com.example.supporthealth.nutrition.main.ui.NutritionFragment
+import com.example.supporthealth.nutrition.search.ui.SearchFragmentArgs
+import com.example.supporthealth.profile.main.ui.ProfileFragment
+import com.example.supporthealth.stress.main.ui.StressFragment
 import com.example.supporthealth.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class   MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestHealthPermission()
+
+        val intent = Intent(this, StepCounterService::class.java)
+        this.startForegroundService(intent)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -53,7 +69,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
 
+    private fun requestHealthPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACTIVITY_RECOGNITION)
                 != PackageManager.PERMISSION_GRANTED

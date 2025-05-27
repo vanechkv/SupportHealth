@@ -8,6 +8,8 @@ interface AudioVoiceInteractor {
 
     fun startPlayer()
 
+    fun releasePlayer()
+
     interface AudioVoiceConsumer {
         fun consume(audioUrl: String?, error: String?)
     }

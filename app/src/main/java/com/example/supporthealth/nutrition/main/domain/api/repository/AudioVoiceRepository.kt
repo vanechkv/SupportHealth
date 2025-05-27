@@ -9,4 +9,6 @@ interface AudioVoiceRepository {
     fun prepareVoice(audioUrl: String?, prepared:() -> Unit, completion:() -> Unit)
 
     fun startPlayer()
+
+    fun releasePlayer()
 }

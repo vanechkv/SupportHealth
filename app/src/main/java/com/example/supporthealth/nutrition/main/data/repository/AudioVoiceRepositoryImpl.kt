@@ -54,4 +54,8 @@ class AudioVoiceRepositoryImpl(
         mediaPlayer.start()
         playerState = STATE_PLAYING
     }
+
+    override fun releasePlayer() {
+        mediaPlayer.reset()
+    }
 }

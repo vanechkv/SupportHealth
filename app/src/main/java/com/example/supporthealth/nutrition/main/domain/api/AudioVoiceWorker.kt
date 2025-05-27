@@ -18,9 +18,9 @@ class AudioVoiceWorker(
 
     override suspend fun doWork(): Result {
 
-        if (!canPlayToday(applicationContext)) {
+       /*** if (!canPlayToday(applicationContext)) {
             return Result.success()
-        }
+        } ***/
 
         val module = inputData.getInt("module", 0)
         val level = inputData.getInt("level", 0)
@@ -32,6 +32,7 @@ class AudioVoiceWorker(
             override fun consume(audioUrl: String?, error: String?) {
                 if (audioUrl != null) {
                     Log.d("AudioVoiceWorker", "Audio URL получен: $audioUrl")
+                    audioVoiceInteractor.releasePlayer()
                     audioVoiceInteractor.prepareVoice(audioUrl, {
                         Log.d("AudioVoiceWorker", "Audio prepared, starting playback")
                         audioVoiceInteractor.startPlayer()

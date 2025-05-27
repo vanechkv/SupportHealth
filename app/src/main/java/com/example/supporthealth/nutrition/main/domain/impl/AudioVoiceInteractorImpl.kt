@@ -37,4 +37,8 @@ class AudioVoiceInteractorImpl(
     override fun startPlayer() {
         repository.startPlayer()
     }
+
+    override fun releasePlayer() {
+        repository.releasePlayer()
+    }
 }

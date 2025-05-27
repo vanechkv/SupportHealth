@@ -153,4 +153,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="separator">/</string>
+    <string name="how_feel">Как самочувствие?</string>
+    <string name="mood_default_text">Нормальное</string>
+    <string name="mood_label">Настроение</string>
+    <string name="energy_label">Энергия</string>
+    <string name="note_hint">Заметки</string>
+    <string name="events">События</string>
+    <string name="emotions">Эмоции</string>
+    <string name="notes">Заметки</string>
+    <string name="mood_circle_desc">Круг настроения</string>
+    <string name="mood_slider">Слайдер настроения</string>
+    <string name="energy_slider">Слайдер энергии</string>
+    <string name="mon">Пн</string>
+    <string name="tue">Вт</string>
+    <string name="wed">Ср</string>
+    <string name="thu">Чт</string>
+    <string name="fri">Пт</string>
+    <string name="sat">Сб</string>
+    <string name="sun">Вс</string>
+    <string name="mood_emoji">Смайлик настроения</string>
+    <string name="energy_label_title">Энергия</string>
+    <string name="back">Назад</string>
 </resources>

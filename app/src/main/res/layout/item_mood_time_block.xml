@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_margin="8dp">
+
+    <!-- Цветной кружок -->
+    <View
+        android:id="@+id/colorCircle"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/circle_background" />
+
+    <!-- Подпись времени суток -->
+    <TextView
+        android:id="@+id/timeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Утро"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Настроение -->
+    <TextView
+        android:id="@+id/moodLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Нормальное"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"/>
+</LinearLayout>

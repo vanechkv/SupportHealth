@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentLoginBinding
@@ -59,8 +60,10 @@ class LoginFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
+                        requireActivity().finish()
                     } else {
-
+                        val errorMessage = task.exception?.localizedMessage ?: "Ошибка входа"
+                        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_LONG).show()
                     }
                 }
         }

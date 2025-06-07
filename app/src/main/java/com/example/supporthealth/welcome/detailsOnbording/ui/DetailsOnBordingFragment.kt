@@ -148,7 +148,7 @@ class DetailsOnBordingFragment : Fragment() {
         binding.buttonNext.setOnClickListener {
             if (!validateFieldsWithErrors()) return@setOnClickListener
 
-            requireActivity().finish()
+            findNavController().navigate(R.id.action_detailsOnBordingFragment_to_singUpFragment)
 
             val gender = when {
                 binding.radioMale.isChecked -> Gender.MALE

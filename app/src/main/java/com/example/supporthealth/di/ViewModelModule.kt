@@ -10,7 +10,8 @@ import com.example.supporthealth.nutrition.product.ui.ProductViewModel
 import com.example.supporthealth.nutrition.search.ui.SearchViewModel
 import com.example.supporthealth.nutrition.statistic.ui.StatisticNutritionViewModel
 import com.example.supporthealth.profile.main.ui.ProfileViewModel
-import com.example.supporthealth.stress.main.ui.StressViewModel
+import com.example.supporthealth.stress.dialog.ui.StressViewModel
+import com.example.supporthealth.stress.main.ui.MoodViewModel
 import com.example.supporthealth.stress.statistic.ui.StatisticMoodViewModel
 import com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -63,10 +64,13 @@ val viewModelModule = module {
     }
 
     viewModel {
-        StatisticMoodViewModel()
+        StatisticMoodViewModel(get())
     }
     viewModel{
         StatisticNutritionViewModel(get())
+    }
 
+    viewModel {
+        MoodViewModel(get())
     }
 }

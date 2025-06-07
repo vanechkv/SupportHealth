@@ -1,116 +1,161 @@
 package com.example.supporthealth.stress.main.ui
 
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.View
-import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentStressBinding
+import com.example.supporthealth.main.domain.models.MoodEntity
+import com.example.supporthealth.stress.dialog.domain.DayPart
+import com.example.supporthealth.stress.dialog.ui.MoodDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class StressFragment : Fragment(R.layout.fragment_stress) {
 
     private var _binding: FragmentStressBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: StressViewModel by viewModel()
+    private val viewModel: MoodViewModel by viewModel()
 
-    private var currentEnergyColor: Int = 0
+    private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private var currentDate = LocalDate.now()
+    private var currentMoods: List<MoodEntity> = emptyList()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentStressBinding.bind(view)
 
-        setupMoodChart()
+        binding.night.setOnClickListener {
+            val mood = currentMoods.find { it.dayPart == DayPart.NIGHT }
+            showDialog(mood?.id, DayPart.NIGHT)
+        }
+        binding.morning.setOnClickListener {
+            val mood = currentMoods.find { it.dayPart == DayPart.MORNING }
+            showDialog(mood?.id, DayPart.MORNING)
+        }
+        binding.day.setOnClickListener {
+            val mood = currentMoods.find { it.dayPart == DayPart.DAY }
+            showDialog(mood?.id, DayPart.DAY)
+        }
+        binding.evening.setOnClickListener {
+            val mood = currentMoods.find { it.dayPart == DayPart.EVENING }
+            showDialog(mood?.id, DayPart.EVENING)
+        }
 
         binding.buttonBarChar.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_stress_to_statisticMoodFragment)
         }
 
-        binding.moodSeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                updateMoodUI(progress)
+        binding.buttonBackDay.setOnClickListener {
+            currentDate = currentDate.minusDays(1)
+            updateDate()
+            observeMoods()
+        }
+
+        binding.buttonForwardDay.setOnClickListener {
+            currentDate = currentDate.plusDays(1)
+            updateDate()
+            observeMoods()
+        }
+
+        currentMoods = emptyList()
+
+        observeMoods()
+
+        updateDate()
+    }
+
+    private fun observeMoods() {
+        viewModel.observeMoodByDate(currentDate.format(dateFormat)).observe(viewLifecycleOwner) { moods ->
+            currentMoods = moods
+
+            val nightMood = moods.find { it.dayPart == DayPart.NIGHT }
+            if (nightMood != null) {
+                binding.iconNight.setImageResource(viewModel.getMoodEmojiResId(nightMood.moodLevel))
+                binding.iconNight.setColorFilter(
+                    ContextCompat.getColor(requireContext(), viewModel.getMoodColorResId(nightMood.moodLevel))
+                )
+            } else {
+                binding.iconNight.setImageResource(R.drawable.ic_add_circle)
+                binding.iconNight.clearColorFilter()
             }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
 
-        binding.energySeekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                updateEnergyUI(progress)
+            val morningMood = moods.find { it.dayPart == DayPart.MORNING }
+            if (morningMood != null) {
+                binding.iconMorning.setImageResource(viewModel.getMoodEmojiResId(morningMood.moodLevel))
+                binding.iconMorning.setColorFilter(
+                    ContextCompat.getColor(requireContext(), viewModel.getMoodColorResId(morningMood.moodLevel))
+                )
+            } else {
+                binding.iconMorning.setImageResource(R.drawable.ic_add_circle)
+                binding.iconMorning.clearColorFilter()
             }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
 
-        binding.saveButton.setOnClickListener {
-            val mood = binding.moodSeekBar.progress
-            val energy = binding.energySeekBar.progress
-            viewModel.saveMoodData(mood, energy)
+            val dayMood = moods.find { it.dayPart == DayPart.DAY }
+            if (dayMood != null) {
+                binding.iconDay.setImageResource(viewModel.getMoodEmojiResId(dayMood.moodLevel))
+                binding.iconDay.setColorFilter(
+                    ContextCompat.getColor(requireContext(), viewModel.getMoodColorResId(dayMood.moodLevel))
+                )
+            } else {
+                binding.iconDay.setImageResource(R.drawable.ic_add_circle)
+                binding.iconDay.clearColorFilter()
+            }
+
+            val eveningMood = moods.find { it.dayPart == DayPart.EVENING }
+            if (eveningMood != null) {
+                binding.iconEvening.setImageResource(viewModel.getMoodEmojiResId(eveningMood.moodLevel))
+                binding.iconEvening.setColorFilter(
+                    ContextCompat.getColor(requireContext(), viewModel.getMoodColorResId(eveningMood.moodLevel))
+                )
+            } else {
+                binding.iconEvening.setImageResource(R.drawable.ic_add_circle)
+                binding.iconEvening.clearColorFilter()
+            }
         }
-
-        updateMoodUI(binding.moodSeekBar.progress)
-        updateEnergyUI(binding.energySeekBar.progress)
     }
 
-    private fun updateMoodUI(moodValue: Int) {
-        val moodDescription = viewModel.getMoodDescription(moodValue)
-        val colorResId = viewModel.getMoodColorResId(moodValue)
-        val emojiResId = viewModel.getMoodEmojiResId(moodValue)
-        val newColor = ContextCompat.getColor(requireContext(), colorResId)
-
-        binding.moodText.text = moodDescription
-        binding.moodEmoji.setImageResource(emojiResId)
-
-        val oldColor = binding.moodText.currentTextColor
-
-        val animator = ValueAnimator.ofObject(ArgbEvaluator(), oldColor, newColor)
-        animator.duration = 250
-        animator.addUpdateListener { anim ->
-            val animatedColor = anim.animatedValue as Int
-            binding.saveButton.setBackgroundColor(animatedColor)
-            binding.moodText.setTextColor(animatedColor)
-            binding.moodSeekBar.progressDrawable.setTint(animatedColor)
-            binding.moodSeekBar.thumb.setTint(animatedColor)
-        }
-        animator.start()
+    private fun updateDate() {
+        val formatted = currentDate.format(dateFormat)
+        binding.calendarDay.text = formatDate(currentDate)
     }
 
-    private fun updateEnergyUI(energyValue: Int) {
-        val energyDescription = viewModel.getEnergyDescription(energyValue)
-        val colorResId = viewModel.getEnergyColorResId(energyValue)
-        val newColor = ContextCompat.getColor(requireContext(), colorResId)
+    private fun formatDate(date: LocalDate): String {
+        val today = LocalDate.now()
+        val yesterday = today.minusDays(1)
+        val tomorrow = today.plusDays(1)
 
-        binding.energyLabel.text = energyDescription
-
-        if (currentEnergyColor == 0) {
-            currentEnergyColor = ContextCompat.getColor(requireContext(), R.color.mood_default)
+        return when (date) {
+            yesterday -> "Вчера"
+            today -> "Сегодня"
+            tomorrow -> "Завтра"
+            else -> {
+                val dayOfWeek = when (date.dayOfWeek) {
+                    java.time.DayOfWeek.MONDAY -> "Пн"
+                    java.time.DayOfWeek.TUESDAY -> "Вт"
+                    java.time.DayOfWeek.WEDNESDAY -> "Ср"
+                    java.time.DayOfWeek.THURSDAY -> "Чт"
+                    java.time.DayOfWeek.FRIDAY -> "Пт"
+                    java.time.DayOfWeek.SATURDAY -> "Сб"
+                    java.time.DayOfWeek.SUNDAY -> "Вс"
+                }
+                "$dayOfWeek, ${date.dayOfMonth}"
+            }
         }
-
-        val animator = ValueAnimator.ofObject(ArgbEvaluator(), currentEnergyColor, newColor)
-        animator.duration = 250
-        animator.addUpdateListener { anim ->
-            val animatedColor = anim.animatedValue as Int
-            binding.energySeekBar.progressDrawable.setTint(animatedColor)
-            binding.energySeekBar.thumb.setTint(animatedColor)
-            binding.energyLabel.setTextColor(animatedColor)
-        }
-        animator.start()
-
-        currentEnergyColor = newColor
-    }
-
-    private fun setupMoodChart() {
-        // Заглушка: для будущей инициализации графика по дням
-        // chart data can be set here once history is available
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showDialog(moodId: Long?, dayPart: DayPart) {
+        val formatted = currentDate.format(dateFormat)
+        val moodDialog = MoodDialogFragment.newInstance(moodId, formatted, dayPart)
+        moodDialog.show(parentFragmentManager, "MoodDialog")
     }
 }

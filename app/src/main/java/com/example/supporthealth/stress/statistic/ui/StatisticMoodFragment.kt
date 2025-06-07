@@ -1,28 +1,47 @@
 package com.example.supporthealth.stress.statistic.ui
 
-import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentStatisticMoodBinding
+import com.example.supporthealth.main.domain.models.MoodEntity
+import com.example.supporthealth.stress.dialog.domain.DayPart
+import com.example.supporthealth.stress.statistic.ui.custom.GradientLineChartRenderer
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.ValueFormatter
+import com.google.android.material.color.MaterialColors
 import com.google.android.material.tabs.TabLayout
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.Locale
+import kotlin.math.roundToInt
 
 class StatisticMoodFragment : Fragment() {
 
     private val viewModel: StatisticMoodViewModel by viewModel()
     private lateinit var binding: FragmentStatisticMoodBinding
+
+    private val today = LocalDate.now()
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val todayStr = today.format(formatter)
+
+    private var currentPeriod: String = "Неделя"
+    private var currentType: String = "настроение"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,135 +58,296 @@ class StatisticMoodFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        // Обработка табов: Настроение / Энергия
-        binding.tabType.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+        binding.tableLayout.apply {
+            addTab(newTab().setText("Неделя"))
+            addTab(newTab().setText("Месяц"))
+            addTab(newTab().setText("Все время"))
+        }
+
+        binding.tableLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener{
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                when (tab?.position) {
-                    0 -> showMoodStats()
-                    1 -> showEnergyStats()
-                }
+                currentPeriod = tab?.text?.toString() ?: "Неделя"
+                loadAndShowData()
             }
 
-            override fun onTabUnselected(tab: TabLayout.Tab?) {}
-            override fun onTabReselected(tab: TabLayout.Tab?) {}
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+
         })
 
-        binding.tabType.addTab(binding.tabType.newTab().setText("Настроение"))
-        binding.tabType.addTab(binding.tabType.newTab().setText("Энергия"))
-        binding.tabType.getTabAt(0)?.select()
+        binding.toggleGroup.addOnButtonCheckedListener { group, checkedId, isChecked ->
+            if (isChecked) {
+                currentType = when (checkedId) {
+                    R.id.stress -> "настроение"
+                    R.id.energy -> "энергия"
+                    else -> "настроение"
+                }
+                loadAndShowData()
+            }
+        }
 
-        showMoodStats()
+        binding.tableLayout.getTabAt(0)?.select()
+        binding.toggleGroup.check(R.id.stress)
     }
 
-    private fun showMoodStats() {
-        binding.pieChartTitle.text = "Ваше настроение"
-        setupLineChart(listOf(2f, 3f, 4f, 3.5f, 5f))
-        viewModel.moodCounts.value?.let { setupMoodChart(it) }
-        viewModel.moodCounts.value?.let { setupBars(it) }
-        viewModel.dayPartMoods.value?.let { setupHistory(it) }
+    private fun loadAndShowData() {
+        val endDate = today.format(formatter)
+        val startDate = when (currentPeriod) {
+            "Неделя" -> today.minusDays(6)
+            "Месяц" -> today.minusDays(29)
+            "Все время" -> LocalDate.of(2000, 1, 1)
+            else -> today.minusDays(6)
+        }.format(formatter)
+
+        viewModel.observeMoodData(startDate, endDate).observe(viewLifecycleOwner) { data ->
+            updateChart(data, currentPeriod.lowercase(), currentType)
+            updateDynamics(data, currentType)
+            updateDailyPeriodBlocks(data, currentType)
+        }
     }
 
-    private fun showEnergyStats() {
-        binding.pieChartTitle.text = "Ваша энергия"
-        val energyCounts = listOf(0, 1, 3, 2, 1, 0, 0)
-        val energyTimes = listOf(2, 3, 1, 1)
-        setupLineChart(listOf(1f, 2f, 1.5f, 2.5f, 3f))
-        setupMoodChart(energyCounts)
-        setupBars(energyCounts)
-        setupHistory(energyTimes)
-    }
+    private fun updateChart(moodData: List<MoodEntity>, period: String, type: String) {
+        val entries = mutableListOf<Entry>()
 
-    private fun setupLineChart(values: List<Float>) {
-        val entries = values.mapIndexed { index, value -> Entry(index.toFloat(), value) }
+        moodData.forEachIndexed { index, mood ->
+            val value = when (type) {
+                "энергия" -> mood.energyLevel.toFloat()
+                else -> mood.moodLevel.toFloat()
+            }
+            entries.add(Entry(index.toFloat(), value))
+        }
 
-        val dataSet = LineDataSet(entries, "").apply {
-            color = ContextCompat.getColor(requireContext(), R.color.purple_500)
-            lineWidth = 2f
-            setDrawCircles(true)
+        val label = if (type == "энергия") "Энергия" else "Настроение"
+
+        val dataSet = LineDataSet(entries, label).apply {
             setDrawValues(false)
+            lineWidth = 4f
+            setDrawCircles(false)
+            mode = LineDataSet.Mode.LINEAR
+            setDrawFilled(false)
         }
 
-        binding.lineChart.data = LineData(dataSet)
-        binding.lineChart.description.isEnabled = false
+        val lineData = LineData(dataSet)
+        binding.lineChart.data = lineData
+
+        binding.lineChart.apply {
+            isDragEnabled = true
+            setScaleEnabled(false)
+            setTouchEnabled(true)
+            setVisibleXRangeMaximum(7f)
+            moveViewToX((moodData.size - 7).coerceAtLeast(0).toFloat())
+        }
+
+        binding.lineChart.xAxis.apply {
+            granularity = 1f
+            isGranularityEnabled = true
+            setLabelCount(7, true)
+            setAvoidFirstLastClipping(true)
+
+            textSize = 12f
+            textColor = MaterialColors.getColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorOnSecondaryFixed,
+                Color.BLACK
+            )
+            setDrawGridLines(false)
+            gridColor = MaterialColors.getColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorOnSecondaryFixed,
+                Color.BLACK
+            )
+            position = com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM
+
+            val dayMonthFormatter = DateTimeFormatter.ofPattern("dd'\u000A'MM", Locale("ru"))
+
+            val firstDate = if (moodData.isNotEmpty()) LocalDate.parse(moodData.first().date, formatter) else null
+
+            valueFormatter = object : ValueFormatter() {
+                override fun getFormattedValue(value: Float): String {
+                    val index = value.roundToInt()
+                    if (index < 0 || index >= moodData.size || firstDate == null) return ""
+
+                    val currentDate = LocalDate.parse(moodData[index].date, formatter)
+
+                    val daysSinceFirst = ChronoUnit.DAYS.between(firstDate, currentDate).toInt()
+
+                    return if (period == "месяц" || period == "все время") {
+                        if (daysSinceFirst % 4 == 0) currentDate.format(dayMonthFormatter) else ""
+                    } else {
+                        if (index == 0) currentDate.format(dayMonthFormatter) else {
+                            val prevDate = LocalDate.parse(moodData[index - 1].date, formatter)
+                            if (currentDate != prevDate) currentDate.format(dayMonthFormatter) else ""
+                        }
+                    }
+                }
+            }
+        }
+
+        binding.lineChart.axisLeft.apply {
+            isEnabled = true
+            setDrawGridLines(true)
+            setDrawAxisLine(false)
+            gridColor = MaterialColors.getColor(
+                requireContext(),
+                com.google.android.material.R.attr.colorOnSecondaryFixed,
+                Color.BLACK
+            )
+            axisMinimum = -1f
+            axisMaximum = 6f
+            setDrawLabels(false)
+        }
+
         binding.lineChart.axisRight.isEnabled = false
-        binding.lineChart.invalidate()
-    }
+        binding.lineChart.description.isEnabled = false
+        binding.lineChart.legend.isEnabled = false
 
-    private fun setupMoodChart(counts: List<Int>) {
-        val moodData = counts.mapIndexed { index, count ->
-            count.toFloat() to ContextCompat.getColor(requireContext(), moodColors[index])
-        }
-
-        val topIndex = counts.withIndex().maxByOrNull { it.value }?.index ?: 3
-        val centerLabel = moodDescriptions[topIndex]
-        binding.pieChartView.setChartData(moodData, centerLabel)
-    }
-
-    private fun setupBars(counts: List<Int>) {
-        val barContainer = binding.root.findViewById<LinearLayout>(R.id.barStatsContainer)
-        barContainer.removeAllViews()
-
-        for (i in moodDescriptions.indices) {
-            val label = moodDescriptions[i]
-            val count = counts.getOrElse(i) { 0 }
-            val color = ContextCompat.getColor(requireContext(), moodColors[i])
-            val barView = LayoutInflater.from(requireContext())
-                .inflate(R.layout.item_bar_stat, barContainer, false)
-
-            val labelView = barView.findViewById<TextView>(R.id.barLabel)
-            val progressBar = barView.findViewById<ProgressBar>(R.id.barProgress)
-
-            labelView.text = label
-            progressBar.progress = count
-            progressBar.progressTintList = ColorStateList.valueOf(color)
-
-            barContainer.addView(barView)
-        }
-    }
-
-    private fun setupHistory(moodsPerTime: List<Int>) {
-        val historyContainer = binding.root.findViewById<LinearLayout>(R.id.historyBlock)
-        historyContainer.removeAllViews()
-
-        val timesOfDay = listOf("Утро", "День", "Вечер", "Ночь")
-        val bestMoodIndex = moodsPerTime.withIndex().maxByOrNull { it.value }?.index ?: 0
-
-        for ((i, time) in timesOfDay.withIndex()) {
-            val isBest = (i == bestMoodIndex)
-            val moodIndex = moodsPerTime.getOrElse(i) { 3 }
-
-            val view = LayoutInflater.from(requireContext())
-                .inflate(R.layout.item_mood_time_block, historyContainer, false)
-
-            view.findViewById<TextView>(R.id.timeLabel).text = time
-            view.findViewById<TextView>(R.id.moodLabel).text = moodDescriptions[moodIndex]
-            val color = ContextCompat.getColor(requireContext(), moodColors[moodIndex])
-            val circle = view.findViewById<View>(R.id.colorCircle)
-
-            circle.backgroundTintList = ColorStateList.valueOf(color)
-
-            if (isBest) {
-                circle.layoutParams.width = 28
-                circle.layoutParams.height = 28
-                circle.background = ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.bg_mood_circle_highlight
-                )
+        binding.lineChart.post {
+            val colors = if (type == "энергия") {
+                moodData.map {
+                    ContextCompat.getColor(requireContext(), viewModel.getEnergyColorResId(it.energyLevel))
+                }.toIntArray()
+            } else {
+                moodData.map {
+                    ContextCompat.getColor(requireContext(), viewModel.getMoodColorResId(it.moodLevel))
+                }.toIntArray()
             }
 
-            historyContainer.addView(view)
+            binding.lineChart.renderer = GradientLineChartRenderer(
+                binding.lineChart,
+                binding.lineChart.animator,
+                binding.lineChart.viewPortHandler,
+                colors
+            )
+            binding.lineChart.invalidate()
         }
     }
 
-    companion object {
-        val moodDescriptions = listOf(
-            "Ужасное", "Плохое", "Не очень",
-            "Нормальное", "Хорошее", "Отличное", "Восхитительное"
-        )
+    private fun updateDynamics(moodData: List<MoodEntity>, type: String) {
+        if (moodData.isEmpty()) {
+            binding.dynamicsCircle.updatePercents(List(7) { 0f })
+            binding.dynamicsList.removeAllViews()
+            for (level in 0..6) {
+                addDynamicsItem(level, 0f, 0, type)
+            }
+            return
+        }
 
-        val moodColors = listOf(
-            R.color.mood_terrible, R.color.mood_bad, R.color.mood_okay,
-            R.color.mood_normal, R.color.mood_good, R.color.mood_great, R.color.mood_greatest
-        )
+        val counts = IntArray(7) { 0 }
+        val totalCount = moodData.size
+
+        moodData.forEach { mood ->
+            val level = when (type) {
+                "энергия" -> mood.energyLevel.coerceIn(0, 6)
+                else -> mood.moodLevel.coerceIn(0, 6)
+            }
+            counts[level] += 1
+        }
+
+        val percents = counts.map { it.toFloat() / totalCount }
+
+        binding.dynamicsCircle.updatePercents(percents)
+
+        binding.dynamicsList.removeAllViews()
+
+        for (level in 0..6) {
+            addDynamicsItem(level, percents[level], counts[level], type)
+        }
+    }
+
+    private fun addDynamicsItem(level: Int, percent: Float, count: Int, type: String) {
+        val context = requireContext()
+
+        val container = LinearLayout(context).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                setMargins(0, 8, 0, 8)
+            }
+            gravity = Gravity.CENTER_VERTICAL
+        }
+
+        val countTextView = TextView(context).apply {
+            text = count.toString()
+            setTextColor(Color.BLACK)
+            textSize = 14f
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                marginEnd = 16
+                width = 48
+            }
+            gravity = Gravity.END
+        }
+
+        val barView = View(context).apply {
+            setBackgroundColor(
+                when (type) {
+                    "энергия" -> viewModel.getEnergyColorResId(level)
+                    else -> viewModel.getMoodColorResId(level)
+                }.let { ContextCompat.getColor(context, it) }
+            )
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                24
+            ).apply {
+                weight = percent
+                width = (percent * 200).toInt().coerceAtLeast(2)
+            }
+        }
+
+        container.addView(countTextView)
+        container.addView(barView)
+
+        binding.dynamicsList.addView(container)
+    }
+
+    private fun updateDailyPeriodBlocks(moodData: List<MoodEntity>, type: String) {
+        val grouped = moodData.groupBy { it.dayPart }
+
+        fun updateBlock(
+            blockId: Int,
+            iconId: Int,
+            descriptionId: Int,
+            percentId: Int,
+            periodKey: DayPart
+        ) {
+            val block = binding.root.findViewById<ConstraintLayout>(blockId)
+            val iconView = binding.root.findViewById<ImageView>(iconId)
+            val descriptionView = binding.root.findViewById<TextView>(descriptionId)
+            val percentView = binding.root.findViewById<TextView>(percentId)
+
+            val data = grouped[periodKey]
+
+            if (data.isNullOrEmpty()) {
+                block.visibility = View.GONE
+                return
+            } else {
+                block.visibility = View.VISIBLE
+            }
+
+            val avgLevel = data.map {
+                if (type == "энергия") it.energyLevel else it.moodLevel
+            }.average().toInt().coerceIn(0, 6)
+
+            val descriptionText = if (type == "энергия") viewModel.getEnergyDescription(avgLevel) else viewModel.getMoodDescription(avgLevel)
+            val emojiRes = if (type == "энергия") viewModel.getMoodEmojiResId(avgLevel) else viewModel.getMoodEmojiResId(avgLevel)
+
+            val percent = ((data.size.toDouble() / moodData.size) * 100).toInt()
+
+            iconView.setImageResource(emojiRes)
+            descriptionView.text = descriptionText
+            percentView.text = "$percent%"
+        }
+
+        updateBlock(R.id.night, R.id.icon_night, R.id.description_night, R.id.percent_night, DayPart.NIGHT)
+        updateBlock(R.id.morning, R.id.icon_morning, R.id.description_morning, R.id.percent_morning, DayPart.MORNING)
+        updateBlock(R.id.day, R.id.icon_day, R.id.description_day, R.id.percent_day, DayPart.DAY)
+        updateBlock(R.id.evening, R.id.icon_evening, R.id.description_evening, R.id.percent_evening, DayPart.EVENING)
     }
 }

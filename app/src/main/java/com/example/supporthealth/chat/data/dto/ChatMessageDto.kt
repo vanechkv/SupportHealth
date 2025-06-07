@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName
 sealed class ChatMessageDto {
     data class Text(val text: String, val isUser: Boolean): ChatMessageDto()
     data class MealSuggestion(
-        @SerializedName("timestamp") val date: String?,
         @SerializedName("intake_type") val mealType: String?,
         @SerializedName("entries") val products: List<ProductAiDto>
     ): ChatMessageDto() {

@@ -1,4 +1,4 @@
-package com.example.supporthealth.stress.main.domain
+package com.example.supporthealth.stress.dialog.domain
 
 data class MoodData(
     val mood: Int,

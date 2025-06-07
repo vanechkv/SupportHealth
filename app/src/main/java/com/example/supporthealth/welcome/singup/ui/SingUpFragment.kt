@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.databinding.FragmentSingUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SingUpFragment : Fragment() {
@@ -59,8 +60,14 @@ class SingUpFragment : Fragment() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         findNavController().navigate(R.id.action_singUpFragment_to_mainActivity)
+                        requireActivity().finish()
                     } else {
-
+                        val exception = task.exception
+                        if (exception is FirebaseAuthUserCollisionException) {
+                            binding.emailEditText.error = "Пользователь с таким email уже существует"
+                        } else {
+                            binding.emailEditText.error = exception?.localizedMessage ?: "Ошибка регистрации"
+                        }
                     }
                 }
         }

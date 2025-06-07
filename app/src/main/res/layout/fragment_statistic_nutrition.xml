@@ -619,6 +619,7 @@
         android:layout_marginBottom="@dimen/margin_padding_16dp"
         android:background="@drawable/bg_toggle"
         android:paddingHorizontal="4dp"
+        app:selectionRequired="true"
         app:checkedButton="@id/day"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -661,4 +662,5 @@
             android:textSize="@dimen/text_size_14sp"
             android:textStyle="bold" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

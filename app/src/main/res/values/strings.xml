@@ -138,6 +138,7 @@
     <string name="target_complete">выполнение цели</string>
     <string name="eating_add">Прием пищи добавлен!</string>
     <string name="repeat_request">Повторите запрос!</string>
+    <string name="bad_request">Неверный запрос!</string>
     <string name="delete">Удалить</string>
     <string name="save">Сохранить</string>
     <string name="error_grams_zero">Нулевой вес!</string>
@@ -176,4 +177,12 @@
     <string name="energy_label_title">Энергия</string>
     <string name="back">Назад</string>
     <string name="habits">Привычки</string>
+    <string name="mood_night">Настроение ночью</string>
+    <string name="mood_morning">Настроение утром</string>
+    <string name="mood_day">Настроение днем</string>
+    <string name="mood_evening">Настроение вечером</string>
+    <string name="night">Ночь</string>
+    <string name="morning">Утро</string>
+    <string name="evening">Вечер</string>
+    <string name="all_time">Все время</string>
 </resources>

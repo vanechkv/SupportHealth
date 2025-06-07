@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/moodDialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    tools:context=".stress.dialog.ui.MoodDialogFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_padding_8dp"
+        android:paddingVertical="@dimen/margin_padding_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/HeaderTextStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_padding_16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/button_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_back"
+            tools:text="Пн, 4 - Утро" />
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_expand_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_32dp"
+        android:paddingHorizontal="@dimen/margin_padding_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- Смайлик -->
+        <ImageView
+            android:id="@+id/moodEmoji"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:contentDescription="@string/mood_emoji"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Описание настроения -->
+        <TextView
+            android:id="@+id/moodText"
+            style="@style/BoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_8dp"
+            android:text="@string/mood_default_text"
+            android:textColor="?attr/colorOnPrimaryFixed"
+            android:textSize="@dimen/text_size_16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moodEmoji" />
+
+        <!-- Настроение -->
+        <TextView
+            android:id="@+id/moodLabelTitle"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_32dp"
+            android:text="@string/mood_label"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moodText" />
+
+        <SeekBar
+            android:id="@+id/moodSeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:contentDescription="@string/mood_slider"
+            android:enabled="false"
+            android:max="6"
+            android:progressDrawable="@drawable/mood_seekbar_progress"
+            android:thumbTint="@color/see_foam_greene"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moodLabelTitle" />
+
+        <!-- Энергия -->
+        <TextView
+            android:id="@+id/energyLabelTitle"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_32dp"
+            android:text="@string/energy_label_title"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/moodSeekBar" />
+
+        <SeekBar
+            android:id="@+id/energySeekBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:contentDescription="@string/energy_slider"
+            android:max="6"
+            android:progressDrawable="@drawable/mood_seekbar_progress"
+            android:thumbTint="@color/see_foam_greene"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/energyLabelTitle" />
+
+        <TextView
+            android:id="@+id/energyLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_8dp"
+            android:text="@string/energy_label"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/energySeekBar" />
+
+        <!-- Кнопка сохранить -->
+        <Button
+            android:id="@+id/saveButton"
+            style="@style/AddButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_32dp"
+            android:minHeight="48dp"
+            android:text="@string/save"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/energyLabel" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

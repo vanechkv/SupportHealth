@@ -1,10 +1,14 @@
-package com.example.supporthealth.stress.main.ui
+package com.example.supporthealth.stress.dialog.ui
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.supporthealth.R
 import com.example.supporthealth.main.domain.models.MoodEntity
-import com.example.supporthealth.stress.main.data.MoodRepository
+import com.example.supporthealth.stress.dialog.data.MoodRepository
+import com.example.supporthealth.stress.dialog.domain.DayPart
+import com.example.supporthealth.stress.dialog.domain.MoodData
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -13,31 +17,18 @@ class StressViewModel(
     private val moodRepository: MoodRepository
 ) : ViewModel() {
 
-    fun saveMoodData(mood: Int, energy: Int) {
+    private val moodData = MutableLiveData<MoodEntity>()
+    fun observeMoodData(): LiveData<MoodEntity> = moodData
+
+    fun saveMoodData(date: String, datePart: DayPart, mood: Int, energy: Int) {
         viewModelScope.launch {
-            val now = LocalDateTime.now()
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-            val date = now.format(formatter)
-            val hour = now.hour
-            val part = getDayPartFromHour(hour)
-
-            val moodEntity = MoodEntity(
-                date = date,
-                dayPart = part,
-                moodLevel = mood,
-                energyLevel = energy
-            )
-
-            moodRepository.insertMood(moodEntity)
+            moodRepository.insertMood(date, datePart, MoodData(mood, energy))
         }
     }
 
-    private fun getDayPartFromHour(hour: Int): String {
-        return when (hour) {
-            in 5..11 -> "утро"
-            in 12..16 -> "день"
-            in 17..22 -> "вечер"
-            else -> "ночь"
+    fun getMoodById(moodId: Long) {
+        viewModelScope.launch {
+            moodData.postValue(moodRepository.getMoodById(moodId))
         }
     }
 
@@ -71,7 +62,7 @@ class StressViewModel(
         return when (level) {
             0 -> R.drawable.ic_sentiment_very_dissatisfied
             1 -> R.drawable.ic_sentiment_nogood
-            2 -> R.drawable.ic_sentiment_very_dissatisfied
+            2 -> R.drawable.ic_sentiment_dissatisfied
             3 -> R.drawable.ic_sentiment_neutral
             4 -> R.drawable.ic_sentiment_satisfied
             5 -> R.drawable.ic_sentiment_well

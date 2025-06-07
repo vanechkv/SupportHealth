@@ -1,7 +1,9 @@
-package com.example.supporthealth.stress.main.data
+package com.example.supporthealth.stress.dialog.data
 
 import com.example.supporthealth.main.domain.api.MoodDao
 import com.example.supporthealth.main.domain.models.MoodEntity
+import com.example.supporthealth.stress.dialog.domain.DayPart
+import com.example.supporthealth.stress.dialog.domain.MoodData
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,19 +12,18 @@ class MoodRepository(
     private val moodDao: MoodDao
 ) {
 
-    suspend fun insertMood(moodData: MoodEntity) {
-        val now = LocalDateTime.now()
-        val date = now.toLocalDate().format(DateTimeFormatter.ISO_DATE)
-        val hour = now.hour
-        val partOfDay = getDayPartFromHour(hour)
-
+    suspend fun insertMood(date: String, dayPart: DayPart, moodData: MoodData) {
         val moodEntity = MoodEntity(
             date = date,
-            dayPart = partOfDay,
-            moodLevel = moodData.moodLevel,
-            energyLevel = moodData.energyLevel
+            dayPart = dayPart,
+            moodLevel = moodData.mood,
+            energyLevel = moodData.energy
         )
         moodDao.insertMood(moodEntity)
+    }
+
+    suspend fun getMoodById(moodId: Long): MoodEntity {
+        return moodDao.getMoodById(moodId)
     }
 
     suspend fun getMoodByDate(date: String, part: String): MoodEntity? {
@@ -39,14 +40,5 @@ class MoodRepository(
 
     suspend fun deleteMood(mood: MoodEntity) {
         moodDao.deleteMood(mood)
-    }
-
-    private fun getDayPartFromHour(hour: Int): String {
-        return when (hour) {
-            in 5..11 -> "утро"
-            in 12..16 -> "день"
-            in 17..22 -> "вечер"
-            else -> "ночь"
-        }
     }
 }

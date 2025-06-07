@@ -33,11 +33,11 @@ class ChatViewModel(
                 object : ChatInteractor.ChatConsumer {
                     override fun consume(
                         mealSuggestion: ChatMessage.MealSuggestion?,
-                        error: String?
+                        error: Int?
                     ) {
                         when {
                             error != null -> {
-                                renderState(ChatState.Error(R.string.internet_error))
+                                renderState(ChatState.Error(error))
                             }
 
                             mealSuggestion != null -> {

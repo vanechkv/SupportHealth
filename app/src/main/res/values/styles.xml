@@ -61,7 +61,6 @@
         <item name="tabTextColor">@color/white</item>
     </style>
 
-    <!-- ✅ Добавлен стиль для кружков с днями недели -->
     <style name="DayCircle">
         <item name="android:layout_width">40dp</item>
         <item name="android:layout_height">40dp</item>

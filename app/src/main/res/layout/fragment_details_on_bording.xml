@@ -227,7 +227,7 @@
         android:layout_marginEnd="@dimen/margin_padding_8dp"
         android:background="@drawable/bg_edit_text"
         android:padding="@dimen/margin_padding_8dp"
-        app:layout_constraintEnd_toStartOf="@id/title_weight"
+        app:layout_constraintEnd_toStartOf="@id/weight"
         app:layout_constraintStart_toEndOf="@id/left_guideline"
         app:layout_constraintTop_toBottomOf="@id/title_height">
 
@@ -268,7 +268,7 @@
         android:background="@drawable/bg_edit_text"
         android:padding="@dimen/margin_padding_8dp"
         app:layout_constraintEnd_toStartOf="@id/right_guideline"
-        app:layout_constraintStart_toStartOf="@id/title_weight"
+        app:layout_constraintStart_toEndOf="@id/height"
         app:layout_constraintTop_toBottomOf="@id/title_height">
 
         <EditText

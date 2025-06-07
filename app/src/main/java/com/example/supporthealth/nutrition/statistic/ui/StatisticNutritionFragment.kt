@@ -675,7 +675,7 @@ class StatisticNutritionFragment : Fragment() {
                 lineColor = ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                 textColor = ContextCompat.getColor(requireContext(), R.color.see_foam_greene)
                 textSize = 12f
-                labelPosition = LimitLine.LimitLabelPosition.LEFT_TOP
+                labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
             }
 
             removeAllLimitLines()

@@ -4,6 +4,8 @@ import com.example.supporthealth.activity.main.domain.api.interactor.ActivityInt
 import com.example.supporthealth.activity.main.domain.impl.ActivityInteractorImpl
 import com.example.supporthealth.chat.domain.api.interactor.ChatInteractor
 import com.example.supporthealth.chat.domain.impl.ChatInteractorImpl
+import com.example.supporthealth.habits.dialog.domain.api.interactor.HabitsIntractor
+import com.example.supporthealth.habits.dialog.domain.impl.HabitsInteractorImpl
 import com.example.supporthealth.nutrition.main.domain.api.interactor.AudioVoiceInteractor
 import com.example.supporthealth.profile.details.domain.api.interactor.UserDetailsInteractor
 import com.example.supporthealth.profile.details.domain.impl.UserDetailsInteractorImpl
@@ -57,5 +59,9 @@ val interactorModule = module {
 
     single<AudioVoiceInteractor> {
         AudioVoiceInteractorImpl(get())
+    }
+
+    single<HabitsIntractor> {
+        HabitsInteractorImpl(get())
     }
 }

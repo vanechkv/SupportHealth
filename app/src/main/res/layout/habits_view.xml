@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="120dp"
+    android:layout_marginBottom="@dimen/margin_padding_16dp"
+    android:background="@drawable/bg_container">
+
+    <com.example.supporthealth.habits.main.ui.DonutHabitView
+        android:id="@+id/donut_habit"
+        android:layout_width="104dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        app:layout_constraintBottom_toBottomOf="@id/donut_habit"
+        app:layout_constraintStart_toEndOf="@id/donut_habit"
+        app:layout_constraintTop_toTopOf="@id/donut_habit">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/SemiBoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Курение" />
+
+        <TextView
+            android:id="@+id/target"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_8dp"
+            android:text="@string/current_target"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/target_value"
+            style="@style/SemiBoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/target"
+            tools:text="2 дня" />
+
+        <TextView
+            android:id="@+id/attempt"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_16dp"
+            android:layout_marginTop="@dimen/margin_padding_8dp"
+            android:text="@string/attempt"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toEndOf="@id/target"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/attempt_value"
+            style="@style/SemiBoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="@id/attempt"
+            app:layout_constraintTop_toBottomOf="@id/attempt"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/record"
+            style="@style/RegularTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_16dp"
+            android:layout_marginTop="@dimen/margin_padding_8dp"
+            android:text="@string/record"
+            android:textColor="?attr/colorOnSecondaryFixed"
+            app:layout_constraintStart_toEndOf="@id/attempt"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/record_value"
+            style="@style/SemiBoldTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_14sp"
+            app:layout_constraintStart_toStartOf="@id/record"
+            app:layout_constraintTop_toBottomOf="@id/record"
+            tools:text="2 дня" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

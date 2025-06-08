@@ -101,6 +101,10 @@ val dataModule = module {
     }
 
     single {
+        get<AppDatabase>().habitDao()
+    }
+
+    single {
         DetailsOnBordingStorage(get())
     }
 

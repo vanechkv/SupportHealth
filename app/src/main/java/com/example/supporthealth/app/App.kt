@@ -29,5 +29,6 @@ class App : Application() {
         val intent = Intent(this@App, StepCounterService::class.java)
         this@App.startForegroundService(intent)
         scheduleNutritionWorker(this)
+        scheduleHabitGoalUpdateWorker(this)
     }
 }

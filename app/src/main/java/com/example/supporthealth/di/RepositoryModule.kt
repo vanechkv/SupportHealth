@@ -4,6 +4,8 @@ import com.example.supporthealth.activity.main.data.repository.ActivityRepositor
 import com.example.supporthealth.activity.main.domain.api.repository.ActivityRepository
 import com.example.supporthealth.chat.data.repository.ChatRepositoryImpl
 import com.example.supporthealth.chat.domain.api.repository.ChatRepository
+import com.example.supporthealth.habits.dialog.data.repository.HabitsRepositoryImpl
+import com.example.supporthealth.habits.dialog.domain.api.repository.HabitsRepository
 import com.example.supporthealth.nutrition.main.data.repository.AudioVoiceRepositoryImpl
 import com.example.supporthealth.profile.details.data.repository.UserDetailsRepositoryImpl
 import com.example.supporthealth.profile.details.domain.api.repository.UserDetailsRepository
@@ -62,5 +64,9 @@ val repositoryModule = module {
     
     single<AudioVoiceRepository> {
         AudioVoiceRepositoryImpl(get(), get())
+    }
+
+    single<HabitsRepository> {
+        HabitsRepositoryImpl(get())
     }
 }

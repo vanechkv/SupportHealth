@@ -7,9 +7,17 @@
 
     <fragment
         android:id="@+id/navigation_habits"
-        android:name="com.example.supporthealth.habits.ui.HabitsFragment"
+        android:name="com.example.supporthealth.habits.main.ui.HabitsFragment"
         android:label="@string/home"
-        tools:layout="@layout/fragment_habits" />
+        tools:layout="@layout/fragment_habits">
+        <action
+            android:id="@+id/action_navigation_habits_to_habitFragment"
+            app:destination="@id/habitFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -26,7 +34,7 @@
         android:id="@+id/navigation_activity"
         android:name="com.example.supporthealth.activity.main.ui.ActivityFragment"
         android:label="@string/activity"
-        tools:layout="@layout/fragment_activity" >
+        tools:layout="@layout/fragment_activity">
         <action
             android:id="@+id/action_navigation_activity_to_statisticActivityFragment"
             app:destination="@id/statisticActivityFragment"
@@ -39,10 +47,14 @@
         android:id="@+id/navigation_stress"
         android:name="com.example.supporthealth.stress.main.ui.StressFragment"
         android:label="@string/stress"
-        tools:layout="@layout/fragment_stress" >
+        tools:layout="@layout/fragment_stress">
         <action
             android:id="@+id/action_navigation_stress_to_statisticMoodFragment"
-            app:destination="@id/statisticMoodFragment" />
+            app:destination="@id/statisticMoodFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/navigation_nutrition"
@@ -168,7 +180,7 @@
         android:id="@+id/eatingFragment"
         android:name="com.example.supporthealth.nutrition.eating.ui.EatingFragment"
         android:label="fragment_eating"
-        tools:layout="@layout/fragment_eating" >
+        tools:layout="@layout/fragment_eating">
         <argument
             android:name="mealId"
             app:argType="long" />
@@ -197,7 +209,7 @@
         tools:layout="@layout/activity_chat" />
     <action
         android:id="@+id/action_mainActivity_to_chatActivity"
-        app:destination="@id/chatActivity"/>
+        app:destination="@id/chatActivity" />
     <fragment
         android:id="@+id/statisticActivityFragment"
         android:name="com.example.supporthealth.activity.statistic.ui.StatisticActivityFragment"
@@ -208,9 +220,18 @@
         android:name="com.example.supporthealth.stress.statistic.ui.StatisticMoodFragment"
         android:label="fragment_statistic_mood"
         tools:layout="@layout/fragment_statistic_mood" />
-  <fragment
+    <fragment
         android:id="@+id/statisticNutritionFragment"
         android:name="com.example.supporthealth.nutrition.statistic.ui.StatisticNutritionFragment"
         android:label="fragment_statistic_nutrition"
         tools:layout="@layout/fragment_statistic_nutrition" />
+    <fragment
+        android:id="@+id/habitFragment"
+        android:name="com.example.supporthealth.habits.habit.ui.HabitFragment"
+        android:label="fragment_habit"
+        tools:layout="@layout/fragment_habit">
+        <argument
+            android:name="habitId"
+            app:argType="long" />
+    </fragment>
 </navigation>

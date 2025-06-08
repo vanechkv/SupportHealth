@@ -49,7 +49,9 @@ class   MainActivity : AppCompatActivity() {
                 R.id.navigation_search,
                 R.id.navigation_product,
                 R.id.statisticActivityFragment,
-                R.id.statisticNutritionFragment -> {
+                R.id.statisticNutritionFragment,
+                R.id.statisticMoodFragment,
+                R.id.habitFragment -> {
                     binding.navView.isVisible = false
                     binding.buttonChat.isVisible = false
                 }

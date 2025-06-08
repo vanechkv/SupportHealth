@@ -185,4 +185,11 @@
     <string name="morning">Утро</string>
     <string name="evening">Вечер</string>
     <string name="all_time">Все время</string>
+    <string name="add_habits">Добавить привычку</string>
+    <string name="current_target">Текущая цель</string>
+    <string name="attempt">Попытка</string>
+    <string name="record">Рекорд</string>
+    <string name="name_habit">Название вредной привычки</string>
+    <string name="start_date">Дата начала</string>
+    <string name="start_over">Начать заново</string>
 </resources>

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context=".habits.ui.HabitsFragment">
+    tools:context=".habits.main.ui.HabitsFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/left_guideline"
@@ -36,8 +36,8 @@
             style="@style/TitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
             android:text="@string/habits"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/button_notifications"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/button_notifications" />
@@ -63,6 +63,52 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header">
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/left_guideline_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/margin_padding_16dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/right_guideline_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="@dimen/margin_padding_16dp" />
+
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/error_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_habits"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintEnd_toStartOf="@id/right_guideline_content"
+            app:layout_constraintStart_toEndOf="@id/left_guideline_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_add"
+            style="@style/AddButtonStyle"
+            android:layout_width="@dimen/margin_padding_0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_16dp"
+            android:backgroundTint="@color/iced_pink_rose"
+            android:text="@string/add_habits"
+            app:layout_constraintTop_toBottomOf="@id/recycler_habits"
+            app:layout_constraintStart_toEndOf="@id/left_guideline_content"
+            app:layout_constraintEnd_toStartOf="@id/right_guideline_content"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -3,6 +3,7 @@ package com.example.supporthealth.di
 import com.example.supporthealth.activity.main.ui.ActivityViewModel
 import com.example.supporthealth.activity.statistic.ui.StatisticActivityViewModel
 import com.example.supporthealth.chat.ui.ChatViewModel
+import com.example.supporthealth.habits.main.ui.HabitsViewModel
 import com.example.supporthealth.nutrition.eating.ui.EatingViewModel
 import com.example.supporthealth.profile.details.ui.DetailsViewModel
 import com.example.supporthealth.nutrition.main.ui.NutritionViewModel
@@ -72,5 +73,9 @@ val viewModelModule = module {
 
     viewModel {
         MoodViewModel(get())
+    }
+
+    viewModel {
+        HabitsViewModel(get(), get())
     }
 }

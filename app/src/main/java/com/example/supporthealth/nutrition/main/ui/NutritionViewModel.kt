@@ -10,8 +10,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.example.supporthealth.main.domain.models.MealType
 import com.example.supporthealth.main.domain.models.NutritionFull
-import com.example.supporthealth.main.domain.models.WaterEntity
-import com.example.supporthealth.nutrition.main.domain.api.AudioVoiceWorker
+import com.example.supporthealth.app.AudioVoiceWorker
 import com.example.supporthealth.nutrition.main.domain.api.interactor.NutritionInteractor
 import com.example.supporthealth.nutrition.main.domain.models.Level
 import com.example.supporthealth.nutrition.main.domain.models.Meal

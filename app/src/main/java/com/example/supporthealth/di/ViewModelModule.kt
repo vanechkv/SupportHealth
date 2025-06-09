@@ -15,6 +15,7 @@ import com.example.supporthealth.stress.dialog.ui.StressViewModel
 import com.example.supporthealth.stress.main.ui.MoodViewModel
 import com.example.supporthealth.stress.statistic.ui.StatisticMoodViewModel
 import com.example.supporthealth.welcome.detailsOnbording.ui.DetailsOnBordingViewModel
+import com.example.supporthealth.welcome.login.ui.LoginViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -77,5 +78,9 @@ val viewModelModule = module {
 
     viewModel {
         HabitsViewModel(get(), get())
+    }
+
+    viewModel {
+        LoginViewModel(get())
     }
 }

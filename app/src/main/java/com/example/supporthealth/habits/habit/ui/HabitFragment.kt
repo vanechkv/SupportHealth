@@ -12,6 +12,11 @@ import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
+import com.example.supporthealth.app.HabitGoalUpdateWorker
+import com.example.supporthealth.app.scheduleGoalAlarm
 import com.example.supporthealth.databinding.FragmentHabitBinding
 import com.example.supporthealth.habits.dialog.ui.HabitListDialogFragment
 import com.example.supporthealth.habits.main.ui.HabitsViewModel
@@ -36,6 +41,7 @@ class HabitFragment : Fragment() {
 
     private val handler = Handler(Looper.getMainLooper())
     private var startTimeMillis: Long = 0L
+    private var currentHabit: HabitEntity? = null
 
     private val args: HabitFragmentArgs by navArgs()
 
@@ -62,10 +68,11 @@ class HabitFragment : Fragment() {
 
         viewModel.observeHabit(args.habitId).observe(viewLifecycleOwner) { habit ->
             habit?.let {
+                currentHabit = it
                 binding.title.text = it.name
                 binding.attemptValue.text = it.attempt.toString()
-                binding.targetValue.text = it.target.toString()
-                binding.recordValue.text = it.record.toString()
+                binding.targetValue.text = "${it.target} ${getDaySuffix(it.target)}"
+                binding.recordValue.text = "${it.record} ${getDaySuffix(it.record)}"
                 startTimeMillis = it.attemptStartTimeMillis
 
                 val now = System.currentTimeMillis()
@@ -132,6 +139,9 @@ class HabitFragment : Fragment() {
     }
 
     private fun updateTimer() {
+
+        val habit = currentHabit ?: return
+
         val now = System.currentTimeMillis()
         if (now < startTimeMillis) {
             val timeLeft = startTimeMillis - now
@@ -141,7 +151,7 @@ class HabitFragment : Fragment() {
             val elapsed = now - startTimeMillis
             binding.time.text = formatElapsedTime(elapsed)
 
-            val targetDays = binding.targetValue.text.toString().toIntOrNull() ?: 0
+            val targetDays = habit.target
             if (targetDays > 0) {
                 val elapsedDays = elapsed.toFloat() / (24 * 60 * 60 * 1000)
                 binding.staticDonut.updateSteps(elapsedDays, targetDays.toFloat())
@@ -169,6 +179,7 @@ class HabitFragment : Fragment() {
         val newAttempt = habit.attempt + 1
 
         val updatedHabit = habit.copy(
+            target = 1,
             record = newRecord,
             attempt = newAttempt,
             attemptStartTimeMillis = now
@@ -180,8 +191,8 @@ class HabitFragment : Fragment() {
         stopTimer()
         startTimer()
 
-        binding.attemptValue.text = newAttempt.toString()
-        binding.recordValue.text = newRecord.toString()
+        binding.attemptValue.text = "${newAttempt} ${getDaySuffix(newAttempt)}"
+        binding.recordValue.text = "${newRecord} ${getDaySuffix(newRecord)}"
         binding.targetValue.text = updatedHabit.target.toString()
     }
 
@@ -190,6 +201,7 @@ class HabitFragment : Fragment() {
             .setTitle("Начать заново?")
             .setMessage("Если вы начнете заново, текущий прогресс будет сброшен.")
             .setPositiveButton("Да") { _, _ ->
+                scheduleGoalAlarm(requireContext(), habit)
                 restartHabit(habit)
             }
             .setNegativeButton("Отмена", null)
@@ -208,5 +220,15 @@ class HabitFragment : Fragment() {
             }
             .setNegativeButton("Отмена", null)
             .show()
+    }
+
+    private fun getDaySuffix(number: Int): String {
+        val n = number % 100
+        if (n in 11..14) return "дней"
+        return when (n % 10) {
+            1 -> "день"
+            2, 3, 4 -> "дня"
+            else -> "дней"
+        }
     }
 }

@@ -13,7 +13,8 @@ import com.example.supporthealth.nutrition.main.data.NetworkClientNutrition
 import com.example.supporthealth.nutrition.main.data.network.NutritionApi
 import com.example.supporthealth.nutrition.main.data.network.RetrofitNetworkClientNutrition
 import com.example.supporthealth.nutrition.main.data.storage.NutritionStorage
-import com.example.supporthealth.nutrition.main.domain.api.AudioVoiceWorker
+import com.example.supporthealth.app.AudioVoiceWorker
+import com.example.supporthealth.main.data.ApiService
 import com.example.supporthealth.nutrition.search.data.NetworkClient
 import com.example.supporthealth.nutrition.search.data.network.RetrofitNetworkClient
 import com.example.supporthealth.nutrition.search.data.network.SupportHealthApi
@@ -53,6 +54,14 @@ val dataModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(NutritionApi::class.java)
+    }
+
+    single<ApiService> {
+        Retrofit.Builder()
+            .baseUrl("https://health-app.ru/docs/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
     }
 
     factory {

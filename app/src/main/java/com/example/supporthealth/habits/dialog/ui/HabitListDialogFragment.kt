@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.supporthealth.R
+import com.example.supporthealth.app.scheduleGoalAlarm
 import com.example.supporthealth.databinding.FragmentHabitListDialogListDialogBinding
 import com.example.supporthealth.habits.main.ui.HabitsViewModel
 import com.example.supporthealth.main.domain.models.HabitEntity
@@ -144,6 +145,7 @@ class HabitListDialogFragment : BottomSheetDialogFragment() {
                 record = 0,
                 attemptStartTimeMillis = attemptStartMillis
             )
+            scheduleGoalAlarm(requireContext(), habit)
             viewModel.insertHabit(habit)
         } else {
             val habit = HabitEntity(
@@ -155,6 +157,7 @@ class HabitListDialogFragment : BottomSheetDialogFragment() {
                 record = 0,
                 attemptStartTimeMillis = attemptStartMillis
             )
+            scheduleGoalAlarm(requireContext(), habit)
             viewModel.updateHabit(habit)
         }
 

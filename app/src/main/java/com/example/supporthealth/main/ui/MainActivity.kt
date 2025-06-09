@@ -1,10 +1,12 @@
 package com.example.supporthealth.main.ui
 
 import android.Manifest
+import android.app.AlarmManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,6 +15,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.supporthealth.R
 import com.example.supporthealth.app.StepCounterService
+import com.example.supporthealth.app.scheduleDailyUploadWorker
+import com.example.supporthealth.app.scheduleNutritionWorker
 import com.example.supporthealth.databinding.ActivityMainBinding
 
 class   MainActivity : AppCompatActivity() {
@@ -23,8 +27,14 @@ class   MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         requestHealthPermission()
+        requestExactAlarmPermission(this)
 
-        val intent = Intent(this, StepCounterService::class.java)
+        var intent = Intent(this@MainActivity, StepCounterService::class.java)
+        this@MainActivity.startForegroundService(intent)
+        scheduleNutritionWorker(this)
+        scheduleDailyUploadWorker(this)
+
+        intent = Intent(this, StepCounterService::class.java)
         this.startForegroundService(intent)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -74,6 +84,16 @@ class   MainActivity : AppCompatActivity() {
                     arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
                     1
                 )
+            }
+        }
+    }
+
+    private fun requestExactAlarmPermission(activity: AppCompatActivity) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = activity.getSystemService(AlarmManager::class.java)
+            if (!alarmManager.canScheduleExactAlarms()) {
+                val intent = Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
+                activity.startActivity(intent)
             }
         }
     }

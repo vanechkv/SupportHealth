@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    tools:context=".chat.ui.ChatDialogFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="@dimen/margin_padding_8dp"
+        android:paddingVertical="@dimen/margin_padding_20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/button_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:src="@drawable/ic_expand_more"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            style="@style/HeaderTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Как пользоваться ассистентом"
+            app:layout_constraintBottom_toBottomOf="@id/button_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/button_back" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/first"
+        style="@style/SemiBoldTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="1. Введите сообщение в чат"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <TextView
+        android:id="@+id/firstInfo"
+        style="@style/RegularTextStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_32dp"
+        android:layout_marginTop="@dimen/margin_padding_8dp"
+        android:layout_marginEnd="@dimen/margin_padding_16dp"
+        android:text="Просто напишите, что вы съели или выпили, указав приём пищи и количество.\nНапример: «Поел на завтрак 150г курицы и выпил стакан сока»"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/first" />
+
+    <TextView
+        android:id="@+id/second"
+        style="@style/SemiBoldTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="2. Ассистент обработает ваш запрос"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstInfo" />
+
+    <TextView
+        android:id="@+id/secondInfo"
+        style="@style/RegularTextStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_32dp"
+        android:layout_marginTop="@dimen/margin_padding_8dp"
+        android:layout_marginEnd="@dimen/margin_padding_16dp"
+        android:text="Он распознает приём пищи, продукты и количество, и составит список."
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/second" />
+
+    <TextView
+        android:id="@+id/third"
+        style="@style/SemiBoldTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="3. Проверьте и скорректируйте данные"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/secondInfo" />
+
+    <TextView
+        android:id="@+id/thirdInfo"
+        style="@style/RegularTextStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_32dp"
+        android:layout_marginTop="@dimen/margin_padding_8dp"
+        android:layout_marginEnd="@dimen/margin_padding_16dp"
+        android:text="После обработки ассистент покажет распознанные продукты с их граммовкой, калориями и единицами измерения. Вы можете:\n— Изменить количество каждого продукта\n— Изменить дату приёма пищи\n— Выбрать правильный приём пищи (завтрак, обед, ужин и т.д.)"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/third" />
+
+    <TextView
+        android:id="@+id/fourth"
+        style="@style/SemiBoldTextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="4. Подтвердите или отмените"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/thirdInfo" />
+
+    <TextView
+        android:id="@+id/fourthInfo"
+        style="@style/RegularTextStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_32dp"
+        android:layout_marginTop="@dimen/margin_padding_8dp"
+        android:layout_marginEnd="@dimen/margin_padding_16dp"
+        android:text="Если всё верно, нажмите «Ок» — приём пищи будет добавлен в приложение. Если хотите отменить, нажмите «Отмена» — данные не сохранятся."
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fourth" />
+
+    <TextView
+        style="@style/RegularTextStyle"
+        android:layout_width="@dimen/margin_padding_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_padding_16dp"
+        android:layout_marginTop="@dimen/margin_padding_16dp"
+        android:text="Так вы легко и быстро сможете добавлять информацию о своём питании, просто общаясь с ассистентом в чате!"
+        android:textColor="?attr/colorOnSecondaryFixed"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fourthInfo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

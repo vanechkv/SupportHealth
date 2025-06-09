@@ -27,9 +27,9 @@ class HabitsViewHolder(parent: ViewGroup, private val onHabitClick: (HabitEntity
     fun bind(habit: HabitEntity) {
         currentHabit = habit
         title.text = habit.name
-        target.text = habit.target.toString()
+        target.text = "${habit.target} ${getDaySuffix(habit.target)}"
         attempt.text = habit.attempt.toString()
-        record.text = habit.record.toString()
+        record.text = "${habit.record} ${getDaySuffix(habit.record)}"
         donut.strokeWidth = 42f
         updateProgress(System.currentTimeMillis())
     }
@@ -44,6 +44,16 @@ class HabitsViewHolder(parent: ViewGroup, private val onHabitClick: (HabitEntity
             val targetDays = habit.target
             val elapsedDays = elapsed.toFloat() / (24 * 60 * 60 * 1000)
             donut.updateSteps(elapsedDays, targetDays.toFloat())
+        }
+    }
+
+    private fun getDaySuffix(number: Int): String {
+        val n = number % 100
+        if (n in 11..14) return "дней"
+        return when (n % 10) {
+            1 -> "день"
+            2, 3, 4 -> "дня"
+            else -> "дней"
         }
     }
 }

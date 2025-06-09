@@ -6,6 +6,7 @@ import com.example.supporthealth.chat.data.repository.ChatRepositoryImpl
 import com.example.supporthealth.chat.domain.api.repository.ChatRepository
 import com.example.supporthealth.habits.dialog.data.repository.HabitsRepositoryImpl
 import com.example.supporthealth.habits.dialog.domain.api.repository.HabitsRepository
+import com.example.supporthealth.main.data.repository.SyncRepository
 import com.example.supporthealth.nutrition.main.data.repository.AudioVoiceRepositoryImpl
 import com.example.supporthealth.profile.details.data.repository.UserDetailsRepositoryImpl
 import com.example.supporthealth.profile.details.domain.api.repository.UserDetailsRepository
@@ -61,12 +62,16 @@ val repositoryModule = module {
     single {
         MoodRepository(get())
     }
-    
+
     single<AudioVoiceRepository> {
         AudioVoiceRepositoryImpl(get(), get())
     }
 
     single<HabitsRepository> {
         HabitsRepositoryImpl(get())
+    }
+
+    single {
+        SyncRepository(get(), get(), get(), get(), get(), get(), get(), get(), get(), get())
     }
 }

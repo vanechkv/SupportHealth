@@ -59,6 +59,10 @@ class LoginFragment : Fragment() {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
+                        val userId = FirebaseAuth.getInstance().currentUser?.uid
+                        if (userId != null) {
+                            viewModel.syncData(userId)
+                        }
                         findNavController().navigate(R.id.action_loginFragment_to_mainActivity)
                         requireActivity().finish()
                     } else {

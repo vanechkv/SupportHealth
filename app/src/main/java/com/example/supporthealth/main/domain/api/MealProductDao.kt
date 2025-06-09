@@ -35,6 +35,9 @@ interface MealProductDao {
     """)
     suspend fun getCrossRefsByMealId(mealId: Long): List<MealProductCrossRef>
 
+    @Query("SELECT * FROM meal_product")
+    suspend fun getCrossRefs(): List<MealProductCrossRef>
+
     @Query("""
         SELECT * FROM `meal_product`
         WHERE id_meal = :mealId AND id_product = :productId

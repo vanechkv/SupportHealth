@@ -12,6 +12,11 @@ import android.widget.PopupMenu
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
+import com.example.supporthealth.app.HabitGoalUpdateWorker
+import com.example.supporthealth.app.scheduleGoalAlarm
 import com.example.supporthealth.databinding.FragmentHabitBinding
 import com.example.supporthealth.habits.dialog.ui.HabitListDialogFragment
 import com.example.supporthealth.habits.main.ui.HabitsViewModel
@@ -169,6 +174,7 @@ class HabitFragment : Fragment() {
         val newAttempt = habit.attempt + 1
 
         val updatedHabit = habit.copy(
+            target = 1,
             record = newRecord,
             attempt = newAttempt,
             attemptStartTimeMillis = now
@@ -190,6 +196,7 @@ class HabitFragment : Fragment() {
             .setTitle("Начать заново?")
             .setMessage("Если вы начнете заново, текущий прогресс будет сброшен.")
             .setPositiveButton("Да") { _, _ ->
+                scheduleGoalAlarm(requireContext(), habit)
                 restartHabit(habit)
             }
             .setNegativeButton("Отмена", null)

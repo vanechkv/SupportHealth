@@ -24,6 +24,9 @@ interface WaterDao {
     @Query("SELECT * FROM `water` WHERE id_nutrition = :nutritionId LIMIT 1")
     suspend fun getWaterByNutritionId(nutritionId: Long): WaterEntity?
 
+    @Query("SELECT * FROM water")
+    suspend fun getWater(): List<WaterEntity>
+
     @Transaction
     suspend fun insertOrUpdateWaterByNutritionId(nutritionId: Long, data: WaterEntity): Long {
         val existing = getWaterByNutritionId(nutritionId)

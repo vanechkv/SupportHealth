@@ -15,6 +15,7 @@ import com.example.supporthealth.chat.domain.models.ChatMessage
 import com.example.supporthealth.chat.domain.models.ChatState
 import com.example.supporthealth.chat.ui.adapters.ChatAdapter
 import com.example.supporthealth.databinding.ActivityChatBinding
+import com.example.supporthealth.habits.dialog.ui.HabitListDialogFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ChatActivity : AppCompatActivity() {
@@ -98,6 +99,15 @@ class ChatActivity : AppCompatActivity() {
             binding.chatEditText.text.clear()
 
         }
+
+        binding.buttonHelp.setOnClickListener {
+            showDialog()
+        }
+    }
+
+    private fun showDialog() {
+        val chatDialog = ChatDialogFragment.newInstance()
+        chatDialog.show(supportFragmentManager, "ChatDialog")
     }
 
     private fun onOkClick(mealSuggestion: ChatMessage.MealSuggestion) {
